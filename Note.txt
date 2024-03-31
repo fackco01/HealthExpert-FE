@@ -1,0 +1,40 @@
+
+Duẩn:
+- Website liên kết với những Trung tâm sức khỏe, Phòng Gym,... 
+Trang Web có chức năng tính Calories sau đó đề xuất quảng cáo (popup) các thực phẩm chức năng 
+liên quan đến tình trạng cơ thể để bán sản phẩm của Trung tâm(Phòng gym) đó.
+-Role:
+	-Administrator: Người quản lí tổng cả 1 hệ thống
+	-Staff: Nhân viên của Phòng gym, TTSK, ...
+	-Customer: Khách hàng
+-Chức năng:
+	+Administrator: Quản lý toàn bộ hệ thống, bao gồm:
+		-CRUD: Staff, Customer, Categories, Products
+	+Staff: Quản lí sản phẩm của mình bán ra, quản lí trang Staff (Không có quyền thêm sửa xóa User)
+	+Customer: Xem và mua hàng, có thể sử dụng các chức năng có trong web để có thêm sự lựa chọn
+
+
+Quân Phạm FPT:
+
+- Website sẽ đưa ra các lộ trình cụ thể cho từng nhóm đối tượng
+- Với mỗi lộ trình sẽ đưa ra các quá trình được liên kết với các video. 
+	Ví dụ:
+	+ Bạn là người dùng, bạn quan tâm vấn đề giảm cân
+	+ Khi bạn vào tìm kiếm lộ trình giảm cân, web 1 phần đưa ra hướng giải quyết, 1 phần sẽ đc đưa ra từ những người dùng trc
+
+Hứa Hiếu Thái
+- Về business, web sẽ nhận hoa hồng từ việc bán sản phẩm của các doanh nghiệp, cửa hàng liên kết.
+
+
+Tên đề tài: Xây dựng Hệ thống phân phối dịch vụ sức khỏe và dinh dưỡng (HealthExper)
+* Mục tiêu:
+-Mục đích phát triển đề tài: Hướng đến xây dựng 1 trang web liên kết với các Phòng Gym, TTSK, ...
+-Các chức năng cơ bản có trong đề tài:
+	+Trang Web có chức năng tính Calories sau đó đề xuất các gói dịch vụ mà khách hàng cần.
+	+Website sẽ đưa ra các lộ trình cụ thể cho từng nhóm đối tượng, các gói dịch vụ mà khách hàng cần.
+	+Về business, web sẽ nhận hoa hồng từ việc bán sản phẩm của các doanh nghiệp, cửa hàng liên kết.
+
+-Các đối tượng hướng đến trong đề tài:
+	+ Visitor: Người chỉ xem trang web nhưng chưa đăng đăng ký
+	+ Customer: Khách hàng muốn sử dụng dịch vụ của trang web
+	+ Enterprise: Các doanh nghiệp liên kết bán dịch vụ trên web

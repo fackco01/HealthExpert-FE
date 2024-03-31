@@ -4,29 +4,24 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import Button from "../../components/button";
 import backgroundImage from "../../img/nike.png";
 import helpexpert from "../../img/logo.png";
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom'
-// export default function SignIn() {
-//   // const onFinish = async (values) => {
-//   // //  const payload = {
-//   // //   email: values.email,
-//   // //   password: values.password
-//   // //  }
-//   // //  const result = await loginAPI(payload);
-//   // //  if()
 
-//   // };
+
+const onFinish = (values) => {
+  console.log("🚀 ~ onFinish ~ values:", values);
+};
+
 export default function SignIn() {
-  const onFinish = (values) => {
-    console.log("🚀 ~ onFinish ~ values:", values);
-  };
+
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+
   const history = useNavigate();
   async function login() {
     let item = { userName, password }
     try {
-      let response = await fetch('https://localhost:7158/api/Auth/Login', {
+      let response = await fetch('http://20.2.73.15:8173/api/Auth/Login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -42,7 +37,8 @@ export default function SignIn() {
           history("/verify")
         }
       } else {
-        history("/manageUser")
+        localStorage.setItem("user", item.userName)
+        history("/home")
       }
       const responseData = await response.text();
       console.log(responseData);

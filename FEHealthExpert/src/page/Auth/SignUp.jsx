@@ -19,7 +19,7 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [fullname, setFullname] = useState("");
+  const [fullName, setFullname] = useState("");
   const [phonenumber, setPhonenumber] = useState("");
   const [birhday, setBirthday] = useState(null);
   const [gender, setGender] = useState(null);
@@ -33,9 +33,9 @@ export default function SignUp() {
   };
 
   async function SignUp() {
-    let item = { userName, password, confirmPassword, email, fullname, phonenumber, birhday, gender }
+    let item = { userName, password, confirmPassword, email, fullName, phonenumber, birhday, gender }
     try {
-      let response = await fetch('https://localhost:7158/api/Account', {
+      let response = await fetch('http://20.2.73.15:8173/api/Account/Register', {
         method: 'POST',
         body: JSON.stringify(item),
         headers: {
@@ -178,7 +178,7 @@ export default function SignUp() {
               <p>Full Name</p>
             </div>
             <Form.Item
-              name="fullname"
+              name="fullName"
               rules={[
                 {
                   required: true,

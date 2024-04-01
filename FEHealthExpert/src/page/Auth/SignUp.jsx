@@ -4,9 +4,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import Button from "../../components/button";
 import backgroundImage from "../../img/nike.png";
 import helpexpert from "../../img/logo.png";
-import type { DatePickerProps } from 'antd';
 import { DatePicker, Space } from 'antd';
-import type { Dayjs } from 'dayjs';
 import { Select } from 'antd';
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom'
@@ -20,20 +18,20 @@ export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
   const [fullName, setFullname] = useState("");
-  const [phonenumber, setPhonenumber] = useState("");
-  const [birhday, setBirthday] = useState(null);
+  const [phone, setPhone] = useState("");
+  const [birthDate, setBirthDate] = useState(null);
   const [gender, setGender] = useState(null);
   const history = useNavigate();
 
   const handleDatePickerChange = (selectedDate) => {
-    setBirthday(selectedDate);
+    setBirthDate(selectedDate);
   };
   const handleSelectChange = (selectedOption) => {
     setGender(selectedOption.value);
   };
 
   async function SignUp() {
-    let item = { userName, password, confirmPassword, email, fullName, phonenumber, birhday, gender }
+    let item = { userName, password, confirmPassword, email, fullName, phone, birthDate, gender }
     try {
       let response = await fetch('http://20.2.73.15:8173/api/Account/Register', {
         method: 'POST',
@@ -104,7 +102,6 @@ export default function SignUp() {
                 },
               ]}
             >
-              {/* email input */}
               <Input
                 type="text"
                 prefix={<UserOutlined className="site-form-item-icon" />}
@@ -188,7 +185,7 @@ export default function SignUp() {
             >
               <Input
                 prefix={<LockOutlined className="site-form-item-icon" />}
-                type="fullname"
+                type="text"
                 placeholder="fullname"
                 className="width:420px py-3"
                 onChange={(e) => setFullname(e.target.value)}
@@ -198,7 +195,7 @@ export default function SignUp() {
               <p>Phone Number</p>
             </div>
             <Form.Item
-              name="phonenumber"
+              name="phone"
               rules={[
                 {
                   required: true,
@@ -206,20 +203,21 @@ export default function SignUp() {
                 },
               ]}
             >
-              {/* email input */}
               <Input
                 type="text"
                 prefix={<UserOutlined className="site-form-item-icon" />}
                 placeholder="Phone Number"
                 className="width:420px py-3"
-                onChange={(e) => setPhonenumber(e.target.value)}
+                onChange={(e) => setPhone(e.target.value)}
               />
             </Form.Item>
             <div className="mb-2 flex">
               <div className="mr-2">
                 <p>Birthday</p>
                 <Space direction="vertical" size={12}>
-                  <DatePicker needConfirm onChange={handleDatePickerChange} />
+                  <DatePicker
+                    selected={birthDate}
+                    onChange={handleDatePickerChange} />
                 </Space>
               </div>
 

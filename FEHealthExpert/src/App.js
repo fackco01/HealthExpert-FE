@@ -1,6 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-
+import { BrowserRouter as Switch } from 'react-router-dom';
 import Home from "./page/Home/home";
 import SignIn from "./page/Auth/SignIn";
 
@@ -12,12 +12,17 @@ import Dance from "./page/Services/dance";
 import Boxing from "./page/Services/boxing";
 import Gym from "./page/Services/gym";
 import Center from "./page/center/center";
-import DetailCourse from "./page/Course/DetailCourse";
-import ZumbaDes from "./page/DescriptionCourse/ZumbaDes";
+import LearningCourse from "./page/Course/LearningCourse";
+import DetailCourse from "./page/DescriptionCourse/DetailCourse";
 import Tranformation from "./page/Tranformation/tranfor";
 import CreatCourse from "./page/Center_Admin/CreatCourse";
 import Verify from "./page/Auth/Verify";
 import YourProfile from "./page/User/profile";
+import EditProfile from "./page/User/edit_profile";
+import CreateCourse from "./page/Course/CreateCourse";
+import Bmi from './page/Services/bmi';
+import BmiCoursePage from "./page/Services/BmiCoursePage";
+
 export default function App() {
   return (
     <Routes>
@@ -31,11 +36,15 @@ export default function App() {
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/verify" element={<Verify />} />
-      <Route path="/detailCourse" element={<DetailCourse />} />
-      <Route path="/zumbaDes" element={<ZumbaDes />} />
+      <Route path="/learningCourse" element={<LearningCourse />} />
+      <Route path="/detailCourse/:id" element={<DetailCourse />} />
       <Route path="/tranformation" element={<Tranformation />} />
       <Route path="/creatcourse" element={<CreatCourse />} />
       <Route path="/profile" element={<YourProfile />} />
+      <Route path="/editProfile" element={<EditProfile />} />
+      <Route path="/createCourse" element={<CreateCourse />} />
+      <Route exact path="/" component={Bmi} />
+      <Route path="/displayByBmi" element={<BmiCoursePage />} />
       {/* <Route path="blogs" element={<Blogs />} />
           <Route path="contact" element={<Contact />} />
         <Route path="*" element={<NoPage />} /> */}

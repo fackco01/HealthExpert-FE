@@ -10,14 +10,17 @@ import {
   TranslationOutlined,
   PoweroffOutlined
 } from "@ant-design/icons";
+import Bmi from "../page/Services/bmi"
 
 const Header = () => {
   const navigate = useNavigate()
-  const [postOpen, setPostOpen] = useState(false)
+  const [postOpen, setPostOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [showBmiForm, setShowBmiForm] = useState(false);
   const [username, setUsername] = useState(""); // State to track whether user is logged in
 
   useEffect(() => {
+    localStorage.removeItem("ProposeCourse");
     // Check if user is logged in using your preferred method (e.g., checking local storage)
     const isUserLoggedIn = localStorage.getItem("user");
     if (isUserLoggedIn) {
@@ -31,34 +34,60 @@ const Header = () => {
   const handleLogout = () => {
     // Perform logout logic here
     localStorage.removeItem("user"); // Assuming you set userName in localStorage during login
+    localStorage.removeItem("ProposeCourse");
     setLoggedIn(false);
     setUsername("");
+    const route = '/home'; // Specify the desired route path
+    navigate(route, { replace: true });
+    window.location.reload();
+  };
+
+  const toggleBmiForm = () => {
+    setShowBmiForm(!showBmiForm);
   };
 
   function WidgetMenu(props) {
     return (
       <Menu {...props}>
         <Menu.Item >
-          <SolutionOutlined className="icon" />
+
           <a href="/profile">Trang Cá Nhân</a>
         </Menu.Item>
         <Menu.Item>
-          <LockOutlined className="icon" />
           Đổi Mật Khẩu
         </Menu.Item>
         <Menu.Item>
-          <TranslationOutlined className="icon" />
           Đăng bài
         </Menu.Item>
+        <Menu.Item>
+          <a
+            onClick={toggleBmiForm}>
+            Tìm kiếm thông minh
+          </a>
+        </Menu.Item>
         <Menu.Item onClick={handleLogout}>
-          <PoweroffOutlined className="icon" />
           Đăng xuất
-          {/* <button
-            // className="bg-orange-500 text-white py-2 px-4 rounded transition-opacity hover:bg-opacity-80 mr-1"
-            
-          >
-            Logout
-          </button> */}
+        </Menu.Item>
+
+      </Menu>
+
+    );
+  }
+
+  function ServiceMenu(props) {
+    return (
+      <Menu {...props}>
+        <Menu.Item >
+          <a href="">GYM</a>
+        </Menu.Item>
+        <Menu.Item>
+          <a href="/dance">Dance</a>
+        </Menu.Item>
+        <Menu.Item>
+          <a href="/yoga">Yoga</a>
+        </Menu.Item>
+        <Menu.Item >
+          <a href="">Boxing</a>
         </Menu.Item>
       </Menu>
     );
@@ -94,19 +123,21 @@ const Header = () => {
         >
           <li className="max-lg:border-b max-lg:py-2 px-3">
             <a
-
-              className="lg:hover:text-[#FFA500] text-[#FFA500] block font-semibold text-[15px]"
+              href="/home"
+              className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
             >
-              Phòng tập
+              Trang chủ
             </a>
           </li>
           <li className="max-lg:border-b max-lg:py-2 px-3">
-            <a
-              href="#"
-              className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
-            >
-              Dịch vụ
-            </a>
+            <Dropdown overlay={<ServiceMenu />}>
+              <a
+                href="#"
+                className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
+              >
+                Dịch vụ
+              </a>
+            </Dropdown>
           </li>
           <li className="max-lg:border-b max-lg:py-2 px-3">
             <a
@@ -149,6 +180,7 @@ const Header = () => {
                 <Dropdown overlay={<WidgetMenu />}>
                   <Avatar icon={<UserOutlined />} />
                 </Dropdown>
+                {showBmiForm && <Bmi onClose={toggleBmiForm} />}
               </div>
 
               // <div>

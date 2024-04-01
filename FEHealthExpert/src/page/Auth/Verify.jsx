@@ -12,7 +12,7 @@ export default function Verify() {
     const [entityToken, setEntityToken] = useState('');
     const history = useNavigate();
     function getToken() {
-        fetch(`https://localhost:7158/api/Account`, {
+        fetch(`http://20.2.73.15:8173/api/Account/GetListAccount`, {
             method: "GET",
             headers: {
                 "Authorization": "Bearer YOUR_ACCESS_TOKEN",
@@ -45,7 +45,7 @@ export default function Verify() {
     }
     function verifyAccount() {
         // Make a GET request to the backend API for account verification
-        fetch(`https://localhost:7158/api/Auth/Verify/verify?token=${token}`, { method: 'POST' })
+        fetch(`http://20.2.73.15:8173/api/Auth/Verify/verify?token=${token}`, { method: 'POST' })
             .then(data => {
                 console.log(data.status);
                 history("/signin");

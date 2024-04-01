@@ -16,6 +16,7 @@ function YourProfile() {
   const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
   const [birthDate, setBirthDate] = useState("");
+  const formattedDate = formatDate(birthDate);
 
   const navigateToRegistered = () => {
     navigate('/registeredCourse');
@@ -73,6 +74,19 @@ function YourProfile() {
     }
   }, []);
 
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    // Ensure leading zero for single-digit days and months
+    const formattedDay = day < 10 ? '0' + day : day;
+    const formattedMonth = month < 10 ? '0' + month : month;
+
+    return `${formattedDay}/${formattedMonth}/${year}`;
+  }
+
   return (
     <>
       <base href="./" />
@@ -109,8 +123,12 @@ function YourProfile() {
             <br />
             <p className="ml-3 text-center">Giới tính: {gender}</p>
             <br />
-            <p className="ml-3 text-center">Ngày sinh: {birthDate}</p>
-
+            <p className="ml-3 text-center">Ngày sinh: {formattedDate}</p>
+            <br />
+            <hr />
+            <a href="/editProfile">
+              <button className="bg-orange-500 text-white py-2 px-4 rounded transition-opacity hover:bg-opacity-80 ml-4">Chỉnh sửa</button>
+            </a>
           </div>
           {/* right column: joined courses */}
           <div className="flex-auto border rounded shadow-2xl w-3/5">

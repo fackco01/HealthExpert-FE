@@ -112,7 +112,8 @@ function YourProfile() {
         {/* two columns */}
         <div className="flex columns-2 gap-4">
           {/* left column: about */}
-          <div className="flex-auto border rounded shadow-2xl w-2/5">
+          <div className="flex-auto w-2/5">
+            <div className="border rounded-t-lg shadow-2xl ">
             <p className="ml-3 mt-3 font-bold">Giới thiệu</p>
             <br />
 
@@ -126,9 +127,12 @@ function YourProfile() {
             <p className="ml-3 text-center">Ngày sinh: {formattedDate}</p>
             <br />
             <hr />
-            <a href="/editProfile">
-              <button className="bg-orange-500 text-white py-2 px-4 rounded transition-opacity hover:bg-opacity-80 ml-4">Chỉnh sửa</button>
-            </a>
+            </div>
+          <a href="/editProfile">
+          <div class="border rounded-b-lg shadow-2xl bg-orange-400 hover:bg-orange-600 hover:underline hover:text-blue-400"  style={{ cursor: 'pointer' }}>
+              <p class="flex justify-center my-6 font-bold">CẬP NHẬT</p>
+          </div>
+          </a>
           </div>
           {/* right column: joined courses */}
           <div className="flex-auto border rounded shadow-2xl w-3/5">

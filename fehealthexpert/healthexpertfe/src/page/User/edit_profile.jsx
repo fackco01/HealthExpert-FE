@@ -50,6 +50,10 @@ function EditProfile() {
         {/* banner and pfp hijinx */}
         <div className="">
           <img src={banner ? banner : splash} alt="" className="relative object-cover w-full h-96 z-0" />
+            <input type="file" id="banner" style={{ display: "none" }} onChange={changeBanner} />
+            <label htmlFor="banner" className="absolute text-black bg-orange-400 hover:bg-orange-800 border-2 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium w-36 py-1 text-center right-0 -mt-[55px] mr-[5rem] hover:text-blue-400 hover:underline">
+              Change banner
+            </label>
         </div>
         {/* two columns */}
         <div className="flex columns-2 gap-4">
@@ -57,16 +61,12 @@ function EditProfile() {
           <div className="flex-auto w-2/5">
             <div className="ml-5 mt-5 mb-5">
               <img src={pic ? pic : pfp} alt="" className="object-scale-down w-48" />
-              <label htmlFor="pfp">Change profile pic</label>
-              <br />
+              
               <input type="file" id="pfp" style={{ display: "none" }} onChange={changePfp} />
-              <label htmlFor="banner">Change banner</label>
+              <label htmlFor="pfp"
+              className="absolute mt-3 text-black bg-orange-400 hover:bg-orange-800 border-2 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium w-40 py-1 text-center hover:text-blue-400 hover:underline"
+              >Change profile pic</label>
               <br />
-              <input type="file" id="banner" style={{ display: "none" }} onChange={changeBanner} />
-              <br />
-              <p className='text-xl font-bold'>my NAME???</p>
-              <br />
-              <p className="">About page</p>
             </div>
           </div>
           {/* right column: edit */}

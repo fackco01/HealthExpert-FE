@@ -7,6 +7,7 @@ import SignIn from "./page/Auth/SignIn";
 import { useRoutes } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import SignUp from "./page/Auth/SignUp";
+import PaymentProcess from "./page/User/payment_process";
 import Yoga from "./page/Services/yoga";
 import Dance from "./page/Services/dance";
 import Boxing from "./page/Services/boxing";
@@ -35,6 +36,7 @@ export default function App() {
       <Route path="/center" element={<Center />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/paymentprocess" element={<PaymentProcess/>}/>
       <Route path="/verify" element={<Verify />} />
       <Route path="/learningCourse" element={<LearningCourse />} />
       <Route path="/detailCourse/:id" element={<DetailCourse />} />

@@ -28,6 +28,7 @@ export default function App() {
     <Routes>
       {/* <Route path="/" element={<Layout />}> */}
       <Route path="/home" element={<Home />} />
+      <Route path="/" element={<Home />} />
       <Route path="/yoga" element={<Yoga />} />
       <Route path="/dance" element={<Dance />} />
       {/* <Route path="/boxing" element={<Boxing />} /> */}
@@ -43,8 +44,9 @@ export default function App() {
       <Route path="/profile" element={<YourProfile />} />
       <Route path="/editProfile" element={<EditProfile />} />
       <Route path="/createCourse" element={<CreateCourse />} />
-      <Route exact path="/" component={Bmi} />
       <Route path="/displayByBmi" element={<BmiCoursePage />} />
+      <Route path="/learningCourse/:id/:sessionId?/:lessonId?" element={<LearningCourse />} />
+
       {/* <Route path="blogs" element={<Blogs />} />
           <Route path="contact" element={<Contact />} />
         <Route path="*" element={<NoPage />} /> */}

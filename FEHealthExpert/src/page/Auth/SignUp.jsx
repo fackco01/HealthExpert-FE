@@ -46,7 +46,7 @@ export default function SignUp() {
         console.error(`Error: ${errorMessage}`);
         alert(errorMessage);
       } else {
-        history("/signin")
+        history("/verify")
       }
       const responseData = await response.text();
       console.log(responseData);

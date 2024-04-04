@@ -16,6 +16,7 @@ import feedback2 from "../../img/feedback2.jpg";
 import feedback3 from "../../img/feedback3.jpg";
 import feedback4 from "../../img/feedback4.jpg";
 import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 import avt1 from "../../img/avt1.jpg";
 import avt2 from "../../img/avt2.jpg";
 import avt3 from "../../img/avt3.jpg";
@@ -430,6 +431,7 @@ export default function Home() {
           </button>
         </a>
       </section>
+      <Footer />
     </>
   );
 }

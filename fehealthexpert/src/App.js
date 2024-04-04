@@ -30,6 +30,7 @@ export default function App() {
     <Routes>
       {/* <Route path="/" element={<Layout />}> */}
       <Route path="/home" element={<Home />} />
+      <Route path="/" element={<Home />} />
       <Route path="/yoga" element={<Yoga />} />
       <Route path="/dance" element={<Dance />} />
       {/* <Route path="/boxing" element={<Boxing />} /> */}

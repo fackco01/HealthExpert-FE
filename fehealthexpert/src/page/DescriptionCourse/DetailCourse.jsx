@@ -9,6 +9,10 @@ import Yoga2 from "../../img/yoga2.jpg";
 import Yoga3 from "../../img/yoga3.jpg";
 import Yoga4 from "../../img/yoga4.jpg";
 import { useParams } from "react-router-dom";
+<<<<<<< HEAD:fehealthexpert/src/page/DescriptionCourse/DetailCourse.jsx
+=======
+import { Link } from "react-router-dom";
+>>>>>>> 7e0f1dde7123c088dd00f0496fbe82eff3495946:FEHealthExpert/src/page/DescriptionCourse/DetailCourse.jsx
 
 export default function DetailCourse() {
   const [course, setCourse] = useState({});
@@ -134,6 +138,14 @@ export default function DetailCourse() {
                 <button className="h-1/2 bg-orange-400 text-white">
                   Thêm vào giỏ hàng
                 </button>
+<<<<<<< HEAD:fehealthexpert/src/page/DescriptionCourse/DetailCourse.jsx
+=======
+                <br />
+                <Link className="mt-3 ml-5"
+                  to={`/learningCourse/${course.courseId}`}>
+                  <h3 className="h-1/2 bg-orange-400 text-white">Tham gia khoa hoc</h3>
+                </Link>
+>>>>>>> 7e0f1dde7123c088dd00f0496fbe82eff3495946:FEHealthExpert/src/page/DescriptionCourse/DetailCourse.jsx
               </div>
             </div>
           </div>

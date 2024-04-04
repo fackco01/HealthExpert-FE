@@ -1,102 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Logo from "../img/logo.png";
-import Post from "./Post";
-import { useNavigate } from "react-router-dom";
-import { Avatar, Menu, Dropdown } from "antd";
-import {
-  UserOutlined,
-  SolutionOutlined,
-  LockOutlined,
-  TranslationOutlined,
-  PoweroffOutlined
-} from "@ant-design/icons";
-import Bmi from "../page/Services/bmi"
 
 const Header = () => {
-  const navigate = useNavigate()
-  const [postOpen, setPostOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [showBmiForm, setShowBmiForm] = useState(false);
-  const [username, setUsername] = useState(""); // State to track whether user is logged in
-
-  useEffect(() => {
-    localStorage.removeItem("ProposeCourse");
-    // Check if user is logged in using your preferred method (e.g., checking local storage)
-    const isUserLoggedIn = localStorage.getItem("user");
-    if (isUserLoggedIn) {
-      setLoggedIn(true);
-      console.log(localStorage.getItem("user"));
-      setUsername(localStorage.getItem("user"));
-    }
-  }, []);
-
-  // Function to handle logout
-  const handleLogout = () => {
-    // Perform logout logic here
-    localStorage.removeItem("user"); // Assuming you set userName in localStorage during login
-    localStorage.removeItem("ProposeCourse");
-    setLoggedIn(false);
-    setUsername("");
-    const route = '/home'; // Specify the desired route path
-    navigate(route, { replace: true });
-    window.location.reload();
-  };
-
-  const toggleBmiForm = () => {
-    setShowBmiForm(!showBmiForm);
-  };
-
-  function WidgetMenu(props) {
-    return (
-      <Menu {...props}>
-        <Menu.Item >
-
-          <a href="/profile">Trang Cá Nhân</a>
-        </Menu.Item>
-        <Menu.Item>
-          Đổi Mật Khẩu
-        </Menu.Item>
-        <Menu.Item>
-          Đăng bài
-        </Menu.Item>
-        <Menu.Item>
-          <a
-            onClick={toggleBmiForm}>
-            Tìm kiếm thông minh
-          </a>
-        </Menu.Item>
-        <Menu.Item onClick={handleLogout}>
-          Đăng xuất
-        </Menu.Item>
-
-      </Menu>
-
-    );
-  }
-
-  function ServiceMenu(props) {
-    return (
-      <Menu {...props}>
-        <Menu.Item >
-          <a href="">GYM</a>
-        </Menu.Item>
-        <Menu.Item>
-          <a href="/dance">Dance</a>
-        </Menu.Item>
-        <Menu.Item>
-          <a href="/yoga">Yoga</a>
-        </Menu.Item>
-        <Menu.Item >
-          <a href="">Boxing</a>
-        </Menu.Item>
-      </Menu>
-    );
-  }
-
   return (
     <header className="border-b py-1.2 px-1.2 sm:px-10 bg-white font-[sans-serif] min-h-[70px]">
       <div className="flex flex-wrap items-center gap-x-2 max-lg:gap-y-6">
-        <a  >
+        <a href="javascript:void(0)">
           <img src={Logo} alt="logo" className="w-16 h-16 rounded-full" />
         </a>
         <div className="flex lg:ml-6 max-lg:w-full">
@@ -123,25 +32,23 @@ const Header = () => {
         >
           <li className="max-lg:border-b max-lg:py-2 px-3">
             <a
-              href="/home"
-              className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
+              href="javascript:void(0)"
+              className="lg:hover:text-[#FFA500] text-[#FFA500] block font-semibold text-[15px]"
             >
-              Trang chủ
+              Phòng tập
             </a>
           </li>
           <li className="max-lg:border-b max-lg:py-2 px-3">
-            <Dropdown overlay={<ServiceMenu />}>
-              <a
-                href="#"
-                className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
-              >
-                Dịch vụ
-              </a>
-            </Dropdown>
+            <a
+              href="#"
+              className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
+            >
+              Dịch vụ
+            </a>
           </li>
           <li className="max-lg:border-b max-lg:py-2 px-3">
             <a
-
+              href="javascript:void(0)"
               className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
             >
               Tranfor
@@ -149,7 +56,7 @@ const Header = () => {
           </li>
           <li className="max-lg:border-b max-lg:py-2 px-3">
             <a
-
+              href="javascript:void(0)"
               className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
             >
               Lịch học
@@ -157,7 +64,7 @@ const Header = () => {
           </li>
           <li className="max-lg:border-b max-lg:py-2 px-3">
             <a
-
+              href="javascript:void(0)"
               className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
             >
               Tin tức
@@ -165,7 +72,7 @@ const Header = () => {
           </li>
           <li className="max-lg:border-b max-lg:py-2 px-3">
             <a
-
+              href="javascript:void(0)"
               className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
             >
               Về chúng tôi
@@ -173,51 +80,18 @@ const Header = () => {
           </li>
         </ul>
         <div className="ml-auto flex mr-3">
-          {
-            loggedIn ?
-              <div className="lg:!flex lg:ml-14 lg:space-x-5 max-lg:space-y-2 max-lg:hidden max-lg:py-4 max-lg:w-full">
-                <p className="mr-2 text-gray-700">{username}</p>
-                <Dropdown overlay={<WidgetMenu />}>
-                  <Avatar icon={<UserOutlined />} />
-                </Dropdown>
-                {showBmiForm && <Bmi onClose={toggleBmiForm} />}
-              </div>
-
-              // <div>
-              //   
-              //   <button
-              //     className="bg-orange-500 text-white py-2 px-4 rounded transition-opacity hover:bg-opacity-80 mr-1"
-              //     onClick={handleLogout}
-              //   >
-              //     Logout
-              //   </button>
-              //   <a>
-              //     {" "}
-              //     <button className="bg-orange-500 text-white py-2 px-4 rounded transition-opacity hover:bg-opacity-80 ml-4"
-              //       onClick={() => setPostOpen(true)}>
-              //       Post
-              //     </button>
-              //     {postOpen && <Post onClose={() => setPostOpen(false)} />}
-              //   </a>
-              // </div>
-
-              :
-
-              <div>
-                <a href="/signin">
-                  {" "}
-                  <button className="bg-orange-500 text-white py-2 px-4 rounded transition-opacity hover:bg-opacity-80 mr-1">
-                    Đăng nhập
-                  </button>
-                </a>
-                <a href="/signup">
-                  {" "}
-                  <button className="bg-orange-500 text-white py-2 px-4 rounded transition-opacity hover:bg-opacity-80 ml-4">
-                    Đăng ký
-                  </button>
-                </a>
-              </div>
-          }
+          <a href="/signin">
+            {" "}
+            <button className="bg-orange-500 text-white py-2 px-4 rounded transition-opacity hover:bg-opacity-80 mr-1">
+              Login
+            </button>
+          </a>
+          <a href="/signup">
+            {" "}
+            <button className="bg-orange-500 text-white py-2 px-4 rounded transition-opacity hover:bg-opacity-80 ml-4">
+              Sign up
+            </button>
+          </a>
         </div>
       </div>
     </header>

@@ -1,5 +1,4 @@
 import React from "react";
-import { useState, useEffect } from 'react';
 
 import danceackground from "../../img/dancebackground.jpg";
 import Header from "../../components/Header";
@@ -13,37 +12,9 @@ import dance7 from "../../img/dance7.jpg";
 import dance8 from "../../img/dance8.jpg";
 import dance9 from "../../img/dance9.jpg";
 import { Pagination } from "antd";
-import './dance.css';
-import DetailCourse from "../DescriptionCourse/DetailCourse";
-import { Link } from "react-router-dom";
 
-export default function Yoga() {
+export default function yoga() {
   // const dispatch = useDispatch();
-  const [courses, setCourses] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const coursesPerPage = 9;
-
-  useEffect(() => {
-    fetch('http://20.2.73.15:8173/api/Course')
-      .then(response => response.json())
-      .then(data => setCourses(data))
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
-  const filteredCoursesCount = courses.filter(course => course.typeId === 1).length;
-  //const filteredCoursesCount = courses.filter(course => course.typeId === 0).length;
-
-  // Nếu số lượng khóa học trong trang hiện tại lớn hơn 9, sử dụng phân trang
-  const showPagination = filteredCoursesCount > coursesPerPage;
-
-  // Lọc khóa học theo trang hiện tại
-  const indexOfLastCourse = currentPage * coursesPerPage;
-  const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
-  const currentCourses = courses
-    .filter(course => course.typeId === 1)
-    .slice(indexOfFirstCourse, indexOfLastCourse);
-
-  const nextPage = () => setCurrentPage(currentPage + 1);
-  const prevPage = () => setCurrentPage(currentPage - 1);
 
   return (
     <>
@@ -74,40 +45,7 @@ export default function Yoga() {
           </p>
         </div>
       </section>
-      <section>
-        <div className="course-grid">
-          {currentCourses.map(course => (
-            <div key={course.id}>
-              <div className="w-full mt-10">
-                <div className="flex justify-center mx-auto w-[70%] ">
-                  <div className="flex flex-col h-[450px] hover:shadow-md">
-                    <img className="w-[350px] h-[250px] " src={dance1} alt="" />
-                    <Link className="mt-3 ml-5"
-                      to={`/detailCourse/${course.courseId}`}>
-                      <h3 className="text-orange-400 text-[20px] mt-2 ">{course.courseName}</h3>
-                    </Link>
-                    <p className="w-[50%] text-[14px] mt-3 ml-5">
-                      {course.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        {showPagination && ( // Kiểm tra xem có cần hiển thị phân trang không
-          <div className="pagination">
-            {currentPage > 1 && <button onClick={prevPage}>Previous</button>}
-            {currentPage < Math.ceil(filteredCoursesCount / coursesPerPage) && (
-              <button onClick={nextPage}>Next</button>
-            )}
-          </div>
-        )}
-      </section >
-      {/* <div className="mt-3">
-        <Pagination className="text-center" defaultCurrent={1} total={50} />
-      </div> */}
-      {/* <div className="w-full mt-10">
+      <div className="w-full mt-10">
         <div className="flex justify-center mx-auto w-[70%] ">
           <div className="flex flex-col h-[450px] hover:shadow-md">
             <img className="w-[350px] h-[250px] " src={dance1} alt="" />
@@ -221,8 +159,10 @@ export default function Yoga() {
             </p>
           </div>
         </div>
-      </div> */}
-
+      </div>
+      <div className="mt-3">
+        <Pagination className="text-center" defaultCurrent={1} total={50} />
+      </div>
     </>
   );
 }

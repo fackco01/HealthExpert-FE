@@ -4,51 +4,20 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import Button from "../../components/button";
 import backgroundImage from "../../img/nike.png";
 import helpexpert from "../../img/logo.png";
-import { useRef, useEffect, useState } from "react";
-import { Link, useNavigate } from 'react-router-dom'
+// export default function SignIn() {
+//   // const onFinish = async (values) => {
+//   // //  const payload = {
+//   // //   email: values.email,
+//   // //   password: values.password
+//   // //  }
+//   // //  const result = await loginAPI(payload);
+//   // //  if()
 
-
-const onFinish = (values) => {
-  console.log("🚀 ~ onFinish ~ values:", values);
-};
-
+//   // };
 export default function SignIn() {
-
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-
-  const history = useNavigate();
-  async function login() {
-    let item = { userName, password }
-    try {
-      let response = await fetch('http://20.2.73.15:8173/api/Auth/Login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(item)
-      });
-
-      if (!response.ok) {
-        const errorMessage = await response.text();
-        console.error(`Error: ${errorMessage}`);
-        alert(errorMessage);
-        if (errorMessage === 'Please verify your account!!!') {
-          history("/verify")
-        }
-      } else {
-        localStorage.setItem("user", item.userName)
-        history("/home")
-      }
-      const responseData = await response.text();
-      console.log(responseData);
-    } catch (error) {
-      console.error('Error during login:', error);
-    }
-  }
-  function signup() {
-    history("/signup")
-  }
+  const onFinish = (values) => {
+    console.log("🚀 ~ onFinish ~ values:", values);
+  };
   return (
     <section className="h-screen">
       <div className="h-full flex items-center justify-center">
@@ -104,11 +73,6 @@ export default function SignIn() {
                 prefix={<UserOutlined className="site-form-item-icon" />}
                 placeholder="Username"
                 className="width:420px py-3"
-                // id="userName"
-                // name="userName"
-                // value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-              // required
               />
             </Form.Item>
             <div className="mb-2">
@@ -128,11 +92,6 @@ export default function SignIn() {
                 type="password"
                 placeholder="Password"
                 className="width:420px py-3"
-                // id="password"
-                // name="password"
-                // value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              // required
               />
             </Form.Item>
             <div className="flex justify-between mt-2 ">
@@ -151,7 +110,6 @@ export default function SignIn() {
               <Button
                 type="primary"
                 className="bg-black mt-5 w-full px-2 py-2 "
-                onClick={login}
               >
                 <span className="text-orange-600">Log in </span>
               </Button>
@@ -159,7 +117,7 @@ export default function SignIn() {
             </Form.Item>
             <div className="login ">
               <span className="text-gray-600">Not Registered Yet? </span>
-              <a onClick={signup} className="text-orange-600">
+              <a href="/signup" className="text-orange-600">
                 Create an account
               </a>
             </div>

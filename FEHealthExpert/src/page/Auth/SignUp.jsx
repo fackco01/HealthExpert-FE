@@ -4,57 +4,11 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import Button from "../../components/button";
 import backgroundImage from "../../img/nike.png";
 import helpexpert from "../../img/logo.png";
-import { DatePicker, Space } from 'antd';
-import { Select } from 'antd';
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from 'react-router-dom'
 
 export default function SignUp() {
   const onFinish = (values) => {
     console.log("🚀 ~ onFinish ~ values:", values);
   };
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [fullName, setFullname] = useState("");
-  const [phone, setPhone] = useState("");
-  const [birthDate, setBirthDate] = useState(null);
-  const [gender, setGender] = useState(null);
-  const history = useNavigate();
-
-  const handleDatePickerChange = (selectedDate) => {
-    setBirthDate(selectedDate);
-  };
-  const handleSelectChange = (selectedOption) => {
-    setGender(selectedOption.value);
-  };
-
-  async function SignUp() {
-    let item = { userName, password, confirmPassword, email, fullName, phone, birthDate, gender }
-    try {
-      let response = await fetch('http://20.2.73.15:8173/api/Account/Register', {
-        method: 'POST',
-        body: JSON.stringify(item),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-
-      if (!response.ok) {
-        const errorMessage = await response.text();
-        console.error(`Error: ${errorMessage}`);
-        alert(errorMessage);
-      } else {
-        history("/verify")
-      }
-      const responseData = await response.text();
-      console.log(responseData);
-
-    } catch (error) {
-      console.error('Error during login:', error);
-    }
-  }
 
   return (
     <section className="h-screen">
@@ -91,7 +45,7 @@ export default function SignUp() {
               </div>
             </div>
             <div className="mb-2">
-              <p>UserName</p>
+              <p>Email</p>
             </div>
             <Form.Item
               name="username"
@@ -102,12 +56,12 @@ export default function SignUp() {
                 },
               ]}
             >
+              {/* email input */}
               <Input
                 type="text"
                 prefix={<UserOutlined className="site-form-item-icon" />}
                 placeholder="Username"
                 className="width:420px py-3 "
-                onChange={(e) => setUserName(e.target.value)}
               />
             </Form.Item>
             <div className="mb-2">
@@ -122,80 +76,59 @@ export default function SignUp() {
                 },
               ]}
             >
-              <Input
+              <Input.Password
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
                 placeholder="Password"
                 className="width:420px py-3"
-                onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Item>
-            <div className="mb-2">
-              <p>Confirm Password</p>
+            <div className="mb-2 flex">
+              <div className="mr-2">
+                <p>First name</p>
+                <Form.Item
+                  name="firstName"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your firstname!",
+                    },
+                  ]}
+                >
+                  <Input
+                    type="text"
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    placeholder="First name"
+                    className="width:200px py-3"
+                  />
+                </Form.Item>
+              </div>
+
+              <div>
+                <p>Last name</p>
+                <Form.Item
+                  name="lastName"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your lastname!",
+                    },
+                  ]}
+                >
+                  <Input
+                    type="text"
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    placeholder="Last name"
+                    className="width:200px py-3"
+                  />
+                </Form.Item>
+              </div>
             </div>
-            <Form.Item
-              name="confirm-password"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your Confirm Password!",
-                },
-              ]}
-            >
-              <Input
-                prefix={<LockOutlined className="site-form-item-icon" />}
-                type="password"
-                placeholder="Password"
-                className="width:420px py-3"
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </Form.Item>
-            <div className="mb-2">
-              <p>Email</p>
-            </div>
-            <Form.Item
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your Email!",
-                },
-              ]}
-            >
-              {/* email input */}
-              <Input
-                type="text"
-                prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Email"
-                className="width:420px py-3 "
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Form.Item>
-            <div className="mb-2">
-              <p>Full Name</p>
-            </div>
-            <Form.Item
-              name="fullName"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your Full Name!",
-                },
-              ]}
-            >
-              <Input
-                prefix={<LockOutlined className="site-form-item-icon" />}
-                type="text"
-                placeholder="fullname"
-                className="width:420px py-3"
-                onChange={(e) => setFullname(e.target.value)}
-              />
-            </Form.Item>
             <div className="mb-2">
               <p>Phone Number</p>
             </div>
             <Form.Item
-              name="phone"
+              name="phonenumber"
               rules={[
                 {
                   required: true,
@@ -203,39 +136,52 @@ export default function SignUp() {
                 },
               ]}
             >
+              {/* email input */}
               <Input
                 type="text"
                 prefix={<UserOutlined className="site-form-item-icon" />}
                 placeholder="Phone Number"
                 className="width:420px py-3"
-                onChange={(e) => setPhone(e.target.value)}
               />
             </Form.Item>
             <div className="mb-2 flex">
               <div className="mr-2">
                 <p>Birthday</p>
-                <Space direction="vertical" size={12}>
-                  <DatePicker
-                    selected={birthDate}
-                    onChange={handleDatePickerChange} />
-                </Space>
+                <Form.Item
+                  name="birthday"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your birthday!",
+                    },
+                  ]}
+                >
+                  <Input
+                    type="text"
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    placeholder="Birthday"
+                    className="width:200px py-3"
+                  />
+                </Form.Item>
               </div>
 
               <div>
                 <p>Gender</p>
-                <div className="flex">
-                  <Select
-                    defaultValue="Gender"
-                    onChange={handleSelectChange}
-                    options={[
-                      {
-                        options: [
-                          { label: 'Male', value: 'true' },
-                          { label: 'Female', value: 'false' },
-                        ]
-                      }
-                    ]} />
-                </div>
+                <Form.Item
+                  name="gender"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please select your gender!",
+                    },
+                  ]}
+                >
+                  <div className="flex py-4">
+                    <Checkbox value="female">Female</Checkbox>
+                    <Checkbox value="male">Male</Checkbox>
+                    <Checkbox value="other">Other</Checkbox>
+                  </div>
+                </Form.Item>
               </div>
             </div>
 
@@ -243,7 +189,6 @@ export default function SignUp() {
               <Button
                 type="primary"
                 className="bg-black mt-1 w-full px-2 py-2 "
-                onClick={SignUp}
               >
                 <span className="text-orange-600">Sign Up </span>
               </Button>

@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import Logo from "../img/logo.png";
 import FacebookL from "../img/facebookLink.png";
 import YoutubeL from "../img/youtubeLink.png";
+import FDate from "../img/footerDate.png";
+import FMail from "../img/footerMail.png";
+import FPhone from "../img/footerPhone.png";
 import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
@@ -9,13 +12,26 @@ const Footer = () => {
     <>
       <div className="mt-auto">
         <footer className="bg-black mt-8 px-12 py-12 font-[sans-serif] ">
-          <img src={Logo} alt="" className="w-28 mb-5" />
+          <div class="flex">
+            <a href="/home">
+              <img src={Logo} alt="" className="w-28 mb-5" />
+            </a>
+          </div>
           <div className="flex">
             {/* col 1 */}
             <div className="w-1/4 text-white space-y-3">
+              <div className="flex">
+              <img src={FPhone} alt="" className="mr-[15px]" />
               <p>0779692264</p>
+              </div>
+              <div className="flex">
+              <img src={FMail} alt="" className="w-8 h-6 mr-2" />
               <p>healthexpert@gmail.com</p>
+              </div>
+              <div className="flex">
+              <img src={FDate} alt="" className="mr-[18px]" />
               <p>24/7</p>
+              </div>
             </div>
             {/* col 2 */}
             <div className="w-1/4 text-white space-y-2">
@@ -40,8 +56,12 @@ const Footer = () => {
             <div className="w-1/4 text-white ">
               <p className="font-extrabold text-orange-400">Theo dõi social</p>
               <div className="flex mt-7 space-x-5">
-                <img src={FacebookL} alt="" className="w-12" />
-                <img src={YoutubeL} alt="" className="w-12" />
+                <a href="https://facebook.com">
+                  <img src={FacebookL} alt="" className="w-12" />
+                </a>
+                <a href="https://youtube.com/">
+                  <img src={YoutubeL} alt="" className="w-12" />
+                </a>
               </div>
             </div>
           </div>

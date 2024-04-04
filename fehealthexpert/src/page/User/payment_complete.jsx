@@ -21,7 +21,7 @@ function PaymentComplete() {
             <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
             <Header />
 
-            <div className="relative flex h-screen font-[sans-serif]" id="paymentForm">
+            <div className="relative flex h-screen font-[sans-serif] bg-gradient-to-tl from-orange-400" id="paymentForm">
                 <div className="m-auto">
                     <div className="bg-white border-2 rounded-lg drop-shadow-lg w-96">
                         <div className="p-4">

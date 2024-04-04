@@ -112,7 +112,6 @@ function YourProfile() {
         {/* two columns */}
         <div className="flex columns-2 gap-4">
           {/* left column: about */}
-<<<<<<< HEAD:fehealthexpert/src/page/User/profile.jsx
           <div className="flex-auto w-2/6">
             <div className="border rounded-t-lg shadow-2xl ">
               <p className="ml-3 mt-3 font-bold">Giới thiệu</p>
@@ -133,24 +132,6 @@ function YourProfile() {
               <div class="border rounded-b-lg shadow-2xl bg-orange-400 hover:bg-orange-600 hover:underline hover:text-blue-400" style={{ cursor: 'pointer' }}>
                 <p class="flex justify-center my-6 font-bold">CẬP NHẬT</p>
               </div>
-=======
-          <div className="flex-auto border rounded shadow-2xl w-2/5">
-            <p className="ml-3 mt-3 font-bold">Giới thiệu</p>
-            <br />
-
-            <hr />
-            <p className="ml-3 text-center">Email: {email}</p>
-            <br />
-            <p className="ml-3 text-center">Số điện thoại: {phone}</p>
-            <br />
-            <p className="ml-3 text-center">Giới tính: {gender}</p>
-            <br />
-            <p className="ml-3 text-center">Ngày sinh: {formattedDate}</p>
-            <br />
-            <hr />
-            <a href="/editProfile">
-              <button className="bg-orange-500 text-white py-2 px-4 rounded transition-opacity hover:bg-opacity-80 ml-4">Chỉnh sửa</button>
->>>>>>> 7e0f1dde7123c088dd00f0496fbe82eff3495946:FEHealthExpert/src/page/User/profile.jsx
             </a>
           </div>
           {/* right column: joined courses */}

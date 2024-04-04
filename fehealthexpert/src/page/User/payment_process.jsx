@@ -3,6 +3,7 @@ import {
     useNavigate
 } from "react-router-dom";
 import Header from "../../components/Header_user";
+import Footer from "../../components/Footer";
 
 function PaymentProcess() {
     var link = "https://en.wikipedia.org";
@@ -14,8 +15,8 @@ function PaymentProcess() {
             <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
             <Header />
 
-            <div className="relative flex h-screen font-[sans-serif]" id="paymentForm">
-                <div className="m-auto w-1/5">
+            <div className="relative flex justify-end mr-12 h-screen font-[sans-serif]" id="paymentForm">
+                <div className="my-auto justify-end w-2/5">
                     <div className="bg-white border-2 rounded-lg drop-shadow-lg w-90">
                         <div className="p-4">
                             {/* Account ID */}
@@ -25,7 +26,7 @@ function PaymentProcess() {
                                 </div>
                                 <div className="w-4/5">
                                     <p className="mb-5 font-bold text-right" id="accountId">
-                                        {/* Account ID goes here */} 111
+                                        {/* Account ID goes here */} abdbsajdgaslb
                                     </p> 
                                 </div>
                             </div>
@@ -36,7 +37,7 @@ function PaymentProcess() {
                                 </div>
                                 <div className="w-4/5">
                                     <p className="mb-5 font-bold text-right" id="courseId">
-                                    {/* Course ID goes here */} 222
+                                    {/* Course ID goes here */} HISTORY's Digs & Dives - EP 2
                                     </p>
                                 </div>
                             </div>
@@ -47,6 +48,7 @@ function PaymentProcess() {
                                     <p className="mt-5">Giá Tiền:</p>
                                 </div>
                                 <div className="w-4/5">
+                                    {/* Price goes here */}
                                     <p className="mt-5 text-orange-400 text-3xl font-bold text-right">
                                         300000đ
                                     </p>
@@ -71,14 +73,7 @@ function PaymentProcess() {
                     </div>
                 </div>
             </div>
-            <div className="mt-auto">
-                <footer className="bg-white">
-                    <br />
-                    <hr />
-                    <br />
-                    <div>HealtExpert © 2024</div>
-                </footer>
-            </div>
+            <Footer/>
         </>
     );
 };

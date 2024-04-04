@@ -15,7 +15,7 @@ function PaymentProcess() {
             <Header />
 
             <div className="relative flex h-screen font-[sans-serif]" id="paymentForm">
-                <div className="m-auto">
+                <div className="m-auto w-1/5">
                     <div className="bg-white border-2 rounded-lg drop-shadow-lg w-90">
                         <div className="p-4">
                             {/* Account ID */}

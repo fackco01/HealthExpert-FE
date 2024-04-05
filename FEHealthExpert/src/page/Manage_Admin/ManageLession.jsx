@@ -6,23 +6,22 @@ import { MinusCircleOutlined, SyncOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
 import { Space, Tag } from "antd";
 import ModalCreatSession from "../../components/ModalCreatSession";
-import ModalCreatLession from "../../components/ModalCreatLession";
 import ModalDelete from "../../components/ModalDelete";
 export default function ManageCourse() {
-  const [sessions, setSessions] = useState([]);
+  const [lessions, setLessions] = useState([]);
 
-  console.log("session", sessions);
+  console.log("lessions", lessions);
 
   const columns = [
     {
       title: "ID bài học",
-      dataIndex: "courseId",
+      dataIndex: "lessonId",
       sorter: (a, b) => a.age - b.age,
       width: "10%",
     },
     {
       title: "Tên bài học",
-      dataIndex: "sessionName",
+      dataIndex: "caption",
       filters: [
         {
           text: "Jim Green	",
@@ -52,19 +51,10 @@ export default function ManageCourse() {
     },
 
     {
-      title: "Trạng thái",
-      dataIndex: "learnProgress",
-      render: (_, record) => (
-        <Space size="middle">
-          <Tag icon={<SyncOutlined spin />} color="processing">
-            Đang học
-          </Tag>
+      title: "Link video",
+      dataIndex: "videoFile",
+      render: (text) => <a href={text}>{text}</a>,
 
-          <Tag icon={<MinusCircleOutlined />} color="red">
-            Đã xóa
-          </Tag>
-        </Space>
-      ),
       filters: [
         {
           text: "London",
@@ -93,13 +83,6 @@ export default function ManageCourse() {
           </button>
           <button className="bg-orange-400  w-[50px] py-1 rounded-xl">
             Edit
-          </button>
-          <button
-            type="primary"
-            onClick={showModalCreatLession}
-            className="bg-orange-400  w-[100px] py-1 rounded-xl"
-          >
-            Creat Lession
           </button>
         </Space>
       ),
@@ -141,7 +124,6 @@ export default function ManageCourse() {
 
   const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
-  const [isModalCreatLessionOpen, setIsModalCreatLessionOpen] = useState(false);
 
   const showModalCreate = () => {
     setIsModalCreateOpen(true);
@@ -158,15 +140,10 @@ export default function ManageCourse() {
   const handleCancelDelete = () => {
     setIsModalDeleteOpen(false);
   };
-  const showModalCreatLession = () => {
-    setIsModalCreatLessionOpen(true);
-  };
-  const handleCancleCreatLession = () => {
-    setIsModalCreatLessionOpen(false);
-  };
+
   useEffect(() => {
-    fetch("http://20.2.73.15:8173/api/Session/GetSessions").then((data) => {
-      data.json().then((data) => setSessions(data));
+    fetch("http://20.2.73.15:8173/api/Lesson/GetLessons").then((data) => {
+      data.json().then((data) => setLessions(data));
     });
   }, []);
 
@@ -180,38 +157,7 @@ export default function ManageCourse() {
         </div>
         <div className="w-[80%] mt-3">
           <h2 className="font-bold text-2xl">Trung tâm Trần Nhật Hoàng</h2>
-          <button
-            type="primary"
-            onClick={showModalCreate}
-            className="w-[250px] mr-[90px] rounded-md  bottom-1 right-3	 bg-orange-400 text-black font-bold py-3 px-4 opacity-100 hover:opacity-80 transition-opacity mt-3 "
-          >
-            Tạo buổi học
-          </button>
-          <Modal
-            open={isModalCreateOpen}
-            onCancel={handleCancelCreate}
-            okText="123456"
-            width={900}
-            footer={null}
-            bodyStyle={{
-              backgroundColor: "orange-400",
-            }}
-          >
-            <ModalCreatSession />
-          </Modal>
 
-          <Modal
-            open={isModalCreatLessionOpen}
-            onCancel={handleCancleCreatLession}
-            okText="123456"
-            width={600}
-            footer={null}
-            bodyStyle={{
-              backgroundColor: "orange-400",
-            }}
-          >
-            <ModalCreatLession />
-          </Modal>
           <Modal
             style={{ top: 150 }}
             open={isModalDeleteOpen}
@@ -244,7 +190,7 @@ export default function ManageCourse() {
             <h1>
               <Table
                 columns={columns}
-                dataSource={sessions}
+                dataSource={lessions}
                 onChange={onChange}
               />
             </h1>

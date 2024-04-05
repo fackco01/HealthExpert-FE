@@ -18,6 +18,7 @@ import Tranformation from "./page/Tranformation/tranfor";
 import CreatCourse from "./page/Manage_Admin/CreatCourse";
 import ManageCourse from "./page/Manage_Admin/ManageCourse";
 import ManageSession from "./page/Manage_Admin/ManageSession";
+import ManageLession from "./page/Manage_Admin/ManageLession";
 export default function App() {
   return (
     <Routes>
@@ -25,6 +26,7 @@ export default function App() {
       <Route path="/home" element={<Home />} />
       <Route path="/managecourse" element={<ManageCourse />} />
       <Route path="/managesession" element={<ManageSession />} />
+      <Route path="/managelession" element={<ManageLession />} />
 
       <Route path="/categories" element={<Categories />} />
       <Route path="/dance" element={<Dance />} />

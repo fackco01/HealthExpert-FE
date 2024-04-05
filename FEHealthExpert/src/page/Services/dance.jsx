@@ -17,7 +17,7 @@ import './dance.css';
 import DetailCourse from "../DescriptionCourse/DetailCourse";
 import { Link } from "react-router-dom";
 
-export default function Yoga() {
+export default function Dance() {
   // const dispatch = useDispatch();
   const [courses, setCourses] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,7 +29,7 @@ export default function Yoga() {
       .then(data => setCourses(data))
       .catch(error => console.error('Error fetching data:', error));
   }, []);
-  const filteredCoursesCount = courses.filter(course => course.typeId === 1).length;
+  const filteredCoursesCount = courses.filter(course => course.typeId === 2).length;
   //const filteredCoursesCount = courses.filter(course => course.typeId === 0).length;
 
   // Nếu số lượng khóa học trong trang hiện tại lớn hơn 9, sử dụng phân trang
@@ -39,7 +39,7 @@ export default function Yoga() {
   const indexOfLastCourse = currentPage * coursesPerPage;
   const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
   const currentCourses = courses
-    .filter(course => course.typeId === 1)
+    .filter(course => course.typeId === 2)
     .slice(indexOfFirstCourse, indexOfLastCourse);
 
   const nextPage = () => setCurrentPage(currentPage + 1);

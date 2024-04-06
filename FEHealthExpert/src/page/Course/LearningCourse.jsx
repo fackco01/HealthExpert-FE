@@ -177,7 +177,7 @@ export default function LearningCourse() {
         <div className="w-[20%] ">
           <Menu mode="inline" onClick={handleMenuClick}>
             {sessions.map((session, index) => (
-              <SubMenu key={`session-${index}`} title={session.sessionName}>
+              <SubMenu key={`session-${index}`} title={`Tên Session: ${session.sessionName}`}>
                 {lessons[session.sessionId] && lessons[session.sessionId].map((lesson, lessonIndex) => (
                   <Menu.Item key={`lesson-${index}-${lessonIndex}`}>{lesson.caption}</Menu.Item>
                 ))}
@@ -185,7 +185,7 @@ export default function LearningCourse() {
             ))}
           </Menu>
         </div>
-      </div>
+      </div >
     </>
   );
 }

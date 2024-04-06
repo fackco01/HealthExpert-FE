@@ -3,11 +3,14 @@ import splash from '../../img/bg.png';
 import pfp from '../../img/pfp.png';
 import cover from '../../img/course_cover.png';
 import Header from "../../components/Header";
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import {
   useNavigate
 } from "react-router-dom";
-
+import { DatePicker } from 'antd';
 function YourProfile() {
+
 
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -16,7 +19,35 @@ function YourProfile() {
   const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
   const [birthDate, setBirthDate] = useState("");
-  const formattedDate = formatDate(birthDate);
+  const [formattedDate, setFormattedDate] = useState("");
+
+  dayjs.extend(customParseFormat);
+
+  const { RangePicker } = DatePicker;
+
+  const dateFormat = 'YYYY/MM/DD';
+  const weekFormat = 'MM/DD';
+  const monthFormat = 'YYYY/MM';
+
+  /** Manually entering any of the following formats will perform date parsing */
+  const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY', 'DD-MM-YYYY', 'DD-MM-YY'];
+
+  const customFormat: DatePickerProps['format'] = (value) =>
+    `custom format: ${value.format(dateFormat)}`;
+
+  const customWeekStartEndFormat: DatePickerProps['format'] = (value) =>
+    `${dayjs(value).startOf('week').format(weekFormat)} ~ ${dayjs(value)
+      .endOf('week')
+      .format(weekFormat)}`;
+
+
+  useEffect(() => {
+    // Check if user is logged in using your preferred method (e.g., checking local storage)
+    const username = localStorage.getItem("user");
+    if (username) {
+      getProfile(username);
+    }
+  }, []);
 
   const navigateToRegistered = () => {
     navigate('/registeredCourse');
@@ -42,12 +73,13 @@ function YourProfile() {
         if (Array.isArray(data)) {
           const foundUser = data.find(accountList => accountList.userName === username);
           if (foundUser) {
-            console.log(data);
+            localStorage.setItem("accountId", foundUser.accountId);
             setFullName(foundUser.fullName);
             setEmail(foundUser.email);
             setGender(foundUser.gender);
             setPhone(foundUser.phone);
-            setBirthDate(foundUser.birthDate);
+            setBirthDate(new Date(foundUser.birthDate));
+            setFormattedDate(formatDate(foundUser.birthDate));
             if (foundUser.gender) {
               setGender("Nam")
             } else {
@@ -66,13 +98,42 @@ function YourProfile() {
       });
   }
 
+  function updateAccount() {
+    const accountId = localStorage.getItem("accountId"); // Get the account ID from localStorage or any source you store it
+    const updateData = {
+      fullName: fullName,
+      email: email,
+      phone: phone,
+      gender: gender,
+      birthDate: birthDate
+    };
+
+    fetch(`http://20.2.73.15:8173/api/Account/UpdateAccount/${accountId}`, {
+      method: "PUT", // or "PATCH" depending on your API
+      headers: {
+        "Authorization": "Bearer YOUR_ACCESS_TOKEN",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(updateData)
+    })
+      .then(response => {
+        if (!response.ok) {
+          console.error(`Lỗi cập nhật dữ liệu!`);
+          alert("Lỗi cập nhật dữ liệu!");
+          throw new Error("Lỗi cập nhật dữ liệu!");
+        }
+        // Optionally, handle success response
+        console.log("Thông tin tài khoản đã được cập nhật!");
+      })
+      .catch(error => {
+        console.error("Lỗi cập nhật dữ liệu!", error);
+      });
+  }
+
   useEffect(() => {
-    // Check if user is logged in using your preferred method (e.g., checking local storage)
-    const username = localStorage.getItem("user");
-    if (username) {
-      getProfile(username);
-    }
-  }, []);
+    // Sau khi birthDate được cập nhật, định dạng lại ngày tháng và lưu vào state formattedDate
+    setFormattedDate(formatDate(birthDate));
+  }, [birthDate]);
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -86,6 +147,7 @@ function YourProfile() {
 
     return `${formattedDay}/${formattedMonth}/${year}`;
   }
+
 
   return (
     <>
@@ -110,59 +172,67 @@ function YourProfile() {
           </div>
         </div>
         {/* two columns */}
-        <div className="flex columns-2 gap-4">
-          {/* left column: about */}
-          <div className="flex-auto border rounded shadow-2xl w-2/5">
-            <p className="ml-3 mt-3 font-bold">Giới thiệu</p>
-            <br />
-
-            <hr />
-            <p className="ml-3 text-center">Email: {email}</p>
-            <br />
-            <p className="ml-3 text-center">Số điện thoại: {phone}</p>
-            <br />
-            <p className="ml-3 text-center">Giới tính: {gender}</p>
-            <br />
-            <p className="ml-3 text-center">Ngày sinh: {formattedDate}</p>
-            <br />
-            <hr />
-            <a href="/editProfile">
-              <button className="bg-orange-500 text-white py-2 px-4 rounded transition-opacity hover:bg-opacity-80 ml-4">Chỉnh sửa</button>
-            </a>
-          </div>
-          {/* right column: joined courses */}
-          <div className="flex-auto border rounded shadow-2xl w-3/5">
-            <p className="ml-3 mt-3 font-bold">Các khóa học đã tham gia</p>
-            <br />
-            {/* section for one course begins */}
-            <div className="flex px-2 ml-6 mb-7">
-              <img src={cover} alt="" className="rounded object-scale-down w-48" />
-              <div className="">
-                <p className='text-xl font-bold ml-8'>my COURSE???</p>
-                <p className="text-ellipsis overflow-hidden line-clamp-4 ml-8 mr-5">my desc???</p>
+        <div className="flex flex-col"> {/* Sử dụng flex-direction: column */}
+          <div className="flex flex-auto border rounded shadow-2xl mb-4 mx-auto"> {/* Sử dụng flex-auto để cả 2 cột co giãn */}
+            {/* left column: about */}
+            <div className="flex-auto border rounded shadow-2xl w-3/12"> {/* Sử dụng w-3/12 để chia thành 3 phần */}
+              <p className="ml-3 mt-3 font-bold">Giới thiệu</p>
+              <br />
+              <hr />
+              <div className="ml-3">
+                <label className="block">Họ và tên:</label>
+                <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} className="border rounded px-2 py-1 mb-2" />
+                <label className="block">Email:</label>
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="border rounded px-2 py-1 mb-2" />
+                <label className="block">Số điện thoại:</label>
+                <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} className="border rounded px-2 py-1 mb-2" />
+                <label className="block">Giới tính:</label>
+                <select value={gender} onChange={(e) => setGender(e.target.value)} className="border rounded px-2 py-1 mb-2">
+                  <option value="Nam">Nam</option>
+                  <option value="Nữ">Nữ</option>
+                </select>
+                <label className="block">Ngày sinh:</label>
+                <DatePicker defaultValue={dayjs(formattedDate, dateFormat)} selected={birthDate} onChange={date => setBirthDate(date)} className="border rounded px-2 py-1 mb-2" />
               </div>
+              <br />
+              <hr />
+              <button onClick={updateAccount} className="bg-orange-500 text-white py-2 px-4 rounded transition-opacity hover:bg-opacity-80 ml-4">Cập nhật</button>
             </div>
-            <hr />
-            <br />
-            {/* section for one course ends */}
-            {/* dummy data */}
-            <div className="flex px-2 ml-6 mb-7">
-              <img src={cover} alt="" className="rounded object-scale-down w-48" />
-              <div className="">
-                <p className='text-xl font-bold ml-8'>my COURSE???</p>
-                <p className="text-ellipsis overflow-hidden line-clamp-4 ml-8 mr-5">
-                  Pizza Hut was launched on May 31, 1958, by two brothers, Dan and Frank Carney, both Wichita State
-                  students, as a single location in Wichita, Kansas. Six months later they opened a second outlet, and
-                  within a year they were operating six locations.</p>
+            {/* right column: joined courses */}
+            <div className="flex-auto border rounded shadow-2xl w-9/12"> {/* Sử dụng w-9/12 để chia thành 7 phần */}
+              <p className="ml-3 mt-3 font-bold">Các khóa học đã tham gia</p>
+              <br />
+              {/* section for one course begins */}
+              <div className="flex px-2 ml-6 mb-7">
+                <img src={cover} alt="" className="rounded object-scale-down w-48" />
+                <div className="">
+                  <p className='text-xl font-bold ml-8'>my COURSE???</p>
+                  <p className="text-ellipsis overflow-hidden line-clamp-4 ml-8 mr-5">my desc???</p>
+                </div>
               </div>
+              <hr />
+              <br />
+              {/* section for one course ends */}
+              {/* dummy data */}
+              <div className="flex px-2 ml-6 mb-7">
+                <img src={cover} alt="" className="rounded object-scale-down w-48" />
+                <div className="">
+                  <p className='text-xl font-bold ml-8'>my COURSE???</p>
+                  <p className="text-ellipsis overflow-hidden line-clamp-4 ml-8 mr-5">
+                    Pizza Hut was launched on May 31, 1958, by two brothers, Dan and Frank Carney, both Wichita State
+                    students, as a single location in Wichita, Kansas. Six months later they opened a second outlet, and
+                    within a year they were operating six locations.</p>
+                </div>
+              </div>
+              <hr />
+              <br />
+              <a onClick={navigateToRegistered} style={{ cursor: 'pointer' }} className="flex px-2 ml-6 hover:underline hover:text-blue-500">Danh sách các khóa học bạn đã đăng ký</a>
+              <br />
             </div>
-            <hr />
-            <br />
-            <a onClick={navigateToRegistered} style={{ cursor: 'pointer' }} className="flex px-2 ml-6 hover:underline hover:text-blue-500">Danh sách các khóa học bạn đã đăng ký</a>
-            <br />
           </div>
         </div>
       </div>
+
       <div className="mt-auto">
         <footer className="bg-white">
           <br />

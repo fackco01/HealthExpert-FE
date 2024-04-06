@@ -23,6 +23,7 @@ const Header = () => {
     localStorage.removeItem("ProposeCourse");
     // Check if user is logged in using your preferred method (e.g., checking local storage)
     const isUserLoggedIn = localStorage.getItem("user");
+
     if (isUserLoggedIn) {
       setLoggedIn(true);
       console.log(localStorage.getItem("user"));
@@ -35,6 +36,7 @@ const Header = () => {
     // Perform logout logic here
     localStorage.removeItem("user"); // Assuming you set userName in localStorage during login
     localStorage.removeItem("ProposeCourse");
+    localStorage.removeItem("accountId");
     setLoggedIn(false);
     setUsername("");
     const route = '/home'; // Specify the desired route path
@@ -78,7 +80,7 @@ const Header = () => {
     return (
       <Menu {...props}>
         <Menu.Item >
-          <a href="">GYM</a>
+          <a href="/gym">GYM</a>
         </Menu.Item>
         <Menu.Item>
           <a href="/dance">Dance</a>
@@ -87,7 +89,7 @@ const Header = () => {
           <a href="/yoga">Yoga</a>
         </Menu.Item>
         <Menu.Item >
-          <a href="">Boxing</a>
+          <a href="/boxing">Boxing</a>
         </Menu.Item>
       </Menu>
     );
@@ -141,7 +143,7 @@ const Header = () => {
           </li>
           <li className="max-lg:border-b max-lg:py-2 px-3">
             <a
-
+              href="/tranformation"
               className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
             >
               Tranfor

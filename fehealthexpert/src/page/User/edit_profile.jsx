@@ -250,7 +250,6 @@ function EditProfile() {
       </div>
       {/* FOOTER */}
     </>
-
   );
 };
 

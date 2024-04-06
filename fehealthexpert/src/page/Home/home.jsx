@@ -57,24 +57,18 @@ export default function Home() {
 
       {/* introduce */}
       <section>
-        {/* left intro */}
-        <div className="h-full flex items-center justify-center mt-40">
-          <div className="w-1/2">
-            <img className="w-3/4 h-full mx-auto" src={carousel4} alt="" />
-          </div>
-
-          {/* right introduce  */}
-          <div className="w-1/2 flex">
-            <div className="flex-col">
-              <h1 className="text-yellow-600 text-3xl	">Healthexpert</h1>
-              <p className="mt-3">
+        <div className="h-full flex items-center justify-center mt-[9rem] mb-[4rem]">
+          <div className="flex">
+            <div className="flex-col mx-7">
+              <h1 className="text-yellow-600 text-3xl	text-center">HEALTHEXPERT</h1>
+              <p className="mt-3 text-center">
                 Nơi kết nối giữa người mong muốn cải thiện chất lượng cơ thể và
                 trung tâm gym. Chúng tôi tự hào là cầu nối đưa bạn đến với cộng
                 đồng các trung tâm gym hàng đầu, giúp bạn dễ dàng khám phá và
                 lựa chọn nơi tập luyện phù hợp với nhu cầu của mình.
               </p>
-              <a href="#">
-                <button className="bg-blue-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3 ">
+              <a href="#" className="flex justify-center">
+                <button className="bg-blue-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3">
                   Xem thêm
                 </button>
               </a>
@@ -85,11 +79,11 @@ export default function Home() {
       {/* services
        */}
       <section>
-        <div className="flex-col mt-5 bg-black">
+        <div className="flex-col bg-black py-14">
           {/* content */}
           <div className="flex-col text-center mb-5">
-            <h2 className="text-orange-600 text-2xl mt-3">
-              CÁC DỊCH VỤ TẠI HEALEXPERT
+            <h2 className="text-orange-600 text-2xl">
+              CÁC DỊCH VỤ TẠI HEALTHEXPERT
             </h2>
             <p className="text-xl text-white mb-2">
               Tập luyện tai HD Fitness Center sẽ giúp bạn đạt được mục tiêu về
@@ -168,7 +162,7 @@ export default function Home() {
       {/* tranformation */}
       <section>
         {/* tranformation_content */}
-        <div className="flex-col text-center">
+        <div className="flex-col text-center my-7">
           <h3 className=" text-[30px] mt-3">HỘI VIÊN TRANSFORMATION</h3>
           <p className="text-[20px]">
             Với các trung tâm gym uy tín hàng đầu, Healexpert chắc chắn sẽ giúp
@@ -213,7 +207,7 @@ export default function Home() {
             </Carousel>
           </div>
         </div>
-        <div className=" mt-4 text-center">
+        <div className="mt-4 mb-8 text-center">
           <button className="bg-blue-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded opacity-100 hover:opacity-80 transition-opacity ">
             Xem thêm
           </button>
@@ -226,46 +220,49 @@ export default function Home() {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
         }}
+        className="py-3"
       >
         <div className="mt-5">
+          <div className="bg-black bg-opacity-65 mx-5">
           <h2 className="text-orange-600 text-[30px] justify-center text-center mt-3">
             HỌC VIÊN CẢM NHẬN GÌ?
           </h2>
-          <p className="text-center">
+          <p className="text-center text-white">
             Hãy cùng xem cảm nhận của hội viên đã trải nghiệm tại phòng tập HD
             Đà Nẵng, có gì thú vị nhé?
           </p>
+          </div>
         </div>
         {/* left intro */}
-        <div className="h-full flex items-center justify-center mt-5">
-          <div className="w-1/2">
-            <div className="w-full  ">
+        <div className="h-full flex items-center justify-center mt-5 ml-8">
+          <div className="w-1/3">
+            <div className="w-full">
               <Carousel
-                className="item-center w-[600px] h-[400px] mx-auto"
+                className="item-center w-[420px] h-[300px] mx-auto"
                 autoplay
               >
                 <div>
-                  <img className="w-[600px] h-[400px]" src={feedback} alt="" />
+                  <img className="w-[420px] h-[250px]" src={feedback} alt="" />
                 </div>
                 <div>
-                  <img className="w-[600px] h-[400px]" src={feedback2} alt="" />
+                  <img className="w-[420px] h-[250px]" src={feedback2} alt="" />
                 </div>
                 <div>
-                  <img className="w-[600px] h-[400px]" src={feedback3} alt="" />
+                  <img className="w-[420px] h-[250px]" src={feedback3} alt="" />
                 </div>
                 <div>
-                  <img className="w-[600px] h-[400px]" src={feedback4} alt="" />
+                  <img className="w-[420px] h-[250px]" src={feedback4} alt="" />
                 </div>
               </Carousel>
             </div>
           </div>
 
           {/* right introduce  */}
-          <div className="w-1/2 ">
+          <div className="w-2/3">
             {/* //this is feedback */}
 
             <Carousel
-              className="item-center w-[700px] h-[400px] mx-auto"
+              className="item-center w-[700px] h-[300px] mx-auto"
               autoplay
             >
               <div className=" w-[90%] mb-40 flex-col border border-gray-300 p-4 bg-orange-400	">
@@ -337,7 +334,7 @@ export default function Home() {
         </div>
       </section>
       <section>
-        <div className="flex-col text-center mt-3">
+        <div className="flex-col text-center mt-3 space-y-3 mb-3">
           <h2 className="text-orange-600 text-[30px] ">
             HỆ THỐNG PHÒNG TẬP ĐẲNG CẤP
           </h2>
@@ -368,7 +365,7 @@ export default function Home() {
         {/* các blog */}
 
         <div
-          className="flex justify-center items-center h-screen px-10"
+          className="flex justify-center items-center py-12 px-10"
           style={{
             background:
               "linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 20%, rgba(0, 0, 0, 0.8) 80%)",
@@ -426,7 +423,7 @@ export default function Home() {
           </div>
         </div>
         <a className="flex  justify-center" href="#page">
-          <button className="bg-blue-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3">
+          <button className="bg-blue-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-7">
             XEM THÊM TRUNG TÂM
           </button>
         </a>

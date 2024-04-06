@@ -12,6 +12,7 @@ import yoga7 from "../../img/yoga7.jpg";
 import yoga8 from "../../img/yoga8.jpg";
 import yoga9 from "../../img/yoga9.jpg";
 import { Pagination } from "antd";
+import Footer from "../../components/Footer";
 
 export default function yoga() {
   // const dispatch = useDispatch();
@@ -62,8 +63,14 @@ export default function yoga() {
                     BASIC YOGA
                   </a>
                 </h3>
-                <p className="mt-3 text-[14px] max-w-[70%]">
+                <p className="mt-3 text-[14px] max-w-[70%] text-clip overflow-hidden line-clamp-[8]">
                   Đây là lớp học căn bản dành cho những người mới bắt đầu. Các
+                  lớp học Basic tạo tiền đề vững chắc để bạn theo đuổi những lớp
+                  lớp học Basic tạo tiền đề vững chắc để bạn theo đuổi những lớp
+                  lớp học Basic tạo tiền đề vững chắc để bạn theo đuổi những lớp
+                  lớp học Basic tạo tiền đề vững chắc để bạn theo đuổi những lớp
+                  lớp học Basic tạo tiền đề vững chắc để bạn theo đuổi những lớp
+                  lớp học Basic tạo tiền đề vững chắc để bạn theo đuổi những lớp
                   lớp học Basic tạo tiền đề vững chắc để bạn theo đuổi những lớp
                   học chuyên sâu về sau
                 </p>
@@ -247,6 +254,7 @@ export default function yoga() {
           <Pagination className="text-center" defaultCurrent={1} total={50} />
         </div>
       </section>
+      <Footer/>
     </>
   );
 }

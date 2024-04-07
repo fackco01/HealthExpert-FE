@@ -4,6 +4,7 @@ import center1 from "../../img/trungtam1.jpg";
 import center2 from "../../img/trungtam2.jpg";
 import center3 from "../../img/trungtam3.jpg";
 import center4 from "../../img/trungtam4.jpg";
+import Footer from "../../components/Footer";
 export default function center() {
   return (
     <>
@@ -22,12 +23,12 @@ export default function center() {
         </p>
       </div>
 
-      <div className=" mt-10 flex justify-center w-full">
+      <div className="mt-10 flex justify-center w-full">
         <div className="flex flex-wrap gap-20 w-[80%] justify-center">
           {/* trungtam1 */}
-          <div className=" w-[40%] h-[550px] ">
-            <img className="w-full h-[80%]" src={center1} alt="" />
-            <div className="w-3/4 mt-5 ml-10">
+          <div className="w-[40%] h-[550px]">
+            <img className="w-full h-[46%]" src={center1} alt="" />
+            <div className="w-3/4 mt-3 ml-10">
               <h3 className="text-orange-400 text-[20px]  ">
                 PHÒNG TẬP HD FITNESS
               </h3>
@@ -41,7 +42,7 @@ export default function center() {
           </div>
           {/* trungtam2 */}
           <div className=" w-[40%] h-[550px]">
-            <img className="w-full h-[80%]" src={center2} alt="" />
+            <img className="w-full h-[46%]" src={center2} alt="" />
             <div className="w-3/4 mt-3 ml-10">
               <h3 className="text-orange-400 text-[20px]  ">
                 PHÒNG TẬP HD FITNESS
@@ -55,7 +56,7 @@ export default function center() {
             </div>
           </div>
           <div className=" w-[40%] h-[550px]">
-            <img className="w-full h-[80%]" src={center3} alt="" />
+            <img className="w-full h-[46%]" src={center3} alt="" />
             <div className="w-3/4 mt-3 ml-10">
               <h3 className="text-orange-400 text-[20px]  ">
                 PHÒNG TẬP HD FITNESS
@@ -68,8 +69,8 @@ export default function center() {
               </p>
             </div>
           </div>
-          <div className=" w-[40%] h-[550px]">
-            <img className="w-full h-[80%]" src={center4} alt="" />
+          <div className="w-[40%] h-[550px]">
+            <img className="w-full h-[46%]" src={center4} alt="" />
             <div className="w-3/4 mt-3 ml-10">
               <h3 className="text-orange-400 text-[20px]  ">
                 PHÒNG TẬP HD FITNESS
@@ -84,6 +85,7 @@ export default function center() {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

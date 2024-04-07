@@ -13,6 +13,7 @@ import beforenu3 from "../../img/beforenu3.jpg";
 import beforenu4 from "../../img/beforenu4.jpg";
 import beforenam from "../../img/beforenam1.jpg";
 import beforenam2 from "../../img/beforenam2.jpg";
+import Footer from "../../components/Footer";
 
 export default function tranfor() {
   const onChange = (key) => {
@@ -23,7 +24,7 @@ export default function tranfor() {
       key: "1",
       label: "Học viên nam",
       children: (
-        <div className="flex w-[80%] px-5   mx-auto border justify-start">
+        <div className="flex px-5 mx-auto border justify-start">
           <div className=" flex w-[95%] mt-[40px] mb-[40px] px-5 flex-wrap gap-6 mx-auto  justify-start">
             <div className=" w-[23%] ">
               <img src={before1} alt="" />
@@ -72,7 +73,7 @@ export default function tranfor() {
       key: "2",
       label: "Học viên nữ",
       children: (
-        <div className="flex w-[85%] px-5   mx-auto border justify-start">
+        <div className="flex px-5 mx-auto border justify-start">
           <div className=" flex  mt-[40px] mb-[40px] px-5 flex-wrap gap-6 mx-auto  justify-start">
             <div className=" w-[23%] ">
               <img src={beforenu1} alt="" />
@@ -129,13 +130,13 @@ export default function tranfor() {
       </div>
       <div className="relative">
         <div className="relative">
-          <img className="w-full h-[475px] " src={Tranformation} alt="" />
+          <img className="w-full h-[275px]" src={Tranformation} alt="" />
         </div>
-        <div className="absolute top-40  left-[30%]">
-          <h2 className="text-[60px] text-white font-bold   ">
+        <div className="absolute top-14">
+          <h2 className="flex justify-center text-[60px] text-white font-bold">
             TRANSFORMATION
           </h2>
-          <p className="w-[50%] tracking-wide text-sm text-white">
+          <p className="flex justify-center mx-36 tracking-wide text-sm text-white text-center">
             Sức khỏe không chỉ là một trạng thái cơ thể, mà là một tình trạng
             toàn diện của tâm hồn, tâm trí và cơ thể. Chăm sóc sức khỏe không
             chỉ là việc duy trì cơ thể khỏe mạnh, mà còn là hành trình chăm sóc
@@ -151,7 +152,7 @@ export default function tranfor() {
       <div></div>
 
       {/* beforafteer */}
-      <div className="mt-5 text-center  ">
+      <div className="mt-5 text-center">
         <Tabs
           className="text-center"
           defaultActiveKey="1"
@@ -162,6 +163,7 @@ export default function tranfor() {
         ;
       </div>
       {/* hình ảnh ở đây */}
+      <Footer/>
     </>
   );
 }

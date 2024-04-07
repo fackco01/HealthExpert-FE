@@ -16,6 +16,7 @@ import { Pagination } from "antd";
 import './dance.css';
 import DetailCourse from "../DescriptionCourse/DetailCourse";
 import { Link } from "react-router-dom";
+import Footer from "../../components/Footer";
 
 export default function Yoga() {
   // const dispatch = useDispatch();
@@ -222,7 +223,7 @@ export default function Yoga() {
           </div>
         </div>
       </div> */}
-
+    <Footer/>
     </>
   );
 }

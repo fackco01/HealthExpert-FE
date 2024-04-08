@@ -5,26 +5,25 @@ import { Table } from "antd";
 import { MinusCircleOutlined, SyncOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
 import { Space, Tag } from "antd";
+import ModalCreatLession from "../../components/ModalCreatLession";
 import ModalDelete from "../../components/ModalDelete";
-import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import ModalCreatSession from "../../components/ModalCreatSession";
-export default function ManageSession() {
-  const [sessions, setSessions] = useState([]);
-  const { id } = useParams();
+import { useParams } from "react-router-dom";
 
-  localStorage.setItem("currentCourse", id)
-  //console.log("session", sessions);
+export default function ManageLesson() {
+  const [lessions, setLessions] = useState([]);
+  const { id } = useParams();
+  console.log("lessions", lessions);
+  localStorage.setItem("currentSession", id)
   const fetchCourse = async () => {
     try {
-      const sessionResponse = await axios.get("http://20.2.73.15:8173/api/Session/GetSessions");
-      const foundSessions = sessionResponse.data.filter(session => session.courseId === id);
-      if (foundSessions.length > 0) {
-        setSessions(foundSessions);
+      const sessionResponse = await axios.get("http://20.2.73.15:8173/api/Lesson/GetLessons");
+      const foundLseson = sessionResponse.data.filter(lesson => lesson.sessionId === id);
+      if (foundLseson.length > 0) {
+        setLessions(foundLseson);
 
       } else {
-        setSessions([{ sessionName: "Failed to get sessions" }]);
+        setLessions([{ LessonName: "Failed to get sessions" }]);
       }
     } catch (error) {
       console.log(error);
@@ -37,17 +36,14 @@ export default function ManageSession() {
 
   const columns = [
     {
-      title: "ID buổi học",
-      dataIndex: "sessionId",
-      sorter: (a, b) => a.sessionId - b.sessionId,
+      title: "ID bài học",
+      dataIndex: "lessonId",
+      sorter: (a, b) => a.age - b.age,
       width: "10%",
-      render: (text, record) => (
-        <Link to={`/manageLesson/${record.sessionId}`}>{text}</Link>
-      ),
     },
     {
-      title: "Tên buổi học",
-      dataIndex: "sessionName",
+      title: "Tên bài học",
+      dataIndex: "caption",
       filters: [
         {
           text: "Jim Green	",
@@ -74,23 +70,13 @@ export default function ManageSession() {
       filterSearch: true,
       onFilter: (value, record) => record.name.includes(value),
       width: "10%",
-
     },
 
     {
-      title: "Trạng thái",
-      dataIndex: "learnProgress",
-      render: (_, record) => (
-        <Space size="middle">
-          <Tag icon={<SyncOutlined spin />} color="processing">
-            Đang học
-          </Tag>
+      title: "Link video",
+      dataIndex: "videoFile",
+      render: (text) => <a href={text}>{text}</a>,
 
-          <Tag icon={<MinusCircleOutlined />} color="red">
-            Đã xóa
-          </Tag>
-        </Space>
-      ),
       filters: [
         {
           text: "London",
@@ -115,18 +101,11 @@ export default function ManageSession() {
             onClick={showModalDelete}
             className="bg-orange-400  w-[50px] py-1 rounded-xl "
           >
-            Xóa
+            Delete
           </button>
-          <ModalDelete onDelete={handleDelete} />
-          <button className="bg-orange-400  w-[100px] py-1 rounded-xl">
-            Chỉnh sửa
+          <button className="bg-orange-400  w-[50px] py-1 rounded-xl">
+            Edit
           </button>
-          {/* <button className="bg-orange-400  w-[100px] py-1 rounded-xl">
-            <Link
-              to={``}>
-              <h3 className="">Quản lý</h3>
-            </Link>
-          </button> */}
         </Space>
       ),
       filterMode: "tree",
@@ -184,27 +163,11 @@ export default function ManageSession() {
     setIsModalDeleteOpen(false);
   };
 
-  const handleDelete = () => {
-    const api = "http://20.2.73.15:8173/api/Session/DeleteSession/:id"
-    fetch(api.replace(":id", sessions.sessionId), {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          // Xử lý khi xóa thành công
-          console.log("Bài học đã được xóa thành công");
-        } else {
-          // Xử lý khi có lỗi xảy ra
-          console.error("Đã xảy ra lỗi khi xóa bài học");
-        }
-      })
-      .catch((error) => {
-        console.error("Đã xảy ra lỗi khi xóa bài học:", error);
-      });
-  };
+  // useEffect(() => {
+  //   fetch("http://20.2.73.15:8173/api/Lesson/GetLessons").then((data) => {
+  //     data.json().then((data) => setLessions(data));
+  //   });
+  // }, []);
 
   return (
     <>
@@ -221,7 +184,7 @@ export default function ManageSession() {
             onClick={showModalCreate}
             className="w-[250px] mr-[90px] rounded-md  bottom-1 right-3	 bg-orange-400 text-black font-bold py-3 px-4 opacity-100 hover:opacity-80 transition-opacity mt-3 "
           >
-            Tạo buổi học
+            Tạo bài học
           </button>
           <Modal
             open={isModalCreateOpen}
@@ -233,7 +196,7 @@ export default function ManageSession() {
               backgroundColor: "orange-400",
             }}
           >
-            <ModalCreatSession />
+            <ModalCreatLession />
           </Modal>
           <Modal
             style={{ top: 150 }}
@@ -242,7 +205,7 @@ export default function ManageSession() {
             okText="123456"
             width={500}
             footer={null}
-            styles={{
+            bodyStyle={{
               backgroundColor: "orange-400",
             }}
           >
@@ -250,20 +213,24 @@ export default function ManageSession() {
               Bạn có muốn xóa bài học này
             </h2>
             <div className=" flex ml-[300px]">
-              <button className="w-[70px] rounded-xl mr-6 mt-4 bg-orange-400 justify-end">
+              <button
+                onClick={handleCancelDelete}
+                className="w-[70px] rounded-xl mr-6 mt-4 bg-orange-400 justify-end"
+              >
                 Cancle
               </button>
               <button className="w-[70px] rounded-xl mt-4 bg-orange-400 justify-end">
                 OK
               </button>
             </div>
-            <ModalDelete onDelete={handleDelete} />;
+            <ModalDelete />
           </Modal>
+
           <div className="mt-10">
             <h1>
               <Table
                 columns={columns}
-                dataSource={sessions}
+                dataSource={lessions}
                 onChange={onChange}
               />
             </h1>

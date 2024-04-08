@@ -5,7 +5,7 @@ import { Button, Menu } from "antd";
 const Menuleft = () => {
   const navigate = useNavigate();
   const currentCourse = localStorage.getItem("currentCourse");
-
+  const currentSession = localStorage.getItem("currentSession");
   const navigateToManageUser = () => {
     navigate("/Khóa học");
   };
@@ -33,7 +33,7 @@ const Menuleft = () => {
           <ul className="space-y-6 font-medium bg-orange-400">
             <div>
               <a
-                href="/ManageCourse"
+                href="/manageCourse"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
@@ -67,7 +67,7 @@ const Menuleft = () => {
               </span>
             </a>
             <a
-              href="#"
+              href={`/manageLesson/${currentSession}`}
               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
               <svg

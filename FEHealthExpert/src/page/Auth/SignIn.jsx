@@ -1,25 +1,18 @@
-import React from "react";
-import { Form, Input, Checkbox } from "antd";
+import React, { useState } from "react";
+import { Form, Input } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import Button from "../../components/button";
 import backgroundImage from "../../img/nike.png";
 import helpexpert from "../../img/logo.png";
-import { useRef, useEffect, useState } from "react";
-import { Link, useNavigate } from 'react-router-dom'
-
-
-const onFinish = (values) => {
-  console.log("🚀 ~ onFinish ~ values:", values);
-};
+import { useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
-
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-
   const history = useNavigate();
+
   async function login() {
-    let item = { userName, password }
+    let item = { userName, password };
     try {
       let response = await fetch('http://20.2.73.15:8173/api/Auth/Login', {
         method: 'POST',
@@ -34,21 +27,59 @@ export default function SignIn() {
         console.error(`Error: ${errorMessage}`);
         alert(errorMessage);
         if (errorMessage === 'Please verify your account!!!') {
-          history("/verify")
+          history("/verify");
         }
       } else {
-        localStorage.setItem("user", item.userName)
-        history("/home")
+        localStorage.setItem("user", item.userName);
+        getRoleIdByUsername(userName); // Lấy roleId sau khi đăng nhập thành công
       }
+
       const responseData = await response.text();
       console.log(responseData);
     } catch (error) {
       console.error('Error during login:', error);
     }
   }
-  function signup() {
-    history("/signup")
+
+  async function getRoleIdByUsername(username) {
+    try {
+      let response = await fetch(`http://20.2.73.15:8173/api/Account/GetListAccount`, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer YOUR_ACCESS_TOKEN' // Thay YOUR_ACCESS_TOKEN bằng token thực tế
+        }
+      });
+
+      if (!response.ok) {
+        console.error(`Lỗi load dữ liệu!`);
+        alert("Lỗi load dữ liệu!");
+        throw new Error("Lỗi load dữ liệu!");
+      }
+
+      const data = await response.json();
+      const foundUser = data.find(account => account.userName === username);
+      if (foundUser) {
+        const roleId = foundUser.roleId;
+
+        // Redirect tới trang tương ứng dựa vào roleId
+        if (roleId === 1) {
+          history("/admin");
+        } else {
+          history("/home");
+        }
+      } else {
+        console.error("Không tìm thấy tài khoản!");
+        alert("Không tìm thấy tài khoản!");
+      }
+    } catch (error) {
+      console.error("Lỗi load dữ liệu!", error);
+    }
   }
+
+  function signup() {
+    history("/signup");
+  }
+
   return (
     <section className="h-screen">
       <div className="h-full flex items-center justify-center">
@@ -67,7 +98,6 @@ export default function SignIn() {
             initialValues={{
               remember: true,
             }}
-            onFinish={onFinish}
           >
             {/* introduce */}
             <div className="introduce mb-10">
@@ -79,15 +109,15 @@ export default function SignIn() {
               {/* contentd */}
               <div className="content mb-10">
                 <h1 className="text-3xl mb-5 text-525252 ">
-                  Login to your Account
+                  Đăng nhập bằng tài khoản của bạn
                 </h1>
                 <h1 className="text-base	">
-                  Welcome to healexpert, a place that helps you change yourself
+                  Chào mừng đến với HealthExpert, hãy cùng nhau phát triển bản thân
                 </h1>
               </div>
             </div>
             <div className="mb-2">
-              <p>Email</p>
+              <p>Tên người dùng</p>
             </div>
             <Form.Item
               name="username"
@@ -102,17 +132,13 @@ export default function SignIn() {
               <Input
                 type="text"
                 prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Username"
+                placeholder="Tên đăng nhập"
                 className="width:420px py-3"
-                // id="userName"
-                // name="userName"
-                // value={userName}
                 onChange={(e) => setUserName(e.target.value)}
-              // required
               />
             </Form.Item>
             <div className="mb-2">
-              <p>Password</p>
+              <p>Mật khẩu</p>
             </div>
             <Form.Item
               name="password"
@@ -126,23 +152,15 @@ export default function SignIn() {
               <Input.Password
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
-                placeholder="Password"
+                placeholder="Mật khẩu"
                 className="width:420px py-3"
-                // id="password"
-                // name="password"
-                // value={password}
                 onChange={(e) => setPassword(e.target.value)}
-              // required
               />
             </Form.Item>
             <div className="flex justify-between mt-2 ">
-              <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox>Remember me</Checkbox>
-              </Form.Item>
-
               <div>
                 <a className="#" href="âsdasds">
-                  Forgot password ?
+                  Quên mật khẩu
                 </a>
               </div>
             </div>
@@ -153,14 +171,13 @@ export default function SignIn() {
                 className="bg-black mt-5 w-full px-2 py-2 "
                 onClick={login}
               >
-                <span className="text-orange-600">Log in </span>
+                <span className="text-orange-600">Đăng nhập </span>
               </Button>
-              {/* register */}
             </Form.Item>
             <div className="login ">
-              <span className="text-gray-600">Not Registered Yet? </span>
+              <span className="text-gray-600">Bạn chưa có tài khoản  </span>
               <a onClick={signup} className="text-orange-600">
-                Create an account
+                Đăng ký
               </a>
             </div>
           </Form>

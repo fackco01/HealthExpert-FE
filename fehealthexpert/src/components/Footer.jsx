@@ -35,11 +35,11 @@ const Footer = () => {
             </div>
             {/* col 2 */}
             <div className="w-1/4 text-white space-y-2">
-              <p className="font-extrabold text-orange-400">Dịch vụ</p>
-              <p className="hover:text-[#FFA500]">• Gym</p>
-              <p className="hover:text-[#FFA500]">• Yoga</p>
-              <p className="hover:text-[#FFA500]">• Boxing</p>
-              <p className="hover:text-[#FFA500]">• Dance</p>
+              <a href=""><p className="font-extrabold text-orange-400">Dịch vụ</p></a>
+              <a href=""><p className="hover:text-[#FFA500]">• Gym</p></a>
+              <a href=""><p className="hover:text-[#FFA500]">• Yoga</p></a>
+              <a href="/yoga"><p className="hover:text-[#FFA500]">• Boxing</p></a>
+              <a href="/dance"><p className="hover:text-[#FFA500]">• Dance</p></a>
             </div>
             {/* col 3 */}
             <div className="w-1/4 text-white space-y-1">

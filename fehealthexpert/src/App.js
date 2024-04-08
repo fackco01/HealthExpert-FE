@@ -24,6 +24,8 @@ import EditProfile from "./page/User/edit_profile";
 import CreateCourse from "./page/Course/CreateCourse";
 import Bmi from './page/Services/bmi';
 import BmiCoursePage from "./page/Services/BmiCoursePage";
+import ViewCourseAdmin from "./page/Admin/ViewCourseAdmin";
+import ViewListLearner from "./page/Admin/ViewLearnerList";
 
 export default function App() {
   return (
@@ -50,6 +52,8 @@ export default function App() {
       <Route path="/createCourse" element={<CreateCourse />} />
       <Route exact path="/" component={Bmi} />
       <Route path="/displayByBmi" element={<BmiCoursePage />} />
+      <Route path="/viewCourseAdmin" element={<ViewCourseAdmin/>}/>
+      <Route path="/viewLearnerList" element={<ViewListLearner/>}/>
       {/* <Route path="blogs" element={<Blogs />} />
           <Route path="contact" element={<Contact />} />
         <Route path="*" element={<NoPage />} /> */}

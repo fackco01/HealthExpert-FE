@@ -3,6 +3,7 @@ import splash from '../../img/bg.png';
 import pfp from '../../img/pfp.png';
 import cover from '../../img/course_cover.png';
 import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 import {
   useNavigate
 } from "react-router-dom";
@@ -143,8 +144,8 @@ function YourProfile() {
               <div className="flex w-4/5">
                 <img src={cover} alt="" className="rounded object-scale-down w-48" />
                 <div className="">
-                  <p className='text-xl font-bold ml-8'>my COURSE???</p>
-                  <p className="text-ellipsis overflow-hidden line-clamp-4 ml-8 mr-5">my desc???</p>
+                  <p className='text-xl font-bold ml-8'>Course Name</p>
+                  <p className="text-ellipsis overflow-hidden line-clamp-4 ml-8 mr-5">Course Desc</p>
                 </div>
               </div>
               <div className="w-1/5 flex flex-col">
@@ -187,14 +188,7 @@ function YourProfile() {
           </div>
         </div>
       </div>
-      <div className="mt-auto">
-        <footer className="bg-white">
-          <br />
-          <hr />
-          <br />
-          <div>HealtExpert © 2024</div>
-        </footer>
-      </div>
+      <Footer />
       {/* FOOTER */}
     </>
 

@@ -8,6 +8,7 @@ import {
   useNavigate
 } from "react-router-dom";
 import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
 function YourProfile() {
 
 
@@ -20,6 +21,7 @@ function YourProfile() {
   const [birthDate, setBirthDate] = useState("");
   const [formattedDate, setFormattedDate] = useState("");
 
+  var customParseFormat = require('dayjs/plugin/customParseFormat')
   dayjs.extend(customParseFormat);
 
   const { RangePicker } = DatePicker;
@@ -210,15 +212,14 @@ function YourProfile() {
               </div>
               <div className="w-1/5 flex flex-col">
                 <button
-                  type="button"
+                  type="button" onClick={updateAccount}
                   className="m-auto text-black bg-orange-400 hover:bg-orange-800 border-2 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium w-28 py-1 text-center"
                 >
-                  Update
+                  Cập nhật
                 </button>
               </div>
               <br />
               <hr />
-              <button onClick={updateAccount} className="bg-orange-500 text-white py-2 px-4 rounded transition-opacity hover:bg-opacity-80 ml-4">Cập nhật</button>
             </div>
             <hr />
             <br />
@@ -240,28 +241,38 @@ function YourProfile() {
                   type="button"
                   className="m-auto text-black bg-orange-400 hover:bg-orange-800 border-2 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium w-28 py-1 text-center"
                 >
-                  Update
+                  Cập nhật
+                </button>
+              </div>
+            </div>
+            <hr />
+            <br />
+            {/* section for one course ends */}
+            {/* dummy data */}
+            <div className="flex px-2 ml-6 mb-7">
+              <img src={cover} alt="" className="rounded object-scale-down w-48" />
+              <div className="">
+                <p className='text-xl font-bold ml-8'>my COURSE???</p>
+                <p className="text-ellipsis overflow-hidden line-clamp-4 ml-8 mr-5">
+                  Pizza Hut was launched on May 31, 1958, by two brothers, Dan and Frank Carney, both Wichita State
+                  students, as a single location in Wichita, Kansas. Six months later they opened a second outlet, and
+                  within a year they were operating six locations.</p>
+              </div>
+              <div className="w-1/5 flex flex-col">
+                <button
+                  type="button"
+                  className="m-auto text-black bg-orange-400 hover:bg-orange-800 border-2 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium w-28 py-1 text-center"
+                >
+                  Cập nhật
                 </button>
               </div>
               <hr />
               <br />
-              {/* section for one course ends */}
-              {/* dummy data */}
-              <div className="flex px-2 ml-6 mb-7">
-                <img src={cover} alt="" className="rounded object-scale-down w-48" />
-                <div className="">
-                  <p className='text-xl font-bold ml-8'>my COURSE???</p>
-                  <p className="text-ellipsis overflow-hidden line-clamp-4 ml-8 mr-5">
-                    Pizza Hut was launched on May 31, 1958, by two brothers, Dan and Frank Carney, both Wichita State
-                    students, as a single location in Wichita, Kansas. Six months later they opened a second outlet, and
-                    within a year they were operating six locations.</p>
-                </div>
-              </div>
-              <hr />
-              <br />
-              <a onClick={navigateToRegistered} style={{ cursor: 'pointer' }} className="flex px-2 ml-6 hover:underline hover:text-blue-500">Danh sách các khóa học bạn đã đăng ký</a>
-              <br />
             </div>
+            <hr />
+            <br />
+            <a onClick={navigateToRegistered} style={{ cursor: 'pointer' }} className="flex px-2 ml-6 hover:underline hover:text-blue-500">Danh sách các khóa học bạn đã đăng ký</a>
+            <br />
           </div>
         </div>
       </div>

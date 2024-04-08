@@ -4,15 +4,16 @@ import { useState, useEffect } from 'react';
 
 import yogabackground from "../../img/yogabackground.jpg";
 import Header from "../../components/Header";
-import yoga1 from "../../img/yoga1.jpg";
+import dance1 from "../../img/yoga1.jpg";
 import yoga2 from "../../img/yoga2.jpg";
-import yoga3 from "../../img/yoga3.jpg";
-import yoga4 from "../../img/yoga4.jpg";
-import yoga5 from "../../img/yoga5.jpg";
-import yoga6 from "../../img/yoga6.jpg";
-import yoga7 from "../../img/yoga7.jpg";
-import yoga8 from "../../img/yoga8.jpg";
-import yoga9 from "../../img/yoga9.jpg";
+import dance2 from "../../img/yoga3.jpg";
+import dance3 from "../../img/yoga3.jpg";
+import dance4 from "../../img/yoga4.jpg";
+import dance5 from "../../img/yoga5.jpg";
+import dance6 from "../../img/yoga6.jpg";
+import dance7 from "../../img/yoga7.jpg";
+import dance8 from "../../img/yoga8.jpg";
+import dance9 from "../../img/yoga9.jpg";
 
 
 import danceackground from "../../img/dancebackground.jpg";

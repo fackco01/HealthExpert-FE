@@ -18,7 +18,7 @@ import DetailCourse from "../DescriptionCourse/DetailCourse";
 import { Link } from "react-router-dom";
 import Footer from "../../components/Footer";
 
-export default function Yoga() {
+export default function Dance() {
   // const dispatch = useDispatch();
   const [courses, setCourses] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -105,10 +105,10 @@ export default function Yoga() {
           </div>
         )}
       </section >
-      {/* <div className="mt-3">
+      <div className="mt-3">
         <Pagination className="text-center" defaultCurrent={1} total={50} />
-      </div> */}
-      {/* <div className="w-full mt-10">
+      </div>
+      <div className="w-full mt-10">
         <div className="flex justify-center mx-auto w-[70%] ">
           <div className="flex flex-col h-[450px] hover:shadow-md">
             <img className="w-[350px] h-[250px] " src={dance1} alt="" />
@@ -222,7 +222,7 @@ export default function Yoga() {
             </p>
           </div>
         </div>
-      </div> */}
+      </div>
     <Footer/>
     </>
   );

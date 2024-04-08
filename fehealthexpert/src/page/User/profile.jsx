@@ -7,8 +7,9 @@ import Footer from "../../components/Footer";
 import {
   useNavigate
 } from "react-router-dom";
-
+import { DatePicker } from 'antd';
 function YourProfile() {
+
 
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -17,7 +18,35 @@ function YourProfile() {
   const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
   const [birthDate, setBirthDate] = useState("");
-  const formattedDate = formatDate(birthDate);
+  const [formattedDate, setFormattedDate] = useState("");
+
+  dayjs.extend(customParseFormat);
+
+  const { RangePicker } = DatePicker;
+
+  const dateFormat = 'YYYY/MM/DD';
+  const weekFormat = 'MM/DD';
+  const monthFormat = 'YYYY/MM';
+
+  /** Manually entering any of the following formats will perform date parsing */
+  const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY', 'DD-MM-YYYY', 'DD-MM-YY'];
+
+  const customFormat: DatePickerProps['format'] = (value) =>
+    `custom format: ${value.format(dateFormat)}`;
+
+  const customWeekStartEndFormat: DatePickerProps['format'] = (value) =>
+    `${dayjs(value).startOf('week').format(weekFormat)} ~ ${dayjs(value)
+      .endOf('week')
+      .format(weekFormat)}`;
+
+
+  useEffect(() => {
+    // Check if user is logged in using your preferred method (e.g., checking local storage)
+    const username = localStorage.getItem("user");
+    if (username) {
+      getProfile(username);
+    }
+  }, []);
 
   const navigateToRegistered = () => {
     navigate('/registeredCourse');
@@ -43,12 +72,13 @@ function YourProfile() {
         if (Array.isArray(data)) {
           const foundUser = data.find(accountList => accountList.userName === username);
           if (foundUser) {
-            console.log(data);
+            localStorage.setItem("accountId", foundUser.accountId);
             setFullName(foundUser.fullName);
             setEmail(foundUser.email);
             setGender(foundUser.gender);
             setPhone(foundUser.phone);
-            setBirthDate(foundUser.birthDate);
+            setBirthDate(new Date(foundUser.birthDate));
+            setFormattedDate(formatDate(foundUser.birthDate));
             if (foundUser.gender) {
               setGender("Nam")
             } else {
@@ -67,13 +97,42 @@ function YourProfile() {
       });
   }
 
+  function updateAccount() {
+    const accountId = localStorage.getItem("accountId"); // Get the account ID from localStorage or any source you store it
+    const updateData = {
+      fullName: fullName,
+      email: email,
+      phone: phone,
+      gender: gender,
+      birthDate: birthDate
+    };
+
+    fetch(`http://20.2.73.15:8173/api/Account/UpdateAccount/${accountId}`, {
+      method: "PUT", // or "PATCH" depending on your API
+      headers: {
+        "Authorization": "Bearer YOUR_ACCESS_TOKEN",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(updateData)
+    })
+      .then(response => {
+        if (!response.ok) {
+          console.error(`Lỗi cập nhật dữ liệu!`);
+          alert("Lỗi cập nhật dữ liệu!");
+          throw new Error("Lỗi cập nhật dữ liệu!");
+        }
+        // Optionally, handle success response
+        console.log("Thông tin tài khoản đã được cập nhật!");
+      })
+      .catch(error => {
+        console.error("Lỗi cập nhật dữ liệu!", error);
+      });
+  }
+
   useEffect(() => {
-    // Check if user is logged in using your preferred method (e.g., checking local storage)
-    const username = localStorage.getItem("user");
-    if (username) {
-      getProfile(username);
-    }
-  }, []);
+    // Sau khi birthDate được cập nhật, định dạng lại ngày tháng và lưu vào state formattedDate
+    setFormattedDate(formatDate(birthDate));
+  }, [birthDate]);
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -87,6 +146,7 @@ function YourProfile() {
 
     return `${formattedDay}/${formattedMonth}/${year}`;
   }
+
 
   return (
     <>
@@ -156,6 +216,9 @@ function YourProfile() {
                   Update
                 </button>
               </div>
+              <br />
+              <hr />
+              <button onClick={updateAccount} className="bg-orange-500 text-white py-2 px-4 rounded transition-opacity hover:bg-opacity-80 ml-4">Cập nhật</button>
             </div>
             <hr />
             <br />
@@ -180,11 +243,25 @@ function YourProfile() {
                   Update
                 </button>
               </div>
+              <hr />
+              <br />
+              {/* section for one course ends */}
+              {/* dummy data */}
+              <div className="flex px-2 ml-6 mb-7">
+                <img src={cover} alt="" className="rounded object-scale-down w-48" />
+                <div className="">
+                  <p className='text-xl font-bold ml-8'>my COURSE???</p>
+                  <p className="text-ellipsis overflow-hidden line-clamp-4 ml-8 mr-5">
+                    Pizza Hut was launched on May 31, 1958, by two brothers, Dan and Frank Carney, both Wichita State
+                    students, as a single location in Wichita, Kansas. Six months later they opened a second outlet, and
+                    within a year they were operating six locations.</p>
+                </div>
+              </div>
+              <hr />
+              <br />
+              <a onClick={navigateToRegistered} style={{ cursor: 'pointer' }} className="flex px-2 ml-6 hover:underline hover:text-blue-500">Danh sách các khóa học bạn đã đăng ký</a>
+              <br />
             </div>
-            <hr />
-            <br />
-            <a onClick={navigateToRegistered} style={{ cursor: 'pointer' }} className="flex px-2 ml-6 hover:underline hover:text-blue-500">Danh sách các khóa học bạn đã đăng ký</a>
-            <br />
           </div>
         </div>
       </div>

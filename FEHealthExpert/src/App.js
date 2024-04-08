@@ -24,6 +24,10 @@ import Bmi from './page/Services/bmi';
 import BmiCoursePage from "./page/Services/BmiCoursePage";
 import ManageCourse from "./page/Manage_Admin/ManageCourse";
 import ManageSession from "./page/Manage_Admin/ManageSession";
+import ManageLesson from "./page/Manage_Admin/ManageLession";
+import ViewCourseAdmin from "./admin/ViewCourseAdmin";
+import ManageAllCourse from "./page/Manage_Admin/ManageAllCourse";
+
 
 
 export default function App() {
@@ -49,13 +53,17 @@ export default function App() {
       {/* <Route path="/createCourse" element={<CreateCourse />} /> */}
       <Route path="/displayByBmi" element={<BmiCoursePage />} />
       <Route path="/learningCourse/:id/:sessionId?/:lessonId?" element={<LearningCourse />} />
-      <Route path="/manageCourse" element={<ManageCourse />} />
+      <Route path="/manageCourse/:courseId" element={<ManageCourse />} />
+      <Route path="/manageCourse" element={<ManageAllCourse />} />
       <Route path="/manageSession" element={<ManageSession />} />
       <Route path="/manageSession/:id" element={<ManageSession />} />
+      <Route path="/manageLesson/:id" element={<ManageLesson />} />
       {/* <Route path="blogs" element={<Blogs />} />
           <Route path="contact" element={<Contact />} />
         <Route path="*" element={<NoPage />} /> */}
       {/* </Route> */}
+      <Route path="/admin" element={<ViewCourseAdmin />} />
+
     </Routes>
   );
 }

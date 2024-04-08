@@ -9,8 +9,12 @@ import {
   useNavigate
 } from "react-router-dom";
 import { DatePicker } from 'antd';
-function YourProfile() {
+import axios from "axios";
+import { Link } from "react-router-dom";
 
+function YourProfile() {
+  const [courses, setCourses] = useState([]);
+  const accountId = localStorage.getItem("accountId");
 
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -148,6 +152,33 @@ function YourProfile() {
     return `${formattedDay}/${formattedMonth}/${year}`;
   }
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Step 1: Call API to get list of courses based on accountId
+        const enrollmentsResponse = await axios.get(`http://20.2.73.15:8173/api/Course/enrollments`);
+        const enrollments = enrollmentsResponse.data;
+
+        const matchingCourse = enrollments.filter(course => course.accountId === accountId);
+        const matchingCourseId = matchingCourse.map(course => course.courseId);
+        //console.log(matchingCourseId);
+
+        // Step 2: Call API to get details of courses using the courseIds
+        const courseDetailsResponse = await axios.get(`http://20.2.73.15:8173/api/Course`);
+        const courseResponse = courseDetailsResponse.data;
+        const courseDetails = courseResponse.filter(course => matchingCourseId.includes(course.courseId));
+
+        setCourses(courseDetails);
+        console.log(courseDetails);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
+    };
+
+    if (accountId) {
+      fetchData();
+    }
+  }, [accountId]);
 
   return (
     <>
@@ -172,8 +203,8 @@ function YourProfile() {
           </div>
         </div>
         {/* two columns */}
-        <div className="flex flex-col"> {/* Sử dụng flex-direction: column */}
-          <div className="flex flex-auto border rounded shadow-2xl mb-4 mx-auto"> {/* Sử dụng flex-auto để cả 2 cột co giãn */}
+        <div className="flex flex-col w-full"> {/* Sử dụng flex-direction: column */}
+          <div className="flex flex-auto border rounded shadow-2xl mb-4 mx-auto w-full"> {/* Sử dụng flex-auto để cả 2 cột co giãn */}
             {/* left column: about */}
             <div className="flex-auto border rounded shadow-2xl w-3/12"> {/* Sử dụng w-3/12 để chia thành 3 phần */}
               <p className="ml-3 mt-3 font-bold">Giới thiệu</p>
@@ -192,7 +223,8 @@ function YourProfile() {
                   <option value="Nữ">Nữ</option>
                 </select>
                 <label className="block">Ngày sinh:</label>
-                <DatePicker defaultValue={dayjs(formattedDate, dateFormat)} selected={birthDate} onChange={date => setBirthDate(date)} className="border rounded px-2 py-1 mb-2" />
+                <input type="text" value={formattedDate} onChange={(e) => setBirthDate(e.target.value)} className="border rounded px-2 py-1 mb-2" />
+                {/* <DatePicker defaultValue={dayjs(formattedDate, dateFormat)} selected={birthDate} onChange={date => setBirthDate(date)} className="border rounded px-2 py-1 mb-2" /> */}
               </div>
               <br />
               <hr />
@@ -202,19 +234,30 @@ function YourProfile() {
             <div className="flex-auto border rounded shadow-2xl w-9/12"> {/* Sử dụng w-9/12 để chia thành 7 phần */}
               <p className="ml-3 mt-3 font-bold">Các khóa học đã tham gia</p>
               <br />
+              <ul>
+                {courses.map(course => (
+                  <li key={course.courseId}>
+                    <div className="flex px-2 ml-6 mb-7">
+                      <img src={cover} alt="" className="rounded object-scale-down w-48" />
+                      <div className="">
+                        <Link className="mt-3 ml-5"
+                          to={`/learningCourse/${course.courseId}`}>
+                          <h3 className=" text-xl font-bold ml-8">{course.courseName}</h3>
+                        </Link>
+
+                        <p className="text-ellipsis overflow-hidden line-clamp-4 ml-8 mr-5">{course.description}</p>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <br />
               {/* section for one course begins */}
-              <div className="flex px-2 ml-6 mb-7">
-                <img src={cover} alt="" className="rounded object-scale-down w-48" />
-                <div className="">
-                  <p className='text-xl font-bold ml-8'>my COURSE???</p>
-                  <p className="text-ellipsis overflow-hidden line-clamp-4 ml-8 mr-5">my desc???</p>
-                </div>
-              </div>
-              <hr />
+
               <br />
               {/* section for one course ends */}
               {/* dummy data */}
-              <div className="flex px-2 ml-6 mb-7">
+              {/* <div className="flex px-2 ml-6 mb-7">
                 <img src={cover} alt="" className="rounded object-scale-down w-48" />
                 <div className="">
                   <p className='text-xl font-bold ml-8'>my COURSE???</p>
@@ -223,7 +266,7 @@ function YourProfile() {
                     students, as a single location in Wichita, Kansas. Six months later they opened a second outlet, and
                     within a year they were operating six locations.</p>
                 </div>
-              </div>
+              </div> */}
               <hr />
               <br />
               <a onClick={navigateToRegistered} style={{ cursor: 'pointer' }} className="flex px-2 ml-6 hover:underline hover:text-blue-500">Danh sách các khóa học bạn đã đăng ký</a>

@@ -3,6 +3,7 @@ import Logo from "../img/logo.png";
 import Post from "./Post";
 import { useNavigate } from "react-router-dom";
 import { Avatar, Menu, Dropdown } from "antd";
+import { Button, Modal } from "antd";
 import {
   UserOutlined,
   SolutionOutlined,
@@ -11,32 +12,112 @@ import {
   PoweroffOutlined
 } from "@ant-design/icons";
 import Bmi from "../page/Services/bmi"
+import ModalCreatCourse from "./ModalCreatCourse";
 
 const Header = () => {
   const navigate = useNavigate()
   const [postOpen, setPostOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [checkRole, setCheckRole] = useState(false);
   const [showBmiForm, setShowBmiForm] = useState(false);
-  const [username, setUsername] = useState(""); // State to track whether user is logged in
+  const [username, setUsername] = useState("");
+  const [roleId, setRoleId] = useState(""); // State to track whether user is logged in
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const isUserLoggedIn = localStorage.getItem("user");
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
-    localStorage.removeItem("ProposeCourse");
-    // Check if user is logged in using your preferred method (e.g., checking local storage)
-    const isUserLoggedIn = localStorage.getItem("user");
+    //localStorage.removeItem("ProposeCourse");
 
-    if (isUserLoggedIn) {
+    fetch(`http://20.2.73.15:8173/api/Account/GetListAccount`, {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer YOUR_ACCESS_TOKEN",
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          console.error(`Lỗi load dữ liệu!`);
+          alert("Lỗi load dữ liệu!");
+          throw new Error("Lỗi load dữ liệu!");
+        }
+        return response.json();
+      })
+      .then(data => {
+
+        if (Array.isArray(data)) {
+          const foundUser = data.find(accountList => accountList.userName === isUserLoggedIn);
+          if (foundUser) {
+            localStorage.setItem("roleId", foundUser.roleId);
+          } else {
+            console.error("Lỗi load dữ liệu!");
+          }
+        } else {
+          console.error("Lỗi load dữ liệu!");
+        }
+      })
+      .catch(error => {
+        console.error("Lỗi load dữ liệu!", error);
+      })
+      .finally(() => {
+        setIsLoaded(true);
+      });
+
+    // Check if user is logged in using your preferred method (e.g., checking local storage)
+
+
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded && isUserLoggedIn) {
       setLoggedIn(true);
       console.log(localStorage.getItem("user"));
       setUsername(localStorage.getItem("user"));
+      const roleIdFromLocalStorage = localStorage.getItem("roleId");
+      setRoleId(roleIdFromLocalStorage);
+      if (roleIdFromLocalStorage && roleIdFromLocalStorage === "2") {
+        setCheckRole(true);
+      }
     }
-  }, []);
+    // if (!isReloaded) {
+    //   setIsReloaded(true);
+    //window.location.reload();
+    setIsLoaded(false);
+    // }
+  }, [isLoaded, isUserLoggedIn]);
+
+  // useEffect(() => {
+  //   if (checkRole === true && reloadNeeded === true) {
+  //     window.location.reload();
+  //     setReloadNeeded(false);
+  //   }
+  // }, [checkRole, reloadNeeded]);
+
+  // useEffect(() => {
+  //   if (reloadNeeded) {
+  //     window.location.reload();
+  //     setReloadNeeded(false); // Đảm bảo rằng reload chỉ xảy ra một lần
+  //   }
+  // }, [reloadNeeded]);
 
   // Function to handle logout
   const handleLogout = () => {
     // Perform logout logic here
     localStorage.removeItem("user"); // Assuming you set userName in localStorage during login
-    localStorage.removeItem("ProposeCourse");
+    localStorage.removeItem("currentCourse");
+    localStorage.removeItem("currentSession");
     localStorage.removeItem("accountId");
+    localStorage.removeItem("roleId");
     setLoggedIn(false);
     setUsername("");
     const route = '/home'; // Specify the desired route path
@@ -51,28 +132,41 @@ const Header = () => {
   function WidgetMenu(props) {
     return (
       <Menu {...props}>
-        <Menu.Item >
-
-          <a href="/profile">Trang Cá Nhân</a>
-        </Menu.Item>
+        {checkRole ? (
+          <>
+            <Menu.Item type="primary" onClick={showModal}>
+              Tạo khóa học
+              <Modal
+                open={isModalOpen}
+                onCancel={handleCancel}
+                okText="123456"
+                width={900}
+                footer={null}
+              >
+                <ModalCreatCourse />
+              </Modal>
+            </Menu.Item>
+            <Menu.Item>
+              <a href="/manageCourse">
+                Quản lý khóa học
+              </a>
+            </Menu.Item>
+          </>
+        ) : (
+          <Menu.Item>
+            <a href="/profile">Trang Cá Nhân</a>
+          </Menu.Item>
+        )}
         <Menu.Item>
           Đổi Mật Khẩu
         </Menu.Item>
         <Menu.Item>
           Đăng bài
         </Menu.Item>
-        <Menu.Item>
-          <a
-            onClick={toggleBmiForm}>
-            Tìm kiếm thông minh
-          </a>
-        </Menu.Item>
         <Menu.Item onClick={handleLogout}>
           Đăng xuất
         </Menu.Item>
-
       </Menu>
-
     );
   }
 
@@ -91,6 +185,7 @@ const Header = () => {
         <Menu.Item >
           <a href="/boxing">Boxing</a>
         </Menu.Item>
+
       </Menu>
     );
   }
@@ -151,15 +246,7 @@ const Header = () => {
           </li>
           <li className="max-lg:border-b max-lg:py-2 px-3">
             <a
-
-              className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
-            >
-              Lịch học
-            </a>
-          </li>
-          <li className="max-lg:border-b max-lg:py-2 px-3">
-            <a
-
+              href="#"
               className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
             >
               Tin tức
@@ -167,11 +254,21 @@ const Header = () => {
           </li>
           <li className="max-lg:border-b max-lg:py-2 px-3">
             <a
-
+              href="#"
               className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
             >
               Về chúng tôi
             </a>
+          </li>
+          <li className="max-lg:border-b max-lg:py-2 px-3">
+            <a
+              href="#"
+              onClick={toggleBmiForm}
+              className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
+            >
+              Tìm kiếm thông minh
+            </a>
+            {showBmiForm && <Bmi onClose={toggleBmiForm} />}
           </li>
         </ul>
         <div className="ml-auto flex mr-3">
@@ -182,29 +279,8 @@ const Header = () => {
                 <Dropdown overlay={<WidgetMenu />}>
                   <Avatar icon={<UserOutlined />} />
                 </Dropdown>
-                {showBmiForm && <Bmi onClose={toggleBmiForm} />}
               </div>
-
-              // <div>
-              //   
-              //   <button
-              //     className="bg-orange-500 text-white py-2 px-4 rounded transition-opacity hover:bg-opacity-80 mr-1"
-              //     onClick={handleLogout}
-              //   >
-              //     Logout
-              //   </button>
-              //   <a>
-              //     {" "}
-              //     <button className="bg-orange-500 text-white py-2 px-4 rounded transition-opacity hover:bg-opacity-80 ml-4"
-              //       onClick={() => setPostOpen(true)}>
-              //       Post
-              //     </button>
-              //     {postOpen && <Post onClose={() => setPostOpen(false)} />}
-              //   </a>
-              // </div>
-
               :
-
               <div>
                 <a href="/signin">
                   {" "}

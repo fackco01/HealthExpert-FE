@@ -108,7 +108,7 @@ export default function Dance() {
       <div className="mt-3">
         <Pagination className="text-center" defaultCurrent={1} total={50} />
       </div>
-      <div className="w-full mt-10">
+      {/* <div className="w-full mt-10">
         <div className="flex justify-center mx-auto w-[70%] ">
           <div className="flex flex-col h-[450px] hover:shadow-md">
             <img className="w-[350px] h-[250px] " src={dance1} alt="" />
@@ -222,7 +222,7 @@ export default function Dance() {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
     <Footer/>
     </>
   );

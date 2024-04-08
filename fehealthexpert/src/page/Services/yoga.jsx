@@ -62,10 +62,14 @@ export default function yoga() {
                     BASIC YOGA
                   </a>
                 </h3>
-                <p className="mt-3 text-[14px] max-w-[70%]">
+                <p className="mt-3 text-[14px] max-w-[70%] text-ellipsis overflow-hidden line-clamp-[8]">
                   Đây là lớp học căn bản dành cho những người mới bắt đầu. Các
                   lớp học Basic tạo tiền đề vững chắc để bạn theo đuổi những lớp
-                  học chuyên sâu về sau
+                  học chuyên sâu về sau. Đây là lớp học căn bản dành cho những người mới bắt đầu. Các
+                  lớp học Basic tạo tiền đề vững chắc để bạn theo đuổi những lớp
+                  học chuyên sâu về sau. Đây là lớp học căn bản dành cho những người mới bắt đầu. Các
+                  lớp học Basic tạo tiền đề vững chắc để bạn theo đuổi những lớp
+                  học chuyên sâu về sau.
                 </p>
               </div>
             </div>
@@ -84,7 +88,7 @@ export default function yoga() {
                     FLOW YOGA
                   </a>
                 </h3>
-                <p className="mt-3 text-[14px] max-w-[70%]">
+                <p className="mt-3 text-[14px] max-w-[70%] text-ellipsis overflow-hidden line-clamp-[8]">
                   Hình thức Yoga đòi hỏi sự di chuyển uyển chuyển của các tư thế
                   trong quá trình luyện tập. Flow Yoga là những bài tập hướng
                   nhiều hơn về tinh thần
@@ -106,7 +110,7 @@ export default function yoga() {
                     STICK YOGA
                   </a>
                 </h3>
-                <p className="mt-3 text-[14px] max-w-[70%]">
+                <p className="mt-3 text-[14px] max-w-[70%] text-ellipsis overflow-hidden line-clamp-[8]">
                   Những bài tập với gậy giúp rèn luyện thể chất. Cơ thể người
                   tập sẽ được kéo giãn. Những bài tập có công dụng hiệu quả
                   trong điều trị và phục hồi tủy sống
@@ -127,7 +131,7 @@ export default function yoga() {
                     HATHA YOGA
                   </a>
                 </h3>
-                <p className="mt-3 text-[14px] max-w-[70%]">
+                <p className="mt-3 text-[14px] max-w-[70%] text-ellipsis overflow-hidden line-clamp-[8]">
                   Hatha Yoga là những bài tập sử dụng tư thế, kỹ thuật thở và
                   thiền nhằm đem đến cho người tập một cơ thể khỏe mạnh, tâm hồn
                   thanh thản và an yên
@@ -149,7 +153,7 @@ export default function yoga() {
                     CORE YOGA
                   </a>
                 </h3>
-                <p className="mt-3 text-[14px] max-w-[70%]">
+                <p className="mt-3 text-[14px] max-w-[70%] text-ellipsis overflow-hidden line-clamp-[8]">
                   Những bài tập hướng tập trung vào phần bụng, lưng, vai và
                   hông. Core Yoga tăng cường sức khỏe và linh hoạt cho cơ thể,
                   tâm trí và tinh thần
@@ -171,7 +175,7 @@ export default function yoga() {
                     WHEEL YOGA
                   </a>
                 </h3>
-                <p className="mt-3 text-[14px] max-w-[70%]">
+                <p className="mt-3 text-[14px] max-w-[70%] text-ellipsis overflow-hidden line-clamp-[8]">
                   Loại hình Yoga tập trung vào những động tác vặn xoay mình đem
                   lại sự dẻo dai và linh hoạt cho cơ thể. Các tư thế giúp cột
                   sống hoạt động tốt hơn
@@ -192,7 +196,7 @@ export default function yoga() {
                     GENTLE YOGA
                   </a>
                 </h3>
-                <p className="mt-3 text-[14px] max-w-[70%]">
+                <p className="mt-3 text-[14px] max-w-[70%] text-ellipsis overflow-hidden line-clamp-[8]">
                   Những bài tập nhẹ nhàng và dễ dàng thực hiện. Các bài Gentle
                   Yoga thích hợp với người mới bắt đầu tập luyện, chúng tốt cho
                   hệ thống cơ và khớp
@@ -213,7 +217,7 @@ export default function yoga() {
                     HIP OPENING
                   </a>
                 </h3>
-                <p className="mt-3 text-[14px] max-w-[70%]">
+                <p className="mt-3 text-[14px] max-w-[70%] text-ellipsis overflow-hidden line-clamp-[8]">
                   Chuỗi các bài tập luyện nhằm hướng tới sự phát triển ở vùng
                   hông. Những bài tập này tập trung kéo căng các cơ vùng xương
                   chậu và hông của bạn
@@ -234,7 +238,7 @@ export default function yoga() {
                     TWISTING YOGA
                   </a>
                 </h3>
-                <p className="mt-3 text-[14px] max-w-[70%]">
+                <p className="mt-3 text-[14px] max-w-[70%] text-ellipsis overflow-hidden line-clamp-[8]">
                   Loại hình Yoga tập trung vào những động tác vặn xoay mình đem
                   lại sự dẻo dai và linh hoạt cho cơ thể. Các tư thế giúp cột
                   sống hoạt động tốt hơn

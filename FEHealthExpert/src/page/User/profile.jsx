@@ -160,13 +160,13 @@ function YourProfile() {
         const enrollments = enrollmentsResponse.data;
 
         const matchingCourse = enrollments.filter(course => course.accountId === accountId);
-        const matchingCourseId = matchingCourse.map(course => course.courseId);
+        const matchingCourseId = matchingCourse.map(course => course.courseId.toLowerCase());
         //console.log(matchingCourseId);
 
         // Step 2: Call API to get details of courses using the courseIds
         const courseDetailsResponse = await axios.get(`http://20.2.73.15:8173/api/Course`);
         const courseResponse = courseDetailsResponse.data;
-        const courseDetails = courseResponse.filter(course => matchingCourseId.includes(course.courseId));
+        const courseDetails = courseResponse.filter(course => matchingCourseId.includes(course.courseId.toLowerCase()));
 
         setCourses(courseDetails);
         console.log(courseDetails);

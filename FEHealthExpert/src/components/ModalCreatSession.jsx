@@ -120,7 +120,7 @@ const ModalCreatSession = () => {
                 onChange={(e) => setDecription(e.target.value)}
                 className="w-[300px]"
                 rows={4}
-                placeholder="Hãy viết vài dòng mô tả bài học của bạn nhé"
+                placeholder="Hãy viết mô tả buổi học của bạn nhé"
                 maxLength={255}
               />
             </>

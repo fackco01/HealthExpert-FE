@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Menuleft from "../../components/MenuLeft";
+import Header from "../../components/Header";
 import { Table, Modal, Button } from "antd";
 import ModalCreatCourse from "../../components/ModalCreatCourse";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import ModalDeleteCourse from "../../components/ModalDeleteCourse";
+import UpdateCourse from "../../components/ModalUpdateCourse";
+import { Link } from "react-router-dom";
 
 export default function ManageAllCourse() {
     const [courses, setCourses] = useState([]);
@@ -11,21 +15,53 @@ export default function ManageAllCourse() {
     const [centerName, setCenterName] = useState('');
     const [revenue, setRevenue] = useState(0); // Thêm state để lưu tổng doanh thu
     const navigate = useNavigate(); // Sử dụng useHistory
+    const [selectedCourseId, setSelectedCourseId] = useState(null);
+    const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+    const [isUpdateMode, setIsUpdateMode] = useState(false);
+    const user = localStorage.getItem("user");
 
     useEffect(() => {
-        const user = localStorage.getItem("user");
+
         if (!user) {
             console.error("Không có người dùng trong localStorage!");
             return;
         }
-        setCenterName(user);
+        fetch(`http://20.2.73.15:8173/api/Account/GetListAccount`, {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer YOUR_ACCESS_TOKEN",
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    console.error(`Lỗi load dữ liệu!`);
+                    alert("Lỗi load dữ liệu!");
+                    throw new Error("Lỗi load dữ liệu!");
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (Array.isArray(data)) {
+                    const foundUser = data.find(accountList => accountList.userName === user);
+                    if (foundUser) {
+                        setCenterName(foundUser.fullName);
+                    } else {
+                        console.error("Lỗi load dữ liệu!");
+                    }
+                } else {
+                    console.error("Lỗi load dữ liệu!");
+                }
+            })
+            .catch(error => {
+                console.error("Lỗi load dữ liệu!", error);
+            });
     }, []);
 
     useEffect(() => {
         const fetchCourses = async () => {
             try {
                 const response = await axios.get(`http://20.2.73.15:8173/api/Course/`);
-                const filteredCourses = response.data.filter(data => data.createBy === centerName);
+                const filteredCourses = response.data.filter(data => data.createBy === user);
                 setCourses(filteredCourses);
             } catch (error) {
                 console.error("Error fetching courses: ", error);
@@ -54,6 +90,9 @@ export default function ManageAllCourse() {
             title: "ID",
             dataIndex: "courseId",
             key: "courseId",
+            render: (text, record) => (
+                <a onClick={() => navigate(`/manageCourse/${record.courseId}`)}>{record.courseId}</a>
+            ),
         },
         {
             title: "Tên khóa học",
@@ -81,6 +120,40 @@ export default function ManageAllCourse() {
             dataIndex: "description",
             key: "description",
         },
+        {
+            title: "Thao tác",
+            dataIndex: "name",
+            render: (_, record) => (
+                <div className="flex">
+                    <button
+                        type="primary"
+                        onClick={() => {
+                            setSelectedCourseId(record.courseId);
+                            setIsModalDeleteOpen(true);
+                        }}
+                        className="bg-orange-400 w-[100px] py-1 rounded-xl "
+                    >
+                        Xóa
+                    </button>
+                    <ModalDeleteCourse
+                        courseId={selectedCourseId}
+                        onDelete={handleDelete}
+                        isModalOpen={isModalDeleteOpen}
+                        setIsModalOpen={setIsModalDeleteOpen}
+                    />
+                    <div className="bg-orange-400 w-[100px] py-1 rounded-xl ml-10">
+                        <Link
+
+                            to={`/manageCourse/update/${record.courseId}`}
+                        >
+                            &nbsp;&nbsp;&nbsp;Chỉnh sửa&nbsp;&nbsp;&nbsp;
+                        </Link>
+                    </div>
+
+                </div>
+            ),
+            width: "30%",
+        },
     ];
 
     const showModal = () => {
@@ -90,21 +163,35 @@ export default function ManageAllCourse() {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
-
+    const handleDelete = async (deletedCourseId) => {
+        try {
+            await axios.delete(`http://20.2.73.15:8173/api/course/${deletedCourseId}`);
+            setCourses(prevCourses => prevCourses.filter(course => course.courseId !== deletedCourseId));
+        } catch (error) {
+            console.error("Error deleting course: ", error);
+        } finally {
+            setIsModalDeleteOpen(false);
+            navigate('/admin/course', { replace: true }); // Điều hướng sau khi xóa
+        }
+    };
     return (
         <>
+            <div className="w-full" >
+                <Header />
+            </div>
             <div className="w-full flex">
-                <div className="w-[20%] h-full">
+                {/* Side bar */}
+                <div className="w-[20%]">
                     <div className="home-page">
                         <Menuleft />
                     </div>
                 </div>
                 <div className="w-[80%] mt-3">
-                    <h2 className="font-bold text-2xl">WELCOME {centerName}</h2>
+                    <h2 className="font-bold text-2xl">Trung tâm {centerName}</h2>
                     <Button
                         type="primary"
                         onClick={showModal}
-                        className="w-[250px] mr-[90px] rounded-md bottom-1 right-3 bg-orange-400 text-black font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3"
+                        className="flex justify-center items-center w-[250px] mr-[90px] rounded-md bottom-1 right-3 bg-orange-400 text-black font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3"
                     >
                         Tạo khóa học
                     </Button>
@@ -117,7 +204,7 @@ export default function ManageAllCourse() {
                     >
                         <ModalCreatCourse />
                     </Modal>
-                    <div className="absolute top-0 right-0">
+                    <div className="absolute top-20 right-0">
                         <p className="box w-[250px] mr-[90px] rounded-md bg-orange-400 text-black font-bold py-3 px-4 rounded opacity-100 transition-opacity mt-3">
                             Tổng doanh thu của bạn: {formattedRevenue}
                         </p>
@@ -127,9 +214,7 @@ export default function ManageAllCourse() {
                             columns={columns}
                             dataSource={courses}
                             rowKey={(record) => record.courseId}
-                            onRow={(record) => ({
-                                onClick: () => navigate(`/manageCourse/${record.courseId}`),
-                            })}
+
                         />
                     </div>
                 </div>

@@ -9,10 +9,10 @@ const ModalCreatCourse = () => {
     courseId: '',
     courseName: '',
     price: '',
-    rating: '',
+    rating: 5,
     description: '',
-    studentNumber: '',
-    certificate: '',
+    studentNumber: 0,
+    certificate: 'Chứng chỉ của trung tâm',
     createBy: localStorage.getItem("user"),
     dateUpdate: new Date(),
     language: '',
@@ -86,12 +86,12 @@ const ModalCreatCourse = () => {
             <Input type="text" name="typeId" value={course.typeId} onChange={handleChange} className="w-[300px] py-2" />
           </Form.Item>
 
-          <div className="mb-2">
+          {/* <div className="mb-2">
             <p>Chứng chỉ</p>
           </div>
           <Form.Item name="Chứng chỉ">
             <Input type="text" name="certificate" value={course.certificate} onChange={handleChange} className="w-[300px] py-2" />
-          </Form.Item>
+          </Form.Item> */}
 
           <div className="mb-2">
             <p>Người tạo: {course.createBy}</p>
@@ -113,12 +113,12 @@ const ModalCreatCourse = () => {
             <Input type="text" name="courseName" value={course.courseName} onChange={handleChange} className="w-[300px] py-2" />
           </Form.Item>
 
-          <div className="mb-2">
+          {/* <div className="mb-2">
             <p>Rating</p>
           </div>
           <Form.Item name="Rating">
             <Input type="text" name="rating" value={course.rating} onChange={handleChange} className="w-[300px] py-2" />
-          </Form.Item>
+          </Form.Item> */}
 
           <div className="mb-2">
             <p>Chỉ số BMI</p>
@@ -129,12 +129,12 @@ const ModalCreatCourse = () => {
             <Input type="number" name="bmiMax" value={course.bmiMax} onChange={handleChange} className="w-[150px] w-1/2 py-2" />
           </Form.Item>
 
-          <div className="mb-2">
+          {/* <div className="mb-2">
             <p>Số lượng học viên</p>
           </div>
           <Form.Item name="Số lượng học viên">
             <Input type="number" name="studentNumber" value={course.studentNumber} onChange={handleChange} className="w-[300px] py-2" />
-          </Form.Item>
+          </Form.Item> */}
 
           <div className="mb-2">
             <p>Ngôn ngữ</p>
@@ -152,7 +152,7 @@ const ModalCreatCourse = () => {
       <Button
         type="primary"
         htmlType="submit"
-        className="w-[250px] mr-[90px] rounded-md absolute bottom-1 right-3 bg-black hover:bg-blue-600 text-white font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3"
+        className="w-[250px] mr-[90px] rounded-md absolute bottom-20 right-3 bg-black hover:bg-blue-600 text-white font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3 flex justify-center items-center"
         onClick={handleSubmit}
       >
         Tạo khóa học

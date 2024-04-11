@@ -12,6 +12,10 @@ export default function SignIn() {
   const history = useNavigate();
 
   async function login() {
+    if (!userName || !password) {
+      alert("Hãy nhập đầy đủ thông tin của bạn");
+      return;
+    }
     let item = { userName, password };
     try {
       let response = await fetch('http://20.2.73.15:8173/api/Auth/Login', {
@@ -24,7 +28,7 @@ export default function SignIn() {
 
       if (!response.ok) {
         const errorMessage = await response.text();
-        console.error(`Error: ${errorMessage}`);
+        console.log(`Error: ${errorMessage}`);
         alert(errorMessage);
         if (errorMessage === 'Please verify your account!!!') {
           history("/verify");
@@ -33,10 +37,10 @@ export default function SignIn() {
         localStorage.setItem("user", item.userName);
         getRoleIdByUsername(userName); // Lấy roleId sau khi đăng nhập thành công
       }
-
       const responseData = await response.text();
       console.log(responseData);
     } catch (error) {
+
       console.error('Error during login:', error);
     }
   }
@@ -63,7 +67,7 @@ export default function SignIn() {
 
         // Redirect tới trang tương ứng dựa vào roleId
         if (roleId === 1) {
-          history("/admin");
+          history("/admin/courseAdmin");
         } else {
           history("/home");
         }
@@ -79,7 +83,13 @@ export default function SignIn() {
   function signup() {
     history("/signup");
   }
+  function forgotPassword() {
+    history("/forgotPassword");
+  }
 
+  function registerCourseAdmin() {
+    history("/registerCourseAdmin");
+  }
   return (
     <section className="h-screen">
       <div className="h-full flex items-center justify-center">
@@ -174,15 +184,29 @@ export default function SignIn() {
                 <span className="text-orange-600">Đăng nhập </span>
               </Button>
             </Form.Item>
-            <div className="login ">
+            <div className="register ">
               <span className="text-gray-600">Bạn chưa có tài khoản  </span>
               <a onClick={signup} className="text-orange-600">
                 Đăng ký
               </a>
             </div>
+            <div className="register ">
+              <a onClick={forgotPassword} className="text-orange-600">
+                Quên mật khẩu
+              </a>
+            </div>
+            <Form.Item>
+              <Button
+                type="primary"
+                className="bg-black mt-5 w-full px-2 py-2 "
+                onClick={registerCourseAdmin}
+              >
+                <span className="text-orange-600">Trở thành trung tâm</span>
+              </Button>
+            </Form.Item>
           </Form>
         </div>
       </div>
-    </section>
+    </section >
   );
 }

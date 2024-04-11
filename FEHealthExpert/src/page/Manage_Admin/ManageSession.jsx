@@ -5,17 +5,35 @@ import { Table } from "antd";
 import { MinusCircleOutlined, SyncOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
 import { Space, Tag } from "antd";
-import ModalDelete from "../../components/ModalDelete";
+import Header from "../../components/Header";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import ModalCreatSession from "../../components/ModalCreatSession";
+import ModalDeleteSession from "./ModelDeleteSession";
+import { useNavigate } from "react-router-dom";
+
 export default function ManageSession() {
   const [sessions, setSessions] = useState([]);
   const { id } = useParams();
-
+  const [selectedSessionId, setSelectedSessionId] = useState(null);
   localStorage.setItem("currentCourse", id)
+  const navigate = useNavigate();
   //console.log("session", sessions);
+
+  const [courseName, setCourseName] = useState('');
+  useEffect(() => {
+    const fetchCourse = async () => {
+      try {
+        const response = await axios.get(`http://20.2.73.15:8173/api/Course/${id}`);
+        setCourseName(response.data.courseName);
+      } catch (error) {
+        console.error("Error fetching course details: ", error);
+      }
+    };
+    fetchCourse();
+  }, [id]);
+
   const fetchCourse = async () => {
     try {
       const sessionResponse = await axios.get("http://20.2.73.15:8173/api/Session/GetSessions");
@@ -48,119 +66,50 @@ export default function ManageSession() {
     {
       title: "Tên buổi học",
       dataIndex: "sessionName",
-      filters: [
-        {
-          text: "Jim Green	",
-          value: "Jim Green",
-        },
-        {
-          text: "Jim Green	",
-          value: "Jim Green",
-        },
-        {
-          text: "Jim Green	",
-          value: "Jim Green",
-        },
-        {
-          text: "Jim Green	",
-          value: "Jim Green",
-        },
-        {
-          text: "Jim Green	",
-          value: "Jim Green",
-        },
-      ],
-      filterMode: "tree",
-      filterSearch: true,
-      onFilter: (value, record) => record.name.includes(value),
-      width: "10%",
-
     },
-
     {
       title: "Trạng thái",
-      dataIndex: "learnProgress",
-      render: (_, record) => (
-        <Space size="middle">
-          <Tag icon={<SyncOutlined spin />} color="processing">
-            Đang học
-          </Tag>
-
-          <Tag icon={<MinusCircleOutlined />} color="red">
-            Đã xóa
-          </Tag>
-        </Space>
-      ),
-      filters: [
-        {
-          text: "London",
-          value: "London",
-        },
-        {
-          text: "New York",
-          value: "New York",
-        },
-      ],
-      onFilter: (value, record) => record.address.startsWith(value),
-      filterSearch: true,
-      width: "30%",
+      dataIndex: "description",
     },
     {
       title: "Thao tác",
-      dataIndex: "name",
       render: (_, record) => (
-        <Space size="middle">
+        <div className="flex">
           <button
             type="primary"
-            onClick={showModalDelete}
-            className="bg-orange-400  w-[50px] py-1 rounded-xl "
+            onClick={() => {
+              setSelectedSessionId(record.sessionId);
+              setIsModalDeleteOpen(true);
+            }}
+            className="bg-orange-400 w-[100px] py-1 rounded-xl "
           >
             Xóa
           </button>
-          <ModalDelete onDelete={handleDelete} />
-          <button className="bg-orange-400  w-[100px] py-1 rounded-xl">
-            Chỉnh sửa
-          </button>
-          {/* <button className="bg-orange-400  w-[100px] py-1 rounded-xl">
+          <ModalDeleteSession
+            sessionId={selectedSessionId}
+            onDelete={handleDelete}
+            isModalOpen={isModalDeleteOpen}
+            setIsModalOpen={setIsModalDeleteOpen}
+          />
+          <div className="bg-orange-400 w-[100px] py-1 rounded-xl ml-10">
             <Link
-              to={``}>
-              <h3 className="">Quản lý</h3>
+              to={`/updateSession/${record.sessionId}`}
+            >
+              &nbsp;&nbsp;&nbsp;Chỉnh sửa&nbsp;&nbsp;&nbsp;
             </Link>
-          </button> */}
-        </Space>
+          </div>
+
+        </div>
       ),
-      filterMode: "tree",
-      filterSearch: true,
-      onFilter: (value, record) => record.name.includes(value),
       width: "30%",
     },
   ];
-  const data = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sydney No. 1 Lake Park",
-    },
-    {
-      key: "4",
-      name: "Jim Red",
-      age: 32,
-      address: "London No. 2 Lake Park",
-    },
-  ];
+  const handleDelete = async (deletedSessionId) => {
+
+    setIsModalDeleteOpen(false);
+    navigate(`/manageSession/${id}`, { replace: true }); // Điều hướng sau khi xóa
+
+  };
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
   };
@@ -184,30 +133,11 @@ export default function ManageSession() {
     setIsModalDeleteOpen(false);
   };
 
-  const handleDelete = () => {
-    const api = "http://20.2.73.15:8173/api/Session/DeleteSession/:id"
-    fetch(api.replace(":id", sessions.sessionId), {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          // Xử lý khi xóa thành công
-          console.log("Bài học đã được xóa thành công");
-        } else {
-          // Xử lý khi có lỗi xảy ra
-          console.error("Đã xảy ra lỗi khi xóa bài học");
-        }
-      })
-      .catch((error) => {
-        console.error("Đã xảy ra lỗi khi xóa bài học:", error);
-      });
-  };
-
   return (
     <>
+      <div className="w-full" >
+        <Header />
+      </div>
       <div className="w-full flex ">
         <div className="w-[20%] h-full ">
           <div className="home-page">
@@ -215,7 +145,7 @@ export default function ManageSession() {
           </div>
         </div>
         <div className="w-[80%] mt-3">
-          <h2 className="font-bold text-2xl">Trung tâm Trần Nhật Hoàng</h2>
+          <h2 className="font-bold text-2xl">Khóa học {courseName}</h2>
           <button
             type="primary"
             onClick={showModalCreate}
@@ -235,7 +165,7 @@ export default function ManageSession() {
           >
             <ModalCreatSession />
           </Modal>
-          <Modal
+          {/* <Modal
             style={{ top: 150 }}
             open={isModalDeleteOpen}
             onCancel={handleCancelDelete}
@@ -257,8 +187,8 @@ export default function ManageSession() {
                 OK
               </button>
             </div>
-            <ModalDelete onDelete={handleDelete} />;
-          </Modal>
+
+          </Modal> */}
           <div className="mt-10">
             <h1>
               <Table

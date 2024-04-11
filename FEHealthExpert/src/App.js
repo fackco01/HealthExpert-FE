@@ -25,9 +25,24 @@ import BmiCoursePage from "./page/Services/BmiCoursePage";
 import ManageCourse from "./page/Manage_Admin/ManageCourse";
 import ManageSession from "./page/Manage_Admin/ManageSession";
 import ManageLesson from "./page/Manage_Admin/ManageLession";
-import ViewCourseAdmin from "./admin/ViewCourseAdmin";
 import ManageAllCourse from "./page/Manage_Admin/ManageAllCourse";
-
+import ManageCourseAdmin from "./admin/ManageCourseAdmin";
+import ManageCourseManager from "./admin/ManageCourseManager";
+import ManageLearner from "./admin/ManagerLearner";
+import AdminProfile from "./admin/AdminProfile";
+import ManageCourseByAdmin from "./admin/ManageCoursesByAdmin";
+import ManageCourseDetail from "./admin/ManageCourseDetail";
+import ManagePostByAdmin from "./admin/ManagePostByAdmin";
+import UpdateCourse from "./components/ModalUpdateCourse";
+import UpdateAccount from "./components/ModelUpdateAccount";
+import ManageBillByAdmin from "./admin/ManageBills";
+import ManageOrderByIdByAdmin from "./admin/ManageOrderById";
+import ResetPassword from "./page/Auth/ResetPassword";
+import Forgotpassword from "./page/Auth/ForgotPassword";
+import SignUpCourseAdmin from "./page/Auth/RegisterCourseAdmin";
+import CourseAdminUpdateCourse from "./page/Manage_Admin/CourseAdminUpdateCourse";
+import UpdateSession from "./page/Manage_Admin/ModelUpdateSession";
+import CourseAdminManageCourse from "./page/Manage_Admin/CourseAdminManageCourse";
 
 
 export default function App() {
@@ -44,6 +59,8 @@ export default function App() {
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/verify" element={<Verify />} />
+      <Route path="/forgotPassword" element={<Forgotpassword />} />
+      <Route path="/registerCourseAdmin" element={<SignUpCourseAdmin />} />
       <Route path="/learningCourse" element={<LearningCourse />} />
       <Route path="/detailCourse/:id" element={<DetailCourse />} />
       <Route path="/tranformation" element={<Tranformation />} />
@@ -55,15 +72,28 @@ export default function App() {
       <Route path="/learningCourse/:id/:sessionId?/:lessonId?" element={<LearningCourse />} />
       <Route path="/manageCourse/:courseId" element={<ManageCourse />} />
       <Route path="/manageCourse" element={<ManageAllCourse />} />
+      <Route path="/manageCourse/update/:courseId" element={<CourseAdminUpdateCourse />} />
       <Route path="/manageSession" element={<ManageSession />} />
       <Route path="/manageSession/:id" element={<ManageSession />} />
+      <Route path="/updateSession/:id" element={<UpdateSession />} />
       <Route path="/manageLesson/:id" element={<ManageLesson />} />
+      <Route path="/manageManager/:courses" element={<CourseAdminManageCourse />} />
       {/* <Route path="blogs" element={<Blogs />} />
           <Route path="contact" element={<Contact />} />
         <Route path="*" element={<NoPage />} /> */}
       {/* </Route> */}
-      <Route path="/admin" element={<ViewCourseAdmin />} />
-
+      <Route path="/admin/courseAdmin" element={<ManageCourseAdmin />} />
+      <Route path="/admin/courseManager" element={<ManageCourseManager />} />
+      <Route path="/admin/courseLearner" element={<ManageLearner />} />
+      <Route path="/admin/profile" element={<AdminProfile />} />
+      <Route path="/admin/post" element={<ManagePostByAdmin />} />
+      <Route path="/admin/course" element={<ManageCourseByAdmin />} />
+      <Route path="/admin/bill" element={<ManageBillByAdmin />} />
+      <Route path="/admin/course/:courseId" element={<ManageCourseDetail />} />
+      <Route path="/admin/course/update/:courseId" element={<UpdateCourse />} />
+      <Route path="/admin/account/update/:accountId" element={<UpdateAccount />} />
+      <Route path="/admin/manageOrder/:orderId" element={<ManageOrderByIdByAdmin />} />
+      <Route path="/admin/resetPassword" element={<ResetPassword />} />
     </Routes>
   );
 }

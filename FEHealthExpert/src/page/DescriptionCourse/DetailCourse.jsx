@@ -16,7 +16,7 @@ export default function DetailCourse() {
   const { id = "" } = useParams();
   const [accountId, setAccountId] = useState(null);
   //const formattedDate = formatDate(course.dateUpdate);
-
+  const courseIdLower = id.toLowerCase();
   const api = "http://20.2.73.15:8173/api/Course/:id";
   useEffect(() => {
     const fetchCourse = async () => {
@@ -75,24 +75,32 @@ export default function DetailCourse() {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const orderRes = await axios.get(`http://20.2.73.15:8173/api/order/getorders`);
-        const matchingOrder = orderRes.data.find(order =>
-          order.accountId === accountId && order.courseId === id
-        );
+        // const orderRes = await axios.get(`http://20.2.73.15:8173/api/order/getorders`);
+        // const matchingOrder = orderRes.data.find(order =>
+        //   order.accountId === accountId && order.courseId.toLowerCase() === courseIdLower
+        // );
+        // const 
+        // if (matchingOrder) {
+        //   const billRes = await axios.get(`http://20.2.73.15:8173/api/Bill/getbills`);
+        //   const matchingBill = billRes.data.find(item =>
+        //     item.accountId === matchingOrder.accountId && item.orderId === matchingOrder.orderId
+        //   );
+        //   if (matchingBill) {
+        //     setPaid(true);
+        //   } else {
+        //     setPaid(false);
+        //   }
+        // } else {
+        //   setPaid(false);
+        // }
+        const enrollmentsResponse = await axios.get(`http://20.2.73.15:8173/api/Course/enrollments`);
+        const matchingEnroll = enrollmentsResponse.data.find(item => item.accountId === accountId && item.courseId === id);
+        if (matchingEnroll) {
+          setPaid(true);
 
-        if (matchingOrder) {
-          const billRes = await axios.get(`http://20.2.73.15:8173/api/Bill/getbills`);
-          const matchingBill = billRes.data.find(item =>
-            item.accountId === matchingOrder.accountId && item.orderId === matchingOrder.orderId
-          );
-
-          if (matchingBill) {
-            setPaid(true);
-          } else {
-            setPaid(false);
-          }
         } else {
           setPaid(false);
+
         }
       } catch (error) {
         console.error("Error fetching order/bill:", error);

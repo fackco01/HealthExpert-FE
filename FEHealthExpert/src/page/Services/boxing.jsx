@@ -23,96 +23,96 @@ import DetailCourse from "../DescriptionCourse/DetailCourse";
 import { Link } from "react-router-dom";
 
 export default function Boxing() {
-    // const dispatch = useDispatch();
-    const [courses, setCourses] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const coursesPerPage = 9;
+  // const dispatch = useDispatch();
+  const [courses, setCourses] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const coursesPerPage = 9;
 
-    useEffect(() => {
-        fetch('http://20.2.73.15:8173/api/Course')
-            .then(response => response.json())
-            .then(data => setCourses(data))
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
-    const filteredCoursesCount = courses.filter(course => course.typeId === 3).length;
-    //const filteredCoursesCount = courses.filter(course => course.typeId === 0).length;
+  useEffect(() => {
+    fetch('http://20.2.73.15:8173/api/Course')
+      .then(response => response.json())
+      .then(data => setCourses(data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+  const filteredCoursesCount = courses.filter(course => course.typeId === 2).length;
+  //const filteredCoursesCount = courses.filter(course => course.typeId === 0).length;
 
-    // Nếu số lượng khóa học trong trang hiện tại lớn hơn 9, sử dụng phân trang
-    const showPagination = filteredCoursesCount > coursesPerPage;
+  // Nếu số lượng khóa học trong trang hiện tại lớn hơn 9, sử dụng phân trang
+  const showPagination = filteredCoursesCount > coursesPerPage;
 
-    // Lọc khóa học theo trang hiện tại
-    const indexOfLastCourse = currentPage * coursesPerPage;
-    const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
-    const currentCourses = courses
-        .filter(course => course.typeId === 3)
-        .slice(indexOfFirstCourse, indexOfLastCourse);
+  // Lọc khóa học theo trang hiện tại
+  const indexOfLastCourse = currentPage * coursesPerPage;
+  const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
+  const currentCourses = courses
+    .filter(course => course.typeId === 2)
+    .slice(indexOfFirstCourse, indexOfLastCourse);
 
-    const nextPage = () => setCurrentPage(currentPage + 1);
-    const prevPage = () => setCurrentPage(currentPage - 1);
+  const nextPage = () => setCurrentPage(currentPage + 1);
+  const prevPage = () => setCurrentPage(currentPage - 1);
 
-    return (
-        <>
-            <div className="home-page">
-                <Header />
-            </div>
-            {/* background yoga */}
-            <div>
-                <img className="w-full" src={yogabackground} alt="" />
-            </div>
-            <section>
-                {/* contend yoga */}
-                <div className="">
-                    <h2 className=" mt-10 text-center   text-[30px] text-orange-400">
-                        KHÓA HỌC DANCE TẠI HELPEXPERT <br /> THƯ GIÃN TÂM TRÍ, TINH THẦN VÀ
-                        CẢI THIỆN SỨC KHỎE
-                    </h2>
-                    <p className="text-center mt-3">
-                        Tập dance là một hình thức tập luyện giúp giảm cân thư giãn hiệu
-                        quả. Với những bài tập giúp <br /> học viên nâng cao nhân thức và
-                        tạo ra sự cân bằng giữa tinh thần và thể chất. Tập Dance <br /> mỗi
-                        ngày giúp bạn trở nên nhẹ nhàng, chữa lành và tích cực hơn. Đến với
-                        <a href="/home">
-                            {" "}
-                            <span className="text-orange-400"> Helpexpert</span>,
-                        </a>
-                        <br /> tập luyện và cải thiện thẻ chất và tinh thần của bạn.
+  return (
+    <>
+      <div className="home-page">
+        <Header />
+      </div>
+      {/* background yoga */}
+      <div>
+        <img className="w-full" src={yogabackground} alt="" />
+      </div>
+      <section>
+        {/* contend yoga */}
+        <div className="">
+          <h2 className=" mt-10 text-center   text-[30px] text-orange-400">
+            KHÓA HỌC DANCE TẠI HELPEXPERT <br /> THƯ GIÃN TÂM TRÍ, TINH THẦN VÀ
+            CẢI THIỆN SỨC KHỎE
+          </h2>
+          <p className="text-center mt-3">
+            Tập dance là một hình thức tập luyện giúp giảm cân thư giãn hiệu
+            quả. Với những bài tập giúp <br /> học viên nâng cao nhân thức và
+            tạo ra sự cân bằng giữa tinh thần và thể chất. Tập Dance <br /> mỗi
+            ngày giúp bạn trở nên nhẹ nhàng, chữa lành và tích cực hơn. Đến với
+            <a href="/home">
+              {" "}
+              <span className="text-orange-400"> Helpexpert</span>,
+            </a>
+            <br /> tập luyện và cải thiện thẻ chất và tinh thần của bạn.
+          </p>
+        </div>
+      </section>
+      <section>
+        <div className="course-grid">
+          {currentCourses.map(course => (
+            <div key={course.id}>
+              <div className="w-full mt-10">
+                <div className="flex justify-center mx-auto w-[70%] ">
+                  <div className="flex flex-col h-[450px] hover:shadow-md">
+                    <img className="w-[350px] h-[250px] " src={yoga2} alt="" />
+                    <Link className="mt-3 ml-5"
+                      to={`/detailCourse/${course.courseId}`}>
+                      <h3 className="text-orange-400 text-[20px] mt-2 ">{course.courseName}</h3>
+                    </Link>
+                    <p className="w-[50%] text-[14px] mt-3 ml-5">
+                      {course.description}
                     </p>
+                  </div>
                 </div>
-            </section>
-            <section>
-                <div className="course-grid">
-                    {currentCourses.map(course => (
-                        <div key={course.id}>
-                            <div className="w-full mt-10">
-                                <div className="flex justify-center mx-auto w-[70%] ">
-                                    <div className="flex flex-col h-[450px] hover:shadow-md">
-                                        <img className="w-[350px] h-[250px] " src={yoga2} alt="" />
-                                        <Link className="mt-3 ml-5"
-                                            to={`/detailCourse/${course.courseId}`}>
-                                            <h3 className="text-orange-400 text-[20px] mt-2 ">{course.courseName}</h3>
-                                        </Link>
-                                        <p className="w-[50%] text-[14px] mt-3 ml-5">
-                                            {course.description}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                {showPagination && ( // Kiểm tra xem có cần hiển thị phân trang không
-                    <div className="pagination">
-                        {currentPage > 1 && <button onClick={prevPage}>Previous</button>}
-                        {currentPage < Math.ceil(filteredCoursesCount / coursesPerPage) && (
-                            <button onClick={nextPage}>Next</button>
-                        )}
-                    </div>
-                )}
-            </section >
-            {/* <div className="mt-3">
+              </div>
+            </div>
+          ))}
+        </div>
+        {showPagination && ( // Kiểm tra xem có cần hiển thị phân trang không
+          <div className="pagination">
+            {currentPage > 1 && <button onClick={prevPage}>Previous</button>}
+            {currentPage < Math.ceil(filteredCoursesCount / coursesPerPage) && (
+              <button onClick={nextPage}>Next</button>
+            )}
+          </div>
+        )}
+      </section >
+      {/* <div className="mt-3">
         <Pagination className="text-center" defaultCurrent={1} total={50} />
       </div> */}
-            {/* <div className="w-full mt-10">
+      {/* <div className="w-full mt-10">
         <div className="flex justify-center mx-auto w-[70%] ">
           <div className="flex flex-col h-[450px] hover:shadow-md">
             <img className="w-[350px] h-[250px] " src={dance1} alt="" />
@@ -228,8 +228,8 @@ export default function Boxing() {
         </div>
       </div> */}
 
-        </>
-    );
+    </>
+  );
 }
 
 // export default function yoga() {

@@ -107,7 +107,7 @@ export default function SignUpCourseAdmin() {
               <Input
                 type="text"
                 prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Username"
+                placeholder="Tài khoản "
                 className="width:420px py-3 "
                 onChange={(e) => setUserName(e.target.value)}
               />
@@ -127,7 +127,7 @@ export default function SignUpCourseAdmin() {
               <Input
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
-                placeholder="Password"
+                placeholder="Mật khẩu"
                 className="width:420px py-3"
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -147,7 +147,7 @@ export default function SignUpCourseAdmin() {
               <Input
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
-                placeholder="Password"
+                placeholder="Xác nhận mật khẩu"
                 className="width:420px py-3"
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
@@ -188,7 +188,7 @@ export default function SignUpCourseAdmin() {
               <Input
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="text"
-                placeholder="Bussiness Name"
+                placeholder="Tên Trung Tâm"
                 className="width:420px py-3"
                 onChange={(e) => setFullname(e.target.value)}
               />
@@ -208,7 +208,7 @@ export default function SignUpCourseAdmin() {
               <Input
                 type="text"
                 prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Phone Contact"
+                placeholder="Số điện thoại"
                 className="width:420px py-3"
                 onChange={(e) => setPhone(e.target.value)}
               />

@@ -83,7 +83,7 @@ export default function SignUp() {
               {/* contentd */}
               <div className="content mb-10">
                 <h1 className="text-3xl mb-5 text-525252 text-center ">
-                  Sign Up
+                  Đăng kí
                 </h1>
                 {/* <h1 className="text-base	">
                   Welcome to healexpert, a place that helps you change yourself
@@ -91,61 +91,61 @@ export default function SignUp() {
               </div>
             </div>
             <div className="mb-2">
-              <p>UserName</p>
+              <p>Tên đăng nhập</p>
             </div>
             <Form.Item
               name="username"
               rules={[
                 {
                   required: true,
-                  message: "Please input your Username!",
+                  message: "Hãy nhập Tên đăng nhập!",
                 },
               ]}
             >
               <Input
                 type="text"
                 prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Username"
+                placeholder="Tên đăng nhập"
                 className="width:420px py-3 "
                 onChange={(e) => setUserName(e.target.value)}
               />
             </Form.Item>
             <div className="mb-2">
-              <p>Password</p>
+              <p>Mật khẩu</p>
             </div>
             <Form.Item
               name="password"
               rules={[
                 {
                   required: true,
-                  message: "Please input your Password!",
+                  message: "Hãy nhập Mật khẩu!",
                 },
               ]}
             >
               <Input
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
-                placeholder="Password"
+                placeholder="Mật khẩu"
                 className="width:420px py-3"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Item>
             <div className="mb-2">
-              <p>Confirm Password</p>
+              <p>Xác nhận mật khẩu</p>
             </div>
             <Form.Item
               name="confirm-password"
               rules={[
                 {
                   required: true,
-                  message: "Please input your Confirm Password!",
+                  message: "Hãy nhập Xác nhận mật khẩu!",
                 },
               ]}
             >
               <Input
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
-                placeholder="Password"
+                placeholder="Xác nhận mật khẩu"
                 className="width:420px py-3"
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
@@ -158,7 +158,7 @@ export default function SignUp() {
               rules={[
                 {
                   required: true,
-                  message: "Please input your Email!",
+                  message: "Hãy nhập Email!",
                 },
               ]}
             >
@@ -172,48 +172,48 @@ export default function SignUp() {
               />
             </Form.Item>
             <div className="mb-2">
-              <p>Full Name</p>
+              <p>Họ và tên</p>
             </div>
             <Form.Item
               name="fullName"
               rules={[
                 {
                   required: true,
-                  message: "Please input your Full Name!",
+                  message: "Hãy nhập họ và tên!",
                 },
               ]}
             >
               <Input
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="text"
-                placeholder="fullname"
+                placeholder="Họ và tên"
                 className="width:420px py-3"
                 onChange={(e) => setFullname(e.target.value)}
               />
             </Form.Item>
             <div className="mb-2">
-              <p>Phone Number</p>
+              <p>Số điện thoại</p>
             </div>
             <Form.Item
               name="phone"
               rules={[
                 {
                   required: true,
-                  message: "Please input your phome number!",
+                  message: "Hãy nhập Số điện thoại!",
                 },
               ]}
             >
               <Input
                 type="text"
                 prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Phone Number"
+                placeholder="Số điện thoại"
                 className="width:420px py-3"
                 onChange={(e) => setPhone(e.target.value)}
               />
             </Form.Item>
             <div className="mb-2 flex">
               <div className="mr-2">
-                <p>Birthday</p>
+                <p>Ngày sinh</p>
                 <Space direction="vertical" size={12}>
                   <DatePicker
                     selected={birthDate}
@@ -222,16 +222,16 @@ export default function SignUp() {
               </div>
 
               <div>
-                <p>Gender</p>
+                <p>Giới tính</p>
                 <div className="flex">
                   <Select
-                    defaultValue="Gender"
+                    defaultValue="Giới tính"
                     onChange={handleSelectChange}
                     options={[
                       {
                         options: [
-                          { label: 'Male', value: 'true' },
-                          { label: 'Female', value: 'false' },
+                          { label: 'Nam', value: 'true' },
+                          { label: 'Nu', value: 'false' },
                         ]
                       }
                     ]} />
@@ -245,7 +245,7 @@ export default function SignUp() {
                 className="bg-black mt-1 w-full px-2 py-2 "
                 onClick={SignUp}
               >
-                <span className="text-orange-600">Sign Up </span>
+                <span className="text-orange-600">Đăng kí </span>
               </Button>
               {/* register */}
             </Form.Item>

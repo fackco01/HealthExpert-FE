@@ -19,6 +19,7 @@ const Header = () => {
   const [postOpen, setPostOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [checkRole, setCheckRole] = useState(false);
+  const [checkManager, setCheckManager] = useState(false);
   const [showBmiForm, setShowBmiForm] = useState(false);
   const [username, setUsername] = useState("");
   const [roleId, setRoleId] = useState(""); // State to track whether user is logged in
@@ -87,6 +88,8 @@ const Header = () => {
       setRoleId(roleIdFromLocalStorage);
       if (roleIdFromLocalStorage && roleIdFromLocalStorage === "2") {
         setCheckRole(true);
+      } else if (roleIdFromLocalStorage === "3") {
+        setCheckManager(true);
       }
     }
     // if (!isReloaded) {
@@ -132,25 +135,22 @@ const Header = () => {
   function WidgetMenu(props) {
     return (
       <Menu {...props}>
-        {checkRole ? (
+        {checkManager || checkRole ? (
           <>
-            <Menu.Item type="primary" onClick={showModal}>
-              Tạo khóa học
-              <Modal
-                open={isModalOpen}
-                onCancel={handleCancel}
-                okText="123456"
-                width={900}
-                footer={null}
-              >
-                <ModalCreatCourse />
-              </Modal>
-            </Menu.Item>
             <Menu.Item>
               <a href="/manageCourse">
                 Quản lý khóa học
               </a>
             </Menu.Item>
+            {checkManager ? (
+              <Menu.Item>
+                <a href="/profile">Trang Cá Nhân</a>
+              </Menu.Item>
+            )
+
+              : (<div></div>)
+
+            }
           </>
         ) : (
           <Menu.Item>
@@ -191,7 +191,7 @@ const Header = () => {
   }
 
   return (
-    <header className="border-b py-1.2 px-1.2 sm:px-10 bg-white font-[sans-serif] min-h-[70px]">
+    <header className=" border-b py-1.2 px-1.2 sm:px-10 bg-white font-[sans-serif] min-h-[70px]">
       <div className="flex flex-wrap items-center gap-x-2 max-lg:gap-y-6">
         <a  >
           <img src={Logo} alt="logo" className="w-16 h-16 rounded-full" />
@@ -244,14 +244,14 @@ const Header = () => {
               Tranfor
             </a>
           </li>
-          <li className="max-lg:border-b max-lg:py-2 px-3">
+          {/* <li className="max-lg:border-b max-lg:py-2 px-3">
             <a
               href="#"
               className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
             >
               Tin tức
             </a>
-          </li>
+          </li> */}
           <li className="max-lg:border-b max-lg:py-2 px-3">
             <a
               href="#"
@@ -260,16 +260,21 @@ const Header = () => {
               Về chúng tôi
             </a>
           </li>
-          <li className="max-lg:border-b max-lg:py-2 px-3">
-            <a
-              href="#"
-              onClick={toggleBmiForm}
-              className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
-            >
-              Tìm kiếm thông minh
-            </a>
-            {showBmiForm && <Bmi onClose={toggleBmiForm} />}
-          </li>
+          {checkRole ?
+            <div></div>
+            :
+            <li className="max-lg:border-b max-lg:py-2 px-3">
+              <a
+                href="#"
+                onClick={toggleBmiForm}
+                className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
+              >
+                Tìm kiếm thông minh
+              </a>
+              {showBmiForm && <Bmi onClose={toggleBmiForm} />}
+            </li>
+          }
+
         </ul>
         <div className="ml-auto flex mr-3">
           {

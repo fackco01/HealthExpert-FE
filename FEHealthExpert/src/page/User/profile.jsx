@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import splash from '../../img/bg.png';
 import pfp from '../../img/pfp.png';
+import center from '../../img/center.png';
 import cover from '../../img/course_cover.png';
 import Header from "../../components/Header";
 import dayjs from 'dayjs';
@@ -193,13 +194,14 @@ function YourProfile() {
       <div className="grid gap-4 ml-16 mr-16">
         {/* banner and pfp hijinx */}
         <div className="">
-          <img src={splash} alt="" className="relative object-cover w-full h-96 z-0" />
+          <img src={center} alt="" className="relative object-cover w-full h-96 z-0" />
           <div className="flex">
             <div className="flex ml-5 -mt-28 z-10 px-2">
               <img src={pfp} alt="" className="z-10 object-scale-down w-48" />
               {/* <p className='text-xl font-bold ml-8 mt-32'></p> */}
-              <p className="ml-3 text-center">{fullName}</p>
+
             </div>
+            <p className="text-white-600 text-3xl	flex justify-center items-center ml-20">{fullName}</p>
           </div>
         </div>
         {/* two columns */}
@@ -268,9 +270,9 @@ function YourProfile() {
                 </div>
               </div> */}
               <hr />
-              <br />
+              {/* <br />
               <a onClick={navigateToRegistered} style={{ cursor: 'pointer' }} className="flex px-2 ml-6 hover:underline hover:text-blue-500">Danh sách các khóa học bạn đã đăng ký</a>
-              <br />
+              <br /> */}
             </div>
           </div>
         </div>

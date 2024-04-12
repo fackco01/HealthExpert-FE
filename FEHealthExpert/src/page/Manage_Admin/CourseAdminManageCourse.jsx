@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import MenuLeft from "../../components/MenuLeft";
-import { Table, Modal, Button } from "antd";
-
 import axios from "axios";
+import Menuleft from "../../components/MenuLeft";
+import Header from "../../components/Header";
+import { Table, Modal, Button } from "antd";
 import { useNavigate } from "react-router-dom";
+import { Space, Tag } from "antd";
 
-export default function CourseAdminManageCourse() {
-    const [courses, setCourses] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [centerName, setCenterName] = useState('');
+export default function ManageCourseManager() {
+    const [accounts, setAccounts] = useState([]);
+    const [admin, setAdmin] = useState('');
     const [revenue, setRevenue] = useState(0); // Thêm state để lưu tổng doanh thu
     const navigate = useNavigate(); // Sử dụng useHistory
 
@@ -18,106 +18,106 @@ export default function CourseAdminManageCourse() {
             console.error("Không có người dùng trong localStorage!");
             return;
         }
-        setCenterName(user);
+        setAdmin(user);
     }, []);
 
+    // Fetch
     useEffect(() => {
-        const fetchCourses = async () => {
+        const fetchCourseManager = async () => {
             try {
-                const response = await axios.get(`http://20.2.73.15:8173/api/Course/`);
-                const filteredCourses = response.data.filter(data => data.createBy === centerName);
-                setCourses(filteredCourses);
+                const userRes = await axios.get(`http://20.2.73.15:8173/api/Account/GetListAccount`);
+                const matchingUser = userRes.data.filter(user => user.roleId === 3);
+                const accumulatedAccounts = [];
+                for (const user of matchingUser) {
+                    const cmRes = await axios.get(`http://20.2.73.15:8173/api/Course/managers/email/${user.email}`);
+                    const coursesWithId = cmRes.data.map(course => ({ ...course, email: user.email })); // Add email to each course
+                    accumulatedAccounts.push(...coursesWithId);
+                }
+                setAccounts(accumulatedAccounts);
             } catch (error) {
                 console.error("Error fetching courses: ", error);
             }
         };
-        if (centerName) {
-            fetchCourses();
+        if (admin) {
+            fetchCourseManager();
         }
-    }, [centerName]);
+    }, [admin]);
 
-    useEffect(() => {
-        // Tính tổng doanh thu
-        const totalRevenue = courses.reduce((acc, course) => {
-            return acc + (course.studentNumber * course.price);
-        }, 0);
-        setRevenue(totalRevenue);
-    }, [courses]);
 
-    const formattedRevenue = new Intl.NumberFormat("vi-VN", {
-        style: "currency",
-        currency: "VND",
-    }).format(revenue);
 
+
+    //Collumn
     const columns = [
         {
-            title: "ID",
+            title: "Course ID",
             dataIndex: "courseId",
             key: "courseId",
         },
         {
-            title: "Tên khóa học",
-            dataIndex: "courseName",
-            key: "courseName",
+            title: "Email",
+            dataIndex: "email",
+            key: "email",
         },
         {
-            title: "Số lượng học viên",
-            dataIndex: "studentNumber",
-            key: "studentNumber",
-        },
-        {
-            title: "Giá tiền",
-            dataIndex: "price",
-            key: "price",
-            render: (text) => (
-                <span>{new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                }).format(text)}</span>
+            title: "Thao tác",
+            dataIndex: "name",
+            render: (_, record) => (
+                <Space size="middle">
+                    <button
+                        type="primary"
+                        onClick={showModalDelete}
+                        className="bg-orange-400  w-[50px] py-1 rounded-xl "
+                    >
+                        Delete
+                    </button>
+                    <button className="bg-orange-400  w-[50px] py-1 rounded-xl">
+                        Edit
+                    </button>
+                </Space>
             ),
-        },
-        {
-            title: "Mô tả",
-            dataIndex: "description",
-            key: "description",
+            filterMode: "tree",
+            filterSearch: true,
+            onFilter: (value, record) => record.name.includes(value),
+            width: "30%",
         },
     ];
 
-    const showModal = () => {
-        setIsModalOpen(true);
+    const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
+    const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+
+    const showModalDelete = () => {
+        setIsModalDeleteOpen(true);
     };
 
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
 
+    //HTML
     return (
         <>
+            <div className="w-full" >
+                <Header />
+            </div>
             <div className="w-full flex">
-                <div className="w-[20%] h-full">
+                {/* Side bar */}
+                <div className="w-[20%]">
                     <div className="home-page">
-                        <MenuLeft />
+                        <Menuleft />
                     </div>
                 </div>
-                <div className="w-[80%] mt-3">
-                    <h2 className="font-bold text-2xl">WELCOME {centerName}</h2>
+                {/* End Side Bar */}
 
-                    <div className="absolute top-0 right-0">
-                        <p className="box w-[250px] mr-[90px] rounded-md bg-orange-400 text-black font-bold py-3 px-4 rounded opacity-100 transition-opacity mt-3">
-                            Tổng doanh thu của bạn: {formattedRevenue}
-                        </p>
-                    </div>
+                {/* Body */}
+                <div className="w-[80%] mt-3">
+                    <h2 className="font-bold text-2xl">WELCOME {admin}</h2>
                     <div className="mt-10">
                         <Table
                             columns={columns}
-                            dataSource={courses}
-                            rowKey={(record) => record.courseId}
-                            onRow={(record) => ({
-                                onClick: () => navigate(`/course_admin_manager/${record.courseId}`),
-                            })}
+                            dataSource={accounts.filter(account => account.courseId !== null).map(account => ({ ...account, key: account.accountId }))}
                         />
+
+
                     </div>
                 </div>
+                {/* End Body */}
             </div>
         </>
     );

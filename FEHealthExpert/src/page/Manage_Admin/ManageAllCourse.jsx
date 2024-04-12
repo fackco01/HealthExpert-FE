@@ -9,6 +9,8 @@ import ModalDeleteCourse from "../../components/ModalDeleteCourse";
 import UpdateCourse from "../../components/ModalUpdateCourse";
 import { Link } from "react-router-dom";
 
+//import Autosuggest from 'react-autosuggest';
+
 export default function ManageAllCourse() {
     const [courses, setCourses] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +21,8 @@ export default function ManageAllCourse() {
     const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
     const [isUpdateMode, setIsUpdateMode] = useState(false);
     const user = localStorage.getItem("user");
-
+    const [roleId, setRoleId] = useState("");
+    const [checkRole, setCheckRole] = useState(false);
     useEffect(() => {
 
         if (!user) {
@@ -56,7 +59,13 @@ export default function ManageAllCourse() {
                 console.error("Lỗi load dữ liệu!", error);
             });
     }, []);
-
+    useEffect(() => {
+        const roleIdFromLocalStorage = localStorage.getItem("roleId");
+        setRoleId(roleIdFromLocalStorage);
+        if (roleIdFromLocalStorage && roleIdFromLocalStorage === "2") {
+            setCheckRole(true);
+        }
+    }, []);
     useEffect(() => {
         const fetchCourses = async () => {
             try {
@@ -188,13 +197,18 @@ export default function ManageAllCourse() {
                 </div>
                 <div className="w-[80%] mt-3">
                     <h2 className="font-bold text-2xl">Trung tâm {centerName}</h2>
-                    <Button
-                        type="primary"
-                        onClick={showModal}
-                        className="flex justify-center items-center w-[250px] mr-[90px] rounded-md bottom-1 right-3 bg-orange-400 text-black font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3"
-                    >
-                        Tạo khóa học
-                    </Button>
+                    {checkRole ?
+                        <Button
+                            type="primary"
+                            onClick={showModal}
+                            className="flex justify-center items-center w-[250px] mr-[90px] rounded-md bottom-1 right-3 bg-orange-400 text-black font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3"
+                        >
+                            Tạo khóa học
+                        </Button>
+                        :
+                        <div></div>
+                    }
+
                     <Modal
                         visible={isModalOpen}
                         onCancel={handleCancel}

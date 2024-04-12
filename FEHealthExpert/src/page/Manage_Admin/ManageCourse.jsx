@@ -2,17 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Menuleft from "../../components/MenuLeft";
 import Header from "../../components/Header";
-import { Table } from "antd";
+import { Table, Modal } from "antd";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import Autosuggest from 'react-autosuggest';
 export default function ManageCourse() {
   const { courseId } = useParams();
   const [course, setCourse] = useState(null);
   const [revenue, setRevenue] = useState(null);
   const [learners, setLearners] = useState([]);
   const navigate = useNavigate();
-
+  const [searchValue, setSearchValue] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [selectedUser, setSelectedUser] = useState([]);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [searchedUsers, setSearchedUsers] = useState([]);
   const [revenueByMonth, setRevenueByMonth] = useState([]);
   //Thêm trạng thái mới để lưu giữ tháng được chọn:
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
@@ -49,6 +53,56 @@ export default function ManageCourse() {
       setRevenue(courseRevenue);
     }
   }, [course]);
+
+  //Search user
+  const handleSearchValueChange = (event, { newValue }) => {
+    setSearchValue(newValue);
+  };
+  //Get suggestions by user mail
+  const handleSuggestionsFetchRequested = ({ value }) => {
+    axios.get(`http://20.2.73.15:8173/api/Account/GetAccountByEmail/${value}`)
+      .then((response) => {
+        setSuggestions(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching suggestions: ", error);
+      });
+  };
+  const handleSuggestionsClearRequested = () => {
+    setSuggestions([]);
+  };
+
+  const getSuggestionValue = (suggestion) => {
+    return suggestion.email;
+  };
+
+  const renderSuggestion = (suggestion) => {
+    return (
+      <div>
+        {suggestion.email}
+      </div>
+    );
+  };
+
+  const onSuggestionSelected = (event, { suggestion }) => {
+    setSelectedUser(suggestion);
+    setShowConfirmationModal(true);
+  };
+
+  const handleUserSelection = async (email) => {
+    const courseManagerDTO = {
+      courseId: courseId,
+      courseManagerId: 0,
+      accountEmails: [email]
+    };
+
+    try {
+      const response = await axios.post(`http://20.2.73.15:8173/api/Course/add-manager`, [courseManagerDTO]);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error adding course manager: ", error);
+    }
+  };
 
   //Gọi hàm calculateRevenueByMonth trong useEffect
   useEffect(() => {
@@ -300,6 +354,25 @@ export default function ManageCourse() {
         </div>
         <div className="w-[80%] mt-3">
           <h2 className="font-bold text-2xl">{course.courseName}</h2>
+          <div className="absolute top-[130px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg z-1000">
+            <h3 className="font-bold text-2xl mb-4">Thêm quản lí</h3>
+            <div className="absolute items-top justify-center">
+              <Autosuggest
+                suggestions={suggestions}
+                onSuggestionsFetchRequested={handleSuggestionsFetchRequested}
+                onSuggestionsClearRequested={handleSuggestionsClearRequested}
+                getSuggestionValue={getSuggestionValue}
+                renderSuggestion={renderSuggestion}
+                inputProps={{
+                  placeholder: 'Enter email to search',
+                  value: searchValue,
+                  onChange: handleSearchValueChange
+                }}
+                onSuggestionSelected={onSuggestionSelected}
+              />
+            </div>
+          </div>
+
           <div className="flex top-0 right-0">
             <p className="box w-[350px] mr-[90px] rounded-md bg-orange-400 text-black font-bold py-3 px-4 rounded opacity-100 transition-opacity mt-3">
               Tổng doanh thu <br /> {course.courseName}: <br /> {formattedRevenue}
@@ -325,6 +398,22 @@ export default function ManageCourse() {
             </div> */}
         </div>
       </div>
+      <Modal
+        visible={showConfirmationModal}
+        onCancel={() => setShowConfirmationModal(false)}
+        onOk={() => {
+          setShowConfirmationModal(false);
+          if (selectedUser) {
+            console.log("Selected email:", selectedUser.email);
+            handleUserSelection(selectedUser.email);
+          }
+        }}
+        title="Xác nhận"
+      >
+        {selectedUser && (
+          <p>Bạn có chắc chắn muốn chỉ định người dùng <strong>{selectedUser.userName}</strong> làm người quản lý khóa học không?</p>
+        )}
+      </Modal>
     </>
   );
 }

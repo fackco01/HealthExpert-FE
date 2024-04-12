@@ -98,7 +98,13 @@ export default function ManageSession() {
               &nbsp;&nbsp;&nbsp;Chỉnh sửa&nbsp;&nbsp;&nbsp;
             </Link>
           </div>
+          <button
+            type="primary"
 
+            className="bg-orange-400 w-[100px] py-1 rounded-xl "
+          >
+            Thêm dinh dưỡng
+          </button>
         </div>
       ),
       width: "30%",

@@ -105,7 +105,7 @@ const AdminMenu = () => {
                             </a>
                         </div>
                         <div>
-                            <a
+                            {/* <a
                                 href="/admin/post"
                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                             >
@@ -127,7 +127,7 @@ const AdminMenu = () => {
                                 <span className="flex-1 ms-3 whitespace-nowrap font-bold">
                                     Bài đăng
                                 </span>
-                            </a>
+                            </a> */}
                         </div>
                         <div>
                             <a

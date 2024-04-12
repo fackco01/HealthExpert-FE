@@ -77,7 +77,7 @@ export default function App() {
       <Route path="/manageSession/:id" element={<ManageSession />} />
       <Route path="/updateSession/:id" element={<UpdateSession />} />
       <Route path="/manageLesson/:id" element={<ManageLesson />} />
-      <Route path="/manageManager/:courses" element={<CourseAdminManageCourse />} />
+      <Route path="/manageManager" element={<CourseAdminManageCourse />} />
       {/* <Route path="blogs" element={<Blogs />} />
           <Route path="contact" element={<Contact />} />
         <Route path="*" element={<NoPage />} /> */}

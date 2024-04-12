@@ -65,7 +65,7 @@ export default function Home() {
           {/* right introduce  */}
           <div className="w-1/2 flex">
             <div className="flex-col">
-              <h1 className="text-yellow-600 text-3xl	">Healthexpert</h1>
+              <h1 className="text-yellow-600 text-3xl	">Health Expert</h1>
               <p className="mt-3">
                 Nơi kết nối giữa người mong muốn cải thiện chất lượng cơ thể và
                 trung tâm gym. Chúng tôi tự hào là cầu nối đưa bạn đến với cộng

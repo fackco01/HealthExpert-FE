@@ -23,7 +23,6 @@ const PayCourse = () => {
                     `http://20.2.73.15:8173/api/Account/GetAccountIdByUserName/${user}`
                 );
                 setAccountId(response.data);
-                console.log(accountId);
             } catch (error) {
                 console.error("Lỗi khi tải người dùng:", error);
             }
@@ -44,7 +43,7 @@ const PayCourse = () => {
             if (checkoutResponse.status === 200) {
                 // Redirect to the payment gateway
                 window.location.href = checkoutResponse.data;
-                //setIsReady(true);
+                setIsReady(true);
             } else {
                 setResult('Failed to initiate payment.');
             }
@@ -55,14 +54,6 @@ const PayCourse = () => {
 
     useEffect(() => {
         const handlePaymentCallback = async () => {
-            const billRes = await axios.get(`http://20.2.73.15:8173/api/Bill/getbills`);
-            const matchingBill = billRes.data.find(item =>
-                item.accountId === accountId);
-            if (matchingBill) {
-                setIsReady(true);
-            } else {
-                setIsReady(false);
-            }
             if (isReady) {
                 // Thanh toán thành công, điều hướng đến trang chi tiết khóa học
                 //navigate(`/detailCourse/${id}`);

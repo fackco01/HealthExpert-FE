@@ -70,11 +70,12 @@ const ModalCreatSession = () => {
       onFinishFailed={onFinishFailed}
       className="w-[90%] items-center relative h-[580px] rounded-2xl bg-white mx-auto"
     >
-      <h1 className="text-center text-3xl">Tạo bài học</h1>
-      <div className="w-[98%] h-[480px] flex absolute top-[300px] rounded-2xl left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 mx-auto bg-orange-400">
-        <div className="w-1/2 ml-4 mt-5">
+      <h1 className="text-center text-orange-400 text-3xl"><strong>Tạo buổi học</strong></h1>
+      <hr />
+      <div className="w-[98%] h-[480px] flex text-orange-400 absolute top-[300px] rounded-2xl left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 mx-auto">
+        <div className="w-full ml-4 mt-5">
           <div className="mb-2">
-            <p>ID Buổi học</p>
+            <p><strong>ID Buổi học</strong></p>
           </div>
           <Form.Item
             rules={[
@@ -89,7 +90,7 @@ const ModalCreatSession = () => {
           </Form.Item>
 
           <div className="mb-2">
-            <p>Tên buổi học</p>
+            <p><strong>Tên buổi học</strong></p>
           </div>
           <Form.Item
             rules={[
@@ -104,7 +105,7 @@ const ModalCreatSession = () => {
           </Form.Item>
 
           <div className="mb-2">
-            <p>Mô tả bài học</p>
+            <p><strong>Mô tả bài học</strong></p>
           </div>
           <Form.Item
             rules={[
@@ -118,8 +119,8 @@ const ModalCreatSession = () => {
               <br />
               <TextArea
                 onChange={(e) => setDecription(e.target.value)}
-                className="w-[300px]"
-                rows={4}
+                className="w-full"
+                rows={5}
                 placeholder="Hãy viết mô tả buổi học của bạn nhé"
                 maxLength={255}
               />
@@ -146,7 +147,7 @@ const ModalCreatSession = () => {
       <button
         type="submit"
         onClick={CreateSession}
-        className="w-[250px] mr-[90px] rounded-md absolute bottom-0 right-3 bg-black hover:bg-blue-600 text-white font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3 "
+        className="w-[250px] mr-[90px] rounded-md absolute bottom-0 right-3 bg-orange-400 hover:bg-Black text-white font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3 "
       >
         Tạo bài học
       </button>

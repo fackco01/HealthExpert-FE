@@ -16,6 +16,7 @@ function UpdateCourse() {
           `http://20.2.73.15:8173/api/Course/${courseId}`
         );
         setCourseData(response.data);
+        console.log(courseData);
       } catch (error) {
         console.error("Error fetching course data: ", error);
       }
@@ -23,22 +24,24 @@ function UpdateCourse() {
     fetchCourseData();
   }, [courseId]);
 
-  const HandleSubmit = (e) => {
+  const HandleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = axios.put(
+      const response = await axios.put(
         `http://20.2.73.15:8173/api/Course/${courseId}`,
         courseData
       );
-      if (response) {
+      if (response.status === 200) {
         navigate(`/admin/course`);
+        //window.location.reload();
       } else {
-        console.error("Error fetching course data: ");
+        console.error("Error updating course data: ", response.statusText);
       }
     } catch (error) {
-      console.error("Error fetching course data: ", error);
+      console.error("Error updating course data: ", error);
     }
   };
+
 
   return (
     <>
@@ -54,24 +57,23 @@ function UpdateCourse() {
         </div>
         {/* End Side Bar */}
       </div>
-      <div className="  text-black p-5">
+      <div className="  text-black p-5 flex justify-between">
         <form
-          className="bg-orange-400 h-[500px] w-[70%]  mx-auto"
+          className="border border-[4px] border-orange-400 rounded-lg h-auto w-[70%]  mx-auto"
           onSubmit={HandleSubmit}
         >
-          <div className="flex  flex-col">
+          <div className="flex flex-col ">
             <div>
-              <h1 className="text-center text-2xl">CHỈNH SỬA KHÓA HỌC</h1>
+              <h1 className="text-center text-3xl font-bold mt-3 text-orange-400">CHỈNH SỬA KHÓA HỌC</h1>
             </div>
             <div className="flex">
               <div className="w-1/2 mt-5 ml-5">
-                <div className="">
-                  <div>Course ID:</div>
+                <div >
+                  <div className="font-bold">Course ID:</div>
                   <input
                     type="text"
                     name="courseId"
-                    className="form-control  w-[300px] rounded-md
-                  rounded-md py-2 mt-3"
+                    className="form-control w-[300px] rounded-md py-2 mt-3 pl-5 border border-orange-400 rounded-lg"
                     placeholder="Enter course id"
                     value={courseData.courseId}
                     onChange={(e) =>
@@ -80,11 +82,11 @@ function UpdateCourse() {
                   />
                 </div>
                 <div className="mt-3">
-                  <div className="">Course Name:</div>
+                  <div className="font-bold">Course Name:</div>
                   <input
                     type="text"
                     name="courseName"
-                    className="form-control w-[300px] py-2 mt-3 rounded-md"
+                    className="form-control w-[300px] py-2 mt-3 rounded-md pl-5 border border-orange-400 rounded-lg"
                     placeholder="Enter course name"
                     value={courseData.courseName}
                     onChange={(e) =>
@@ -92,28 +94,13 @@ function UpdateCourse() {
                     }
                   />
                 </div>
+
                 <div className="mt-3">
-                  <div>Description:</div>
-                  <input
-                    type="text"
-                    name="description"
-                    className="form-control w-[300px] py-2 mt-3 rounded-md"
-                    placeholder="Enter description"
-                    value={courseData.description}
-                    onChange={(e) =>
-                      setCourseData({
-                        ...courseData,
-                        description: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div className="mt-3">
-                  <div>Certificate:</div>
+                  <div className="font-bold">Certificate:</div>
                   <input
                     type="text"
                     name="certificate"
-                    className="form-control w-[300px] py-2 mt-3 rounded-md"
+                    className="form-control w-[300px] py-2 mt-3 rounded-md pl-5 border border-orange-400 rounded-lg"
                     placeholder="Enter certificate"
                     value={courseData.certificate}
                     onChange={(e) =>
@@ -124,66 +111,12 @@ function UpdateCourse() {
                     }
                   />
                 </div>
-              </div>
-              <div className="w-1/2 mt-5">
-                <div className="">
-                  <div>Last Updated:</div>
-                  <input
-                    type="text"
-                    name="dateUpdate"
-                    className="form-control w-[300px] py-2 mt-3 rounded-md"
-                    placeholder="Enter last updated date"
-                    value={courseData.dateUpdate}
-                    onChange={(e) =>
-                      setCourseData({ ...courseData, dateUpdate: e.target.value })
-                    }
-                  />
-                </div>
                 <div className="mt-3">
-                  <div>Language:</div>
-                  <input
-                    type="text"
-                    name="language"
-                    className="form-control w-[300px] py-2 mt-3 rounded-md"
-                    placeholder="Enter language"
-                    value={courseData.language}
-                    onChange={(e) =>
-                      setCourseData({ ...courseData, language: e.target.value })
-                    }
-                  />
-                </div>
-                <div className="mt-3">
-                  <div>BMI Min:</div>
-                  <input
-                    type="number"
-                    name="bmiMin"
-                    className="form-control w-[300px] py-2 mt-3 rounded-md"
-                    placeholder="Enter minimum BMI"
-                    value={courseData.bmiMin}
-                    onChange={(e) =>
-                      setCourseData({ ...courseData, bmiMin: e.target.value })
-                    }
-                  />
-                </div>
-                <div className="mt-3">
-                  <div>BMI Max:</div>
-                  <input
-                    type="number"
-                    name="bmiMax"
-                    className="form-control w-[300px] py-2 mt-3 rounded-md"
-                    placeholder="Enter maximum BMI"
-                    value={courseData.bmiMax}
-                    onChange={(e) =>
-                      setCourseData({ ...courseData, bmiMax: e.target.value })
-                    }
-                  />
-                </div>
-                <div className="mt-3">
-                  <div>Type ID:</div>
+                  <div className="font-bold">Type ID:</div>
                   <input
                     type="number"
                     name="typeId"
-                    className="form-control w-[300px] py-2 mt-3 rounded-md"
+                    className="form-control w-[300px] py-2 mt-3 rounded-md pl-5 border border-orange-400 rounded-lg"
                     placeholder="Enter type ID"
                     value={courseData.typeId}
                     onChange={(e) =>
@@ -192,11 +125,83 @@ function UpdateCourse() {
                   />
                 </div>
               </div>
+              <div className="w-1/2 mt-5">
+                <div className="">
+                  <div className="font-bold">Last Updated:</div>
+                  <input
+                    type="text"
+                    name="dateUpdate"
+                    className="form-control w-[300px] py-2 mt-3 rounded-md pl-5 border border-orange-400 rounded-lg"
+                    placeholder="Enter last updated date"
+                    value={courseData.dateUpdate}
+                    onChange={(e) =>
+                      setCourseData({ ...courseData, dateUpdate: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="mt-3">
+                  <div className="font-bold">Language:</div>
+                  <input
+                    type="text"
+                    name="language"
+                    className="form-control w-[300px] py-2 mt-3 rounded-md pl-5 border border-orange-400 rounded-lg"
+                    placeholder="Enter language"
+                    value={courseData.language}
+                    onChange={(e) =>
+                      setCourseData({ ...courseData, language: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="mt-3">
+                  <div className="font-bold">BMI Min:</div>
+                  <input
+                    type="number"
+                    name="bmiMin"
+                    className="form-control w-[300px] py-2 mt-3 rounded-md pl-5 border border-orange-400 rounded-lg"
+                    placeholder="Enter minimum BMI"
+                    value={courseData.bmiMin}
+                    onChange={(e) =>
+                      setCourseData({ ...courseData, bmiMin: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="mt-3">
+                  <div className="font-bold">BMI Max:</div>
+                  <input
+                    type="number"
+                    name="bmiMax"
+                    className="form-control w-[300px] py-2 mt-3 rounded-md pl-5 border border-orange-400 rounded-lg"
+                    placeholder="Enter maximum BMI"
+                    value={courseData.bmiMax}
+                    onChange={(e) =>
+                      setCourseData({ ...courseData, bmiMax: e.target.value })
+                    }
+                  />
+                </div>
+              </div>
+
             </div>
           </div>
-          <button className="w-[250px] mr-[90px] rounded-md absolute bottom-20 right-[140px]	 bg-black hover:bg-blue-600 text-white font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3">
-            Chỉnh sửa
-          </button>
+          <div className="mt-3 ml-5 mr-5">
+            <div className="font-bold">Description:</div>
+            <textarea
+              name="description"
+              className="form-control w-full h-[150px] py-2 mt-3 rounded-md pl-5 border border-orange-400 rounded-lg"
+              placeholder="Enter description"
+              value={courseData.description}
+              onChange={(e) =>
+                setCourseData({
+                  ...courseData,
+                  description: e.target.value,
+                })
+              }
+            />
+          </div>
+          <div className="flex justify-center"> {/* Container bao quanh button */}
+            <button className="w-[250px] rounded-md bg-orange-400 hover:bg-black text-white font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3 mb-5">
+              Chỉnh sửa
+            </button>
+          </div>
         </form>
       </div>
     </>

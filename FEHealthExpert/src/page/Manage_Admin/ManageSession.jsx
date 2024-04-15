@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import ModalCreatSession from "../../components/ModalCreatSession";
 import ModalDeleteSession from "./ModelDeleteSession";
 import { useNavigate } from "react-router-dom";
+import ModalAddNutrition from "./ModelAddNutrition";
 
 export default function ManageSession() {
   const [sessions, setSessions] = useState([]);
@@ -91,7 +92,7 @@ export default function ManageSession() {
             isModalOpen={isModalDeleteOpen}
             setIsModalOpen={setIsModalDeleteOpen}
           />
-          <div className="bg-orange-400 w-[100px] py-1 rounded-xl ml-10">
+          <div className="bg-orange-400 w-[100px] py-1 rounded-xl ml-10 text-center flex justify-center items-center">
             <Link
               to={`/updateSession/${record.sessionId}`}
             >
@@ -100,11 +101,28 @@ export default function ManageSession() {
           </div>
           <button
             type="primary"
-
-            className="bg-orange-400 w-[100px] py-1 rounded-xl "
+            onClick={() => {
+              setSelectedSessionId(record.sessionId);
+              setIsModalAddOpen(true);
+            }}
+            className="bg-orange-400 w-[100px] py-1 rounded-xl ml-10"
           >
             Thêm dinh dưỡng
           </button>
+          <Modal
+            open={isModalAddOpen}
+            onCancel={handleCancelAdd}
+            okText="123456"
+            width={900}
+            footer={null}
+            styles={{
+              backgroundColor: "orange-400",
+            }}
+          >
+            <ModalAddNutrition
+              sessionId={selectedSessionId}
+            />
+          </Modal>
         </div>
       ),
       width: "30%",
@@ -116,12 +134,20 @@ export default function ManageSession() {
     navigate(`/manageSession/${id}`, { replace: true }); // Điều hướng sau khi xóa
 
   };
+  const handleAddNutrition = async (AddNutritionId) => {
+
+    setIsModalAddOpen(false);
+    navigate(`/manageSession/${id}`, { replace: true }); // Điều hướng sau khi xóa
+
+  };
+
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
   };
 
   const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+  const [isModalAddOpen, setIsModalAddOpen] = useState(false);
 
   const showModalCreate = () => {
     setIsModalCreateOpen(true);
@@ -137,6 +163,14 @@ export default function ManageSession() {
 
   const handleCancelDelete = () => {
     setIsModalDeleteOpen(false);
+  };
+
+  const showModalAdd = () => {
+    setIsModalAddOpen(true);
+  };
+
+  const handleCancelAdd = () => {
+    setIsModalAddOpen(false);
   };
 
   return (

@@ -7,6 +7,7 @@ import AdminHeader from "../components/AdminHeader";
 import ModalDeleteCourse from "../components/ModalDeleteCourse";
 import UpdateCourse from "../components/ModalUpdateCourse";
 import { Link } from "react-router-dom";
+import { format } from 'date-fns';
 
 export default function ManageCourseByAdmin() {
     const [courses, setCourses] = useState([]);
@@ -75,11 +76,13 @@ export default function ManageCourseByAdmin() {
             title: "Tạo Bởi",
             dataIndex: "createBy",
             key: "createBy",
+
         },
         {
             title: "Ngày Tạo",
             dataIndex: "dateUpdate",
             key: "dateUpdate",
+            render: (text) => format(new Date(text), 'dd/MM/yyyy'),
         },
         {
             title: "Mã Thể Loại",
@@ -107,12 +110,12 @@ export default function ManageCourseByAdmin() {
                         isModalOpen={isModalDeleteOpen}
                         setIsModalOpen={setIsModalDeleteOpen}
                     />
-                    <div className="bg-orange-400 w-[100px] py-1 rounded-xl ml-10">
+                    <div className="bg-orange-400 w-[100px] py-1 rounded-xl ml-10 flex justify-center items-center">
                         <Link
 
                             to={`/admin/course/update/${record.courseId}`}
                         >
-                            &nbsp;&nbsp;&nbsp;Chỉnh sửa&nbsp;&nbsp;&nbsp;
+                            Chỉnh sửa
                         </Link>
                     </div>
 

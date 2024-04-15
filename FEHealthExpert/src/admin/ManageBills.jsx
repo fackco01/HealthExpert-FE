@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Space, Tag } from "antd";
 import AdminMenu from "../components/AdminMenu";
 import AdminHeader from "../components/AdminHeader";
+import { format } from 'date-fns';
 
 export default function ManageBillByAdmin() {
     const [bills, setBills] = useState([]);
@@ -85,7 +86,8 @@ export default function ManageBillByAdmin() {
             dataIndex: "orderId",
             key: "orderId",
             render: (text, record) => (
-                <a onClick={() => navigate(`/admin/manageOrder/${record.orderId}`)}>{record.orderId}</a>
+                <a >{record.orderId}</a>
+                //onClick={() => navigate(`/admin/manageOrder/${record.orderId}`)}
             ),
         },
         {
@@ -110,6 +112,7 @@ export default function ManageBillByAdmin() {
             title: "Thời Gian",
             dataIndex: "billTime",
             key: "billTime",
+            render: (text) => format(new Date(text), 'HH:mm dd/MM/yyyy '),
         },
     ];
 

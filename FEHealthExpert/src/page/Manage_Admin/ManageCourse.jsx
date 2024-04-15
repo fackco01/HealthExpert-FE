@@ -354,33 +354,36 @@ export default function ManageCourse() {
         </div>
         <div className="w-[80%] mt-3">
           <h2 className="font-bold text-2xl">{course.courseName}</h2>
-          <div className="absolute top-[130px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg z-1000">
-            <h3 className="font-bold text-2xl mb-4">Thêm quản lí</h3>
-            <div className="absolute items-top justify-center">
-              <Autosuggest
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={handleSuggestionsFetchRequested}
-                onSuggestionsClearRequested={handleSuggestionsClearRequested}
-                getSuggestionValue={getSuggestionValue}
-                renderSuggestion={renderSuggestion}
-                inputProps={{
-                  placeholder: 'Enter email to search',
-                  value: searchValue,
-                  onChange: handleSearchValueChange
-                }}
-                onSuggestionSelected={onSuggestionSelected}
-              />
-            </div>
-          </div>
-
-          <div className="flex top-0 right-0">
-            <p className="box w-[350px] mr-[90px] rounded-md bg-orange-400 text-black font-bold py-3 px-4 rounded opacity-100 transition-opacity mt-3">
+          <div className="flex justify-between items-center">
+            <div className="box w-[350px] rounded-md bg-orange-400 text-black font-bold py-3 px-4 rounded opacity-100 transition-opacity mt-3">
               Tổng doanh thu <br /> {course.courseName}: <br /> {formattedRevenue}
-            </p>
+            </div>
 
-            <p className="absolute right-0 box w-[450px] mr-[90px] rounded-md bg-orange-400 text-black font-bold py-3 px-4 rounded opacity-100 transition-opacity mt-3">
+            <div className="box w-[450px] rounded-md bg-orange-400 text-black font-bold py-3 px-4 rounded opacity-100 transition-opacity mt-3">
               Tổng doanh thu của Tháng {renderMonthOptions()} Năm {renderYearOptions()} <br /> {course.courseName}: <br /> {renderRevenueByMonth()}
-            </p>
+            </div>
+
+            <div className="mx-10 w-[350px] bg-white p-6 rounded-lg z-1000 border border-orange-400 opacity-100 transition-opacity mt-3 mr-10">
+              <h2 className="font-bold text-2xl mb-5">Thêm quản lí</h2>
+              <div className="">
+                <div className="max-h-[150px] overflow-y-auto absolute z-10 bg-white border border-gray-300 rounded-lg shadow-md">
+                  <Autosuggest
+                    suggestions={suggestions}
+                    onSuggestionsFetchRequested={handleSuggestionsFetchRequested}
+                    onSuggestionsClearRequested={handleSuggestionsClearRequested}
+                    getSuggestionValue={getSuggestionValue}
+                    renderSuggestion={renderSuggestion}
+                    inputProps={{
+                      placeholder: 'Enter email to search',
+                      value: searchValue,
+                      onChange: handleSearchValueChange,
+                      className: "w-full px-4 py-2 focus:outline-none"
+                    }}
+                    onSuggestionSelected={onSuggestionSelected}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
           <div className=" w-full top-30 mt-10">
             <Table
@@ -401,6 +404,9 @@ export default function ManageCourse() {
       <Modal
         visible={showConfirmationModal}
         onCancel={() => setShowConfirmationModal(false)}
+        okButtonProps={{
+          style: { backgroundColor: "blue" },
+        }}
         onOk={() => {
           setShowConfirmationModal(false);
           if (selectedUser) {

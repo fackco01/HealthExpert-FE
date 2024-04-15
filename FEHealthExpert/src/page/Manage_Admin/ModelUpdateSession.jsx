@@ -57,23 +57,23 @@ function UpdateSession() {
                 </div>
                 {/* End Side Bar */}
             </div>
-            <div className="  text-black p-5">
+            <div className="text-black p-5 mt-[100px] ml-[200px] flex justify-between">
                 <form
-                    className="bg-orange-400 h-[500px] w-[70%]  mx-auto"
+                    className="h-[500px] w-[70%] mx-auto border border-[3px] border-orange-400 rounded-lg"
                     onSubmit={HandleSubmit}
                 >
-                    <div className="flex  flex-col">
+                    <div className="flex flex-col">
                         <div>
-                            <h1 className="text-center text-2xl">CHỈNH SỬA BUỔI HỌC</h1>
+                            <h1 className="text-center text-2xl text-orange-400"><strong>CHỈNH SỬA BUỔI HỌC</strong></h1>
                         </div>
                         <div className="flex">
                             <div className="w-1/2 mt-5 ml-5">
                                 <div className="">
-                                    <div>sessionId:</div>
+                                    <div><strong>ID Buổi học:</strong></div>
                                     <input
                                         type="text"
                                         name="sessionId"
-                                        className="form-control  w-[300px] rounded-md py-2 mt-3"
+                                        className="form-control w-[300px] rounded-md py-2 mt-3 border border-orange-400 pl-5 text-red"
                                         placeholder="Enter session id"
                                         value={sessionData.sessionId}
                                         onChange={(e) =>
@@ -82,11 +82,11 @@ function UpdateSession() {
                                     />
                                 </div>
                                 <div className="mt-3">
-                                    <div className="">sessionName:</div>
+                                    <div className=""><strong>Tên Buổi học</strong></div>
                                     <input
                                         type="text"
                                         name="sessionName"
-                                        className="form-control w-[300px] py-2 mt-3 rounded-md"
+                                        className="form-control w-[300px] py-2 mt-3 rounded-md border border-orange-400 pl-5"
                                         placeholder="Enter session name"
                                         value={sessionData.sessionName}
                                         onChange={(e) =>
@@ -95,10 +95,10 @@ function UpdateSession() {
                                     />
                                 </div>
                                 <div className="mt-3">
-                                    <div>Description:</div>
+                                    <div><strong>Miêu tả buổi học</strong></div>
                                     <textarea
                                         name="description"
-                                        className="form-control w-[1000px] h-[150px] py-2 mt-3 rounded-md"
+                                        className="form-control w-[1000px] h-[150px] py-2 mt-3 rounded-md border border-orange-400 pl-5"
                                         placeholder="Enter description"
                                         value={sessionData.description}
                                         onChange={(e) =>
@@ -112,11 +112,11 @@ function UpdateSession() {
                             </div>
                             <div className="w-1/2 mt-5">
                                 <div className="">
-                                    <div>dateStart:</div>
+                                    <div><strong>Ngày bắt đầu</strong></div>
                                     <input
                                         type="text"
                                         name="dateUpdate"
-                                        className="form-control w-[300px] py-2 mt-3 rounded-md"
+                                        className="form-control w-[300px] py-2 mt-3 rounded-md border border-orange-400 pl-5"
                                         placeholder="Enter dateStart"
                                         value={sessionData.dateStart}
                                         onChange={(e) =>
@@ -139,10 +139,13 @@ function UpdateSession() {
                                 </div> */}
                             </div>
                         </div>
+
                     </div>
-                    <button className="w-[250px] mr-[90px] rounded-md relative left-[1000px] bg-black hover:bg-blue-600 text-white font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3">
-                        Chỉnh sửa
-                    </button>
+                    <div className="flex justify-center"> {/* Container bao quanh button */}
+                        <button className="w-[250px] rounded-md bg-orange-400 hover:bg-black text-white font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3">
+                            Chỉnh sửa
+                        </button>
+                    </div>
                 </form>
             </div>
         </>

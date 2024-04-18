@@ -6,10 +6,13 @@ import backgroundImage from "../../img/nike.png";
 import helpexpert from "../../img/logo.png";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom'
+import bg from "../../img/ForgotPassGym.jpg";
+
 export default function Verify() {
     const [token, setToken] = useState('');
     const [userName, setUserName] = useState("");
     const [entityToken, setEntityToken] = useState('');
+    const [checkToken, setCheckToken] = useState(false);
     const history = useNavigate();
     function getToken() {
         fetch(`http://20.2.73.15:8173/api/Account/GetListAccount`, {
@@ -31,7 +34,8 @@ export default function Verify() {
                 if (Array.isArray(data)) {
                     const foundUser = data.find(accountList => accountList.userName === userName);
                     if (foundUser) {
-                        setEntityToken("Entity Token: " + foundUser.verificationToken);
+                        setEntityToken(foundUser.verificationToken);
+                        setCheckToken(true);
                     } else {
                         setEntityToken("Failed to get Entity Token.");
                     }
@@ -45,7 +49,7 @@ export default function Verify() {
     }
     function verifyAccount() {
         // Make a GET request to the backend API for account verification
-        fetch(`http://20.2.73.15:8173/api/Auth/Verify/verify?token=${token}`, { method: 'POST' })
+        fetch(`http://20.2.73.15:8173/api/Auth/Verify/verify?token=${entityToken}`, { method: 'POST' })
             .then(data => {
                 console.log(data.status);
                 history("/signin");
@@ -56,48 +60,47 @@ export default function Verify() {
             });
     }
     return (
-        <div className="p-4">
-            <h2 className="text-2xl font-semibold mb-4">Account Verification</h2>
-            <div className="mb-4">
-                <label htmlFor="token" className="block text-gray-700 font-medium mb-2">
-                    Enter Token:
-                </label>
-                <input
-                    type="text"
-                    id="token"
-                    placeholder="Enter your token"
-                    value={token}
-                    onChange={(e) => setToken(e.target.value)}
-                    className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                />
-                <button
-                    onClick={verifyAccount}
-                    style={{ backgroundColor: '#FFA500', color: 'white' }}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                >
-                    Verify Account
-                </button>
-            </div>
-            <div className="mb-4">
-                <label htmlFor="username" className="block text-gray-700 font-medium mb-2">
-                    Enter Username:
-                </label>
-                <Input
-                    type="text"
-                    prefix={<UserOutlined className="site-form-item-icon" />}
-                    placeholder="Username"
-                    className="w-full py-3"
-                    onChange={(e) => setUserName(e.target.value)}
-                />
-                <button
-                    onClick={getToken}
-                    style={{ backgroundColor: '#FFA500', color: 'white' }}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                >
-                    Get Token
-                </button>
-                <div className="mt-3 text-gray-700">{entityToken}</div>
+        <div className="flex justify-center items-center h-screen" style={{ backgroundImage: `url(${bg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+            {/* <img src={bg} alt="" /> */}
+            <div className="w-[30%] h-[600px] border border-[5px] border-orange-400 rounded-lg bg-white">
+                <div className="p-4">
+                    <h1 className="text-orange-400 m-10 text-center text-3xl"><strong>Xác thực tài khoản</strong></h1>
+
+                    <div className="mb-4 flex flex-col justify-center items-center">
+                        <label htmlFor="username" className="block text-gray-700 font-bold mb-2">
+                            Nhập tên tài khoản:
+                        </label>
+                        <Input
+                            type="text"
+                            prefix={<UserOutlined className="site-form-item-icon" />}
+                            placeholder="Tên tài khoản"
+                            className="h-[50px] w-[450px] border border-[3px] border-orange-400 rounded-lg hover:border-orange-400"
+                            onChange={(e) => setUserName(e.target.value)}
+                        />
+                        <button
+                            onClick={getToken}
+                            style={{ backgroundColor: '#FFA500', color: 'white' }}
+                            className="font-bold rounded-lg bg-orange-400 p-3 h-[50px] w-[450px] text-white hover:bg-black mt-5"
+                        >
+                            Lấy Token
+                        </button>
+                    </div>
+                    {checkToken && (
+                        <div className="w-full flex flex-col justify-center items-center">
+                            <button
+                                onClick={verifyAccount}
+                                style={{ backgroundColor: '#FFA500', color: 'white' }}
+                                className="font-bold rounded-lg bg-orange-400 p-3 h-[50px] w-[450px] text-white hover:bg-orange-500 mt-5"
+                            >
+                                Xác thực tài khoản
+                            </button>
+                        </div>
+
+                    )
+                    }
+                </div>
             </div>
         </div>
+
     );
 }

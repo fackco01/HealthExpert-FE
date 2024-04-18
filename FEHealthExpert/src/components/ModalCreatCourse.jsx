@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Button, Form, Input, DatePicker, message } from "antd";
+import { Button, Form, Input, DatePicker, message, Select } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import moment from 'moment';
 import 'moment/locale/vi';
+
+const { Option } = Select;
+
 const ModalCreatCourse = () => {
   const [course, setCourse] = useState({
     courseId: '',
@@ -82,8 +85,18 @@ const ModalCreatCourse = () => {
           <div className="mb-2">
             <p>Loại hình khóa học</p>
           </div>
-          <Form.Item name="Loại hình khóa học">
-            <Input type="text" name="typeId" value={course.typeId} onChange={handleChange} className="w-[300px] py-2" />
+          <Form.Item className="w-[300px]" name="Loại hình khóa học">
+            <Select
+              value={course.typeId}
+              onChange={(value) => setCourse({ ...course, typeId: value })}
+
+              placeholder="Chọn loại hình khóa học"
+            >
+              <Option value={1}>Yoga</Option>
+              <Option value={2}>Boxing</Option>
+              <Option value={3}>Dance</Option>
+              <Option value={4}>Gym</Option>
+            </Select>
           </Form.Item>
 
           {/* <div className="mb-2">

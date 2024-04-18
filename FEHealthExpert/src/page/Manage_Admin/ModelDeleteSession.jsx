@@ -3,6 +3,7 @@ import { Button, Modal } from "antd";
 import axios from "axios";
 
 const ModalDeleteSession = ({ sessionId, onDelete, isModalOpen, setIsModalOpen }) => {
+    //console.log(sessionId);
     const handleOk = async () => {
         try {
             await axios.delete(`http://20.2.73.15:8173/api/Session/DeleteSession/${sessionId}`);

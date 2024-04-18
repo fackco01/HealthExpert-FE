@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Menuleft from "../../components/MenuLeft";
 import Header from "../../components/Header";
-import { Table, Modal } from "antd";
+import { Table, Modal, Button } from "antd";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Autosuggest from 'react-autosuggest';
+import * as XLSX from 'xlsx';
+
 export default function ManageCourse() {
   const { courseId } = useParams();
   const [course, setCourse] = useState(null);
@@ -22,6 +24,32 @@ export default function ManageCourse() {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   //Thêm một state mới để lưu trữ năm được chọn:
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [bills, setBills] = useState([]);
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const fetchBills = async () => {
+      try {
+        const billsRes = await axios.get(`http://20.2.73.15:8173/api/Bill/getbills`);
+        setBills(billsRes.data);
+      } catch (error) {
+        console.error("Error fetching bills: ", error);
+      }
+    };
+    fetchBills();
+  }, []);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const ordersRes = await axios.get(`http://20.2.73.15:8173/api/order/getorders`);
+        setOrders(ordersRes.data);
+      } catch (error) {
+        console.error("Error fetching orders: ", error);
+      }
+    };
+    fetchOrders();
+  }, []);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -337,6 +365,44 @@ export default function ManageCourse() {
     }
   ];
 
+  //Xuất excel
+  const exportToExcel = () => {
+    // Filter hóa đơn theo tháng và năm được chọn
+    const selectedKey = `${selectedMonth}-${selectedYear}`;
+    const filteredBills = bills.filter(bill => {
+      const billMonth = new Date(bill.billTime).getMonth();
+      const billYear = new Date(bill.billTime).getFullYear();
+      return billMonth === selectedMonth && billYear === selectedYear;
+    });
+
+    // Lấy thông tin từ bảng order
+    const orderInfo = filteredBills.map(bill => {
+      const order = orders.find(order => order.orderId === bill.orderId);
+      return {
+        billId: bill.billId,
+        orderId: bill.orderId,
+        courseId: order ? order.courseId : "", // Lấy courseId từ order
+        // Thêm các thông tin khác từ bill
+        amount: bill.amount,
+        billTime: bill.billTime,
+        bankCode: bill.bankCode,
+        bankTranNo: bill.bankTranNo,
+        cardType: bill.cardType,
+        orderInfo: bill.orderInfo,
+      };
+    });
+
+    // Tạo workbook mới
+    const wb = XLSX.utils.book_new();
+    // Tạo worksheet từ dữ liệu orderInfo
+    const ws = XLSX.utils.json_to_sheet(orderInfo);
+    // Thêm worksheet vào workbook
+    XLSX.utils.book_append_sheet(wb, ws, "Order Info");
+    // Lưu workbook thành file Excel
+    XLSX.writeFile(wb, `Course_${courseId}_Bills_${selectedMonth}_${selectedYear}.xlsx`);
+  };
+
+
   if (!course) {
     return <div>Loading...</div>;
   }
@@ -360,7 +426,8 @@ export default function ManageCourse() {
             </div>
 
             <div className="box w-[450px] rounded-md bg-orange-400 text-black font-bold py-3 px-4 rounded opacity-100 transition-opacity mt-3">
-              Tổng doanh thu của Tháng {renderMonthOptions()} Năm {renderYearOptions()} <br /> {course.courseName}: <br /> {renderRevenueByMonth()}
+              Tổng doanh thu của {renderMonthOptions()} Năm {renderYearOptions()} <br /> {course.courseName}: <br /> {renderRevenueByMonth()}
+              <Button type="primary" style={{ backgroundColor: 'white', color: 'black' }} onClick={exportToExcel}>Xuất Excel</Button>
             </div>
 
             <div className="mx-10 w-[350px] bg-white p-6 rounded-lg z-1000 border border-orange-400 opacity-100 transition-opacity mt-3 mr-10">

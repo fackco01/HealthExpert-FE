@@ -1,26 +1,59 @@
 import React, { useState } from "react";
-import { Form, Input, DatePicker, message } from "antd";
+import { Form, Input, message } from "antd";
 
 const { TextArea } = Input;
 
-const ModalAddNutrition = (sessionId) => {
+const ModalAddNutrition = ({ sessionId }) => {
+    const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false);
     const [nutriId, setNutriId] = useState("");
     const [title, setTitle] = useState("");
-    const [description, setDecription] = useState("");
-    const isActive = useState(true);
-    const onFinish = (values) => {
-        console.log("Success:", values);
-        // Set sessionDTO with form values
+    const [description, setDescription] = useState("");
+    const isActive = true;
 
+    console.log(sessionId);
+    // Hàm xử lý khi form được submit
+    const onFinish = async (values) => {
+        console.log("Success:", values);
+        // Gọi hàm để thêm dinh dưỡng
+        await AddNutrition(values);
     };
 
+    // Hàm xử lý khi form submit thất bại
     const onFinishFailed = (errorInfo) => {
         console.log("Failed:", errorInfo);
     };
 
+    // Hàm thêm dinh dưỡng
+    const AddNutrition = async (values) => {
+        const item = { ...values, sessionId, isActive }; // Thêm sessionId vào dữ liệu gửi đi
+        try {
+            setLoading(true);
+            const response = await fetch(`http://20.2.73.15:8173/api/Nutrition`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(item),
+            });
+
+            if (!response.ok) {
+                throw new Error("Error adding session");
+            }
+
+            message.success("Session created successfully");
+            form.resetFields();
+        } catch (error) {
+            console.error(error);
+            message.error("Failed to create session");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <Form
-
+            form={form}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             className="w-[90%] items-center relative h-[580px] rounded-2xl bg-white mx-auto"
@@ -34,66 +67,55 @@ const ModalAddNutrition = (sessionId) => {
                     </div>
 
                     <Form.Item
+                        name="nutriId"
                         rules={[
                             {
                                 required: true,
                                 message: "Vui lòng nhập ID chế độ dinh dưỡng",
                             },
                         ]}
-                        name="nutriId"
                     >
-                        <Input onChange={(e) => setNutriId(e.target.value)} type="text" className="w-1/2 py-2"
-                            placeholder="Ví dụ: MN-YG01"></Input>
+                        <Input onChange={(e) => setNutriId(e.target.value)} type="text" className="w-1/2 py-2" placeholder="Ví dụ: MN-YG01" />
                     </Form.Item>
 
                     <div className="mb-2">
                         <p><strong>Tên chế độ dinh dưỡng</strong></p>
                     </div>
                     <Form.Item
+                        name="title"
                         rules={[
                             {
                                 required: true,
                                 message: "Vui lòng nhập Tên chế độ dinh dưỡng",
                             },
                         ]}
-                        name="title"
                     >
-                        <Input onChange={(e) => setTitle(e.target.value)} type="text" className="w-1/2 py-2"
-                            placeholder="Ví dụ: Thực đơn cho buổi tập đầu tiên"></Input>
+                        <Input onChange={(e) => setTitle(e.target.value)} type="text" className="w-1/2 py-2" placeholder="Ví dụ: Thực đơn cho buổi tập đầu tiên" />
                     </Form.Item>
 
                     <div className="mb-2">
                         <p><strong>Mô tả chế độ dinh dưỡng</strong></p>
                     </div>
                     <Form.Item
+                        name="description"
                         rules={[
                             {
                                 required: false,
                             },
                         ]}
-                        name="description"
                     >
-                        <>
-                            <br />
-                            <TextArea
-                                onChange={(e) => setDecription(e.target.value)}
-                                className="w-full"
-                                rows={4}
-                                placeholder="Hãy viết mô tả Tên chế độ dinh dưỡng của bạn nhé"
-                                maxLength={255}
-                            />
-                        </>
+                        <TextArea onChange={(e) => setDescription(e.target.value)} className="w-full" rows={4} placeholder="Hãy viết mô tả Tên chế độ dinh dưỡng của bạn nhé" />
                     </Form.Item>
                 </div>
             </div>
             <button
                 type="submit"
-                //onClick={AddNutrition}
-                className="w-[250px] mr-[90px] rounded-md absolute bottom-0 right-3 bg-orange-400 hover:bg-black text-white font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3 "
+                className="w-[250px] mr-[90px] rounded-md absolute bottom-0 right-3 bg-orange-400 hover:bg-black text-white font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3"
+                disabled={loading}
             >
-                Thêm
+                {loading ? "Đang xử lý..." : "Thêm"}
             </button>
-        </Form >
+        </Form>
     );
 };
 

@@ -8,7 +8,7 @@ function UpdateSession() {
     const { id } = useParams();
     const [sessionData, setSessionData] = useState({});
     const navigate = useNavigate();
-
+    console.log(id);
     useEffect(() => {
         const fetchSessionData = async () => {
             try {

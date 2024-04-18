@@ -170,7 +170,7 @@ function YourProfile() {
         const courseDetails = courseResponse.filter(course => matchingCourseId.includes(course.courseId.toLowerCase()));
 
         setCourses(courseDetails);
-        console.log(courseDetails);
+        //console.log(courseDetails);
       } catch (error) {
         console.error("Error fetching courses:", error);
       }

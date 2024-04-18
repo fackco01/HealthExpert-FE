@@ -82,7 +82,7 @@ const Header = () => {
   useEffect(() => {
     if (isLoaded && isUserLoggedIn) {
       setLoggedIn(true);
-      console.log(localStorage.getItem("user"));
+      //console.log(localStorage.getItem("user"));
       setUsername(localStorage.getItem("user"));
       const roleIdFromLocalStorage = localStorage.getItem("roleId");
       setRoleId(roleIdFromLocalStorage);
@@ -158,7 +158,7 @@ const Header = () => {
           </Menu.Item>
         )}
         <Menu.Item>
-          Đổi Mật Khẩu
+          <a href="/resetpassword">Đổi Mật Khẩu</a>
         </Menu.Item>
         <Menu.Item>
           Đăng bài
@@ -193,7 +193,7 @@ const Header = () => {
   return (
     <header className=" border-b py-1.2 px-1.2 sm:px-10 bg-white font-[sans-serif] min-h-[70px]">
       <div className="flex flex-wrap items-center gap-x-2 max-lg:gap-y-6">
-        <a  >
+        <a href="/" >
           <img src={Logo} alt="logo" className="w-16 h-16 rounded-full" />
         </a>
         <div className="flex lg:ml-6 max-lg:w-full">

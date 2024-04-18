@@ -13,16 +13,17 @@ import ModalCreatSession from "../../components/ModalCreatSession";
 import ModalDeleteSession from "./ModelDeleteSession";
 import { useNavigate } from "react-router-dom";
 import ModalAddNutrition from "./ModelAddNutrition";
+import ModalUpdateNutrition from "./ModelUpdateNutrition";
 
 export default function ManageSession() {
   const [sessions, setSessions] = useState([]);
   const { id } = useParams();
   const [selectedSessionId, setSelectedSessionId] = useState(null);
-  localStorage.setItem("currentCourse", id)
+  localStorage.setItem("currentCourse", id);
   const navigate = useNavigate();
-  //console.log("session", sessions);
 
   const [courseName, setCourseName] = useState('');
+
   useEffect(() => {
     const fetchCourse = async () => {
       try {
@@ -35,21 +36,41 @@ export default function ManageSession() {
     fetchCourse();
   }, [id]);
 
+  const fetchNutritions = async () => {
+    try {
+      const response = await axios.get("http://20.2.73.15:8173/api/Nutrition");
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching nutrition data: ", error);
+      return [];
+    }
+  };
+
   const fetchCourse = async () => {
     try {
       const sessionResponse = await axios.get("http://20.2.73.15:8173/api/Session/GetSessions");
       const foundSessions = sessionResponse.data.filter(session => session.courseId === id);
       if (foundSessions.length > 0) {
         setSessions(foundSessions);
-
+        const nutritions = await fetchNutritions();
+        const sessionWithNutrition = {};
+        foundSessions.forEach(session => {
+          const matchedNutrition = nutritions.find(nutrition => nutrition.sessionId === session.sessionId);
+          if (matchedNutrition) {
+            sessionWithNutrition[session.sessionId] = true;
+          } else {
+            sessionWithNutrition[session.sessionId] = false;
+          }
+        });
+        setSessionWithNutrition(sessionWithNutrition);
       } else {
         setSessions([{ sessionName: "Failed to get sessions" }]);
       }
     } catch (error) {
       console.log(error);
     }
-
   };
+
   useEffect(() => {
     fetchCourse();
   }, [id]);
@@ -99,46 +120,72 @@ export default function ManageSession() {
               &nbsp;&nbsp;&nbsp;Chỉnh sửa&nbsp;&nbsp;&nbsp;
             </Link>
           </div>
-          <button
-            type="primary"
-            onClick={() => {
-              setSelectedSessionId(record.sessionId);
-              setIsModalAddOpen(true);
-            }}
-            className="bg-orange-400 w-[100px] py-1 rounded-xl ml-10"
-          >
-            Thêm dinh dưỡng
-          </button>
-          <Modal
-            open={isModalAddOpen}
-            onCancel={handleCancelAdd}
-            okText="123456"
-            width={900}
-            footer={null}
-            styles={{
-              backgroundColor: "orange-400",
-            }}
-          >
-            <ModalAddNutrition
-              sessionId={selectedSessionId}
-            />
-          </Modal>
+          {sessionWithNutrition[record.sessionId] ? (
+            <>
+              <button
+                type="primary"
+                className="bg-orange-400 w-[100px] py-1 rounded-xl ml-10"
+                onClick={() => {
+                  setSelectedSessionId(record.sessionId);
+                  setIsUpdateModalOpen(true);
+                }}
+              >
+                Cập nhật dinh dưỡng
+              </button>
+              <Modal
+                open={isUpdateModalOpen}
+                onCancel={() => setIsUpdateModalOpen(false)}
+                okText="123456"
+                width={900}
+                footer={null}
+                styles={{
+                  backgroundColor: "orange-400",
+                }}
+              >
+                <ModalUpdateNutrition sessionId={selectedSessionId} />
+              </Modal>
+            </>
+          ) : (
+            <>
+              <button
+                type="primary"
+                onClick={() => {
+                  setSelectedSessionId(record.sessionId);
+                  setIsModalAddOpen(true);
+                }}
+                className="bg-orange-400 w-[100px] py-1 rounded-xl ml-10"
+              >
+                Thêm dinh dưỡng
+              </button>
+              <Modal
+                open={isModalAddOpen}
+                onCancel={() => setIsModalAddOpen(false)}
+                okText="123456"
+                width={900}
+                footer={null}
+                styles={{
+                  backgroundColor: "orange-400",
+                }}
+              >
+                <ModalAddNutrition sessionId={selectedSessionId} />
+              </Modal>
+            </>
+          )}
+
         </div>
       ),
       width: "30%",
     },
   ];
+
   const handleDelete = async (deletedSessionId) => {
-
     setIsModalDeleteOpen(false);
-    navigate(`/manageSession/${id}`, { replace: true }); // Điều hướng sau khi xóa
-
+    navigate(`/manageSession/${id}`, { replace: true });
   };
+
   const handleAddNutrition = async (AddNutritionId) => {
-
     setIsModalAddOpen(false);
-    navigate(`/manageSession/${id}`, { replace: true }); // Điều hướng sau khi xóa
-
+    navigate(`/manageSession/${id}`, { replace: true });
   };
 
   const onChange = (pagination, filters, sorter, extra) => {
@@ -148,6 +195,8 @@ export default function ManageSession() {
   const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isModalAddOpen, setIsModalAddOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [sessionWithNutrition, setSessionWithNutrition] = useState({});
 
   const showModalCreate = () => {
     setIsModalCreateOpen(true);
@@ -205,30 +254,6 @@ export default function ManageSession() {
           >
             <ModalCreatSession />
           </Modal>
-          {/* <Modal
-            style={{ top: 150 }}
-            open={isModalDeleteOpen}
-            onCancel={handleCancelDelete}
-            okText="123456"
-            width={500}
-            footer={null}
-            styles={{
-              backgroundColor: "orange-400",
-            }}
-          >
-            <h2 className="mx-auto text-center font-bold text-xl justify-center">
-              Bạn có muốn xóa bài học này
-            </h2>
-            <div className=" flex ml-[300px]">
-              <button className="w-[70px] rounded-xl mr-6 mt-4 bg-orange-400 justify-end">
-                Cancle
-              </button>
-              <button className="w-[70px] rounded-xl mt-4 bg-orange-400 justify-end">
-                OK
-              </button>
-            </div>
-
-          </Modal> */}
           <div className="mt-10">
             <h1>
               <Table

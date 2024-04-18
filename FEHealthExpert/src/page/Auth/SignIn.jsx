@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Input } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import Button from "../../components/button";
@@ -35,7 +35,8 @@ export default function SignIn() {
         }
       } else {
         localStorage.setItem("user", item.userName);
-        getRoleIdByUsername(userName); // Lấy roleId sau khi đăng nhập thành công
+        getRoleIdByUsername(userName);
+        // Lấy roleId sau khi đăng nhập thành công
       }
       const responseData = await response.text();
       console.log(responseData);
@@ -44,6 +45,14 @@ export default function SignIn() {
       console.error('Error during login:', error);
     }
   }
+
+  useEffect(() => {
+    const userlogin = localStorage.getItem("user");
+    if (userlogin) {
+      // Nếu người dùng đã đăng nhập, chuyển hướng về trang chính (home page)
+      history("/");
+    }
+  }, []);
 
   async function getRoleIdByUsername(username) {
     try {

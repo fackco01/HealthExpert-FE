@@ -16,8 +16,8 @@ const Menuleft = () => {
     if (currentSession === null) {
       setCheckCurrentSession(true);
     } else setCheckCurrentCourse(false);
-    console.log(currentCourse);
-    console.log(currentSession);
+    //console.log(currentCourse);
+    //console.log(currentSession);
   }, []);
   const navigateToManageUser = () => {
     navigate("/Khóa học");

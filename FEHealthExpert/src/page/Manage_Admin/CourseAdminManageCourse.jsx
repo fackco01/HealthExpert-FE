@@ -43,9 +43,6 @@ export default function ManageCourseManager() {
         }
     }, [admin]);
 
-
-
-
     //Collumn
     const columns = [
         {

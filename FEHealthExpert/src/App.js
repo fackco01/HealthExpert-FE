@@ -43,6 +43,10 @@ import SignUpCourseAdmin from "./page/Auth/RegisterCourseAdmin";
 import CourseAdminUpdateCourse from "./page/Manage_Admin/CourseAdminUpdateCourse";
 import UpdateSession from "./page/Manage_Admin/ModelUpdateSession";
 import CourseAdminManageCourse from "./page/Manage_Admin/CourseAdminManageCourse";
+import CreatePost from "./page/Post/CreatPost";
+import ListPost from "./page/Post/post";
+import DetailPost from "./page/Post/DetailPost";
+
 
 
 export default function App() {
@@ -64,6 +68,7 @@ export default function App() {
       <Route path="/learningCourse" element={<LearningCourse />} />
       <Route path="/detailCourse/:id" element={<DetailCourse />} />
       <Route path="/tranformation" element={<Tranformation />} />
+      <Route path="/resetpassword" element={<ResetPassword />} />
       {/* <Route path="/creatcourse" element={<CreatCourse />} /> */}
       <Route path="/profile" element={<YourProfile />} />
       <Route path="/editProfile" element={<EditProfile />} />
@@ -78,6 +83,10 @@ export default function App() {
       <Route path="/updateSession/:id" element={<UpdateSession />} />
       <Route path="/manageLesson/:id" element={<ManageLesson />} />
       <Route path="/manageManager" element={<CourseAdminManageCourse />} />
+      <Route path="/createPost" element={<CreatePost />} />
+      <Route path="/listPost" element={<ListPost />} />
+      <Route path="/postDetail/:postId" element={<DetailPost />} />
+
       {/* <Route path="blogs" element={<Blogs />} />
           <Route path="contact" element={<Contact />} />
         <Route path="*" element={<NoPage />} /> */}

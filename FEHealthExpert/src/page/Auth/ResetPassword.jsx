@@ -6,6 +6,8 @@ import backgroundImage from "../../img/nike.png";
 import helpexpert from "../../img/logo.png";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom'
+import bg from "../../img/ForgotPassGym.jpg";
+import Header from "../../components/Header";
 
 export default function ResetPassword() {
     const [token, setToken] = useState('');
@@ -49,102 +51,116 @@ export default function ResetPassword() {
     function resetPassword() {
         // Kiểm tra xem mật khẩu và xác nhận mật khẩu có khớp nhau hay không
         if (password !== confirmPassword) {
-          alert("Mật khẩu và xác nhận mật khẩu không khớp.");
-          return;
+            alert("Mật khẩu và xác nhận mật khẩu không khớp.");
+            return;
         }
-    
+
         // Gửi yêu cầu đặt lại mật khẩu đến API
         fetch(`http://20.2.73.15:8173/api/Account/ResettPassword`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            token: token,
-            password: password,
-            confirmPassword: confirmPassword,
-          }),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                token: token,
+                password: password,
+                confirmPassword: confirmPassword,
+            }),
         })
-          .then(response => {
-            if (response.ok) {
-              history("/signin");
-            } else {
-              console.error('Error:', response.statusText);
-              alert('Error resetting password. Please try again.');
-            }
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            alert('Error resetting password. Please try again.');
-          });
-      }
+            .then(response => {
+                if (response.ok) {
+                    history("/signin");
+                } else {
+                    console.error('Error:', response.statusText);
+                    alert('Error resetting password. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error resetting password. Please try again.');
+            });
+    }
     return (
-        <div className="p-4">
-            <h2 className="text-2xl font-semibold mb-4">Reset Password</h2>
-            <div className="mb-4">
-                <label htmlFor="token" className="block text-gray-700 font-medium mb-2">
-                    Enter Token:
-                </label>
-                <input
-                    type="text"
-                    id="token"
-                    placeholder="Enter your token"
-                    value={token}
-                    onChange={(e) => setToken(e.target.value)}
-                    className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                />
-
-                <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
-                    Enter Password:
-                </label>
-                <Input.Password
-                    id="password"
-                    placeholder="Enter password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full py-3"
-                />
-
-                <label htmlFor="confirmPassword" className="block text-gray-700 font-medium mb-2">
-                    Confirm Password:
-                </label>
-                <Input.Password
-                    id="confirmPassword"
-                    placeholder="Confirm password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full py-3"
-                />
-
-                <button
-                    onClick={resetPassword}
-                    style={{ backgroundColor: '#FFA500', color: 'white' }}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                >
-                    Reset Password
-                </button>
+        <>
+            <div className="home-page">
+                <Header />
             </div>
+            <div className="flex justify-center items-center h-screen" style={{ backgroundImage: `url(${bg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                {/* <img src={bg} alt="" /> */}
+                <div className="w-[30%] h-[600px] border border-[5px] border-orange-400 rounded-lg bg-white">
+                    <div className="p-4">
+                        <h1 className="text-orange-400 m-10 text-center text-3xl"><strong>Đổi mật khẩu</strong></h1>
+                        <div className="mb-4">
+                            <label htmlFor="username" className="block text-gray-700 font-medium mb-2">
+                                Enter Username:
+                            </label>
+                            <Input
+                                type="text"
+                                prefix={<UserOutlined className="site-form-item-icon" />}
+                                placeholder="Username"
+                                className="w-full py-3"
+                                onChange={(e) => setUserName(e.target.value)}
+                            />
+                            <button
+                                onClick={getToken}
+                                style={{ backgroundColor: '#FFA500', color: 'white' }}
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            >
+                                Get Token
+                            </button>
+                            <div className="mt-3 text-gray-700">{entityToken}</div>
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="token" className="block text-gray-700 font-medium mb-2">
+                                Enter Token:
+                            </label>
+                            <input
+                                type="text"
+                                id="token"
+                                placeholder="Enter your token"
+                                value={token}
+                                onChange={(e) => setToken(e.target.value)}
+                                className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                            />
 
-            <div className="mb-4">
-                <label htmlFor="username" className="block text-gray-700 font-medium mb-2">
-                    Enter Username:
-                </label>
-                <Input
-                    type="text"
-                    prefix={<UserOutlined className="site-form-item-icon" />}
-                    placeholder="Username"
-                    className="w-full py-3"
-                    onChange={(e) => setUserName(e.target.value)}
-                />
-                <button
-                    onClick={getToken}
-                    style={{ backgroundColor: '#FFA500', color: 'white' }}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                >
-                    Get Token
-                </button>
-                <div className="mt-3 text-gray-700">{entityToken}</div>
+                            <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
+                                Enter Password:
+                            </label>
+                            <Input.Password
+                                id="password"
+                                placeholder="Enter password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="w-full py-3"
+                            />
+
+                            <label htmlFor="confirmPassword" className="block text-gray-700 font-medium mb-2">
+                                Confirm Password:
+                            </label>
+                            <Input.Password
+                                id="confirmPassword"
+                                placeholder="Confirm password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                className="w-full py-3"
+                            />
+
+                            <button
+                                onClick={resetPassword}
+                                style={{ backgroundColor: '#FFA500', color: 'white' }}
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            >
+                                Reset Password
+                            </button>
+                        </div>
+
+
+                    </div>
+                </div>
             </div>
-        </div>
+        </>
+
+
+
     );
 }

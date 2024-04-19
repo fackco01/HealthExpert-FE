@@ -1,69 +1,41 @@
-import React from 'react';
-import { Form, Input, Checkbox, List, Password } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import Button from "../../components/button";
-import backgroundImage from "../../img/nike.png";
-import helpexpert from "../../img/logo.png";
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { Input } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+import { useNavigate } from 'react-router-dom';
 import bg from "../../img/ForgotPassGym.jpg";
 import Header from "../../components/Header";
 
 export default function ResetPassword() {
-    const [token, setToken] = useState('');
     const [userName, setUserName] = useState("");
-    const [password, setPassword] = useState("");
+    const [oldPassword, setOldPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [entityToken, setEntityToken] = useState('');
     const history = useNavigate();
-    function getToken() {
-        fetch(`http://20.2.73.15:8173/api/Account/GetListAccount`, {
-            method: "GET",
-            headers: {
-                "Authorization": "Bearer YOUR_ACCESS_TOKEN",
-            }
-        })
-            .then(response => {
-                if (!response.ok) {
-                    console.error(`Error: Failed to get Entity Token.`);
-                    alert("Failed to get Entity Token");
-                    throw new Error("Failed to get Entity Token");
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log(data);
-                if (Array.isArray(data)) {
-                    const foundUser = data.find(accountList => accountList.userName === userName);
-                    if (foundUser) {
-                        setEntityToken("Entity Token: " + foundUser.passwordResetToken);
-                    } else {
-                        setEntityToken("Failed to get Entity Token.");
-                    }
-                } else {
-                    setEntityToken("Data is not an array.");
-                }
-            })
-            .catch(error => {
-                console.error("Error fetching data:", error);
-            });
-    }
+
+    useEffect(() => {
+        const storedUserName = localStorage.getItem('user');
+        if (storedUserName) {
+            setUserName(storedUserName);
+        }
+    }, []);
+
     function resetPassword() {
-        // Kiểm tra xem mật khẩu và xác nhận mật khẩu có khớp nhau hay không
-        if (password !== confirmPassword) {
-            alert("Mật khẩu và xác nhận mật khẩu không khớp.");
+        // Kiểm tra xem mật khẩu mới và xác nhận mật khẩu có khớp nhau hay không
+        if (newPassword !== confirmPassword) {
+            alert("Mật khẩu mới và xác nhận mật khẩu không khớp.");
             return;
         }
 
         // Gửi yêu cầu đặt lại mật khẩu đến API
-        fetch(`http://20.2.73.15:8173/api/Account/ResettPassword`, {
+        fetch(`http://20.2.73.15:8173/api/Account/ChangePassword`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                token: token,
-                password: password,
+                username: userName,
+                oldPassword: oldPassword,
+                newPassword: newPassword,
                 confirmPassword: confirmPassword,
             }),
         })
@@ -71,96 +43,84 @@ export default function ResetPassword() {
                 if (response.ok) {
                     history("/signin");
                 } else {
-                    console.error('Error:', response.statusText);
-                    alert('Error resetting password. Please try again.');
+                    console.error('Lỗi:', response.statusText);
+                    alert('Lỗi khi đặt lại mật khẩu. Vui lòng thử lại.');
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('Error resetting password. Please try again.');
+                console.error('Lỗi:', error);
+                alert('Lỗi khi đặt lại mật khẩu. Vui lòng thử lại.');
             });
     }
+
     return (
         <>
             <div className="home-page">
                 <Header />
             </div>
             <div className="flex justify-center items-center h-screen" style={{ backgroundImage: `url(${bg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                {/* <img src={bg} alt="" /> */}
                 <div className="w-[30%] h-[600px] border border-[5px] border-orange-400 rounded-lg bg-white">
                     <div className="p-4">
                         <h1 className="text-orange-400 m-10 text-center text-3xl"><strong>Đổi mật khẩu</strong></h1>
                         <div className="mb-4">
                             <label htmlFor="username" className="block text-gray-700 font-medium mb-2">
-                                Enter Username:
+                                Tên Đăng Nhập:
                             </label>
                             <Input
                                 type="text"
                                 prefix={<UserOutlined className="site-form-item-icon" />}
-                                placeholder="Username"
+                                placeholder={userName}
                                 className="w-full py-3"
-                                onChange={(e) => setUserName(e.target.value)}
+                                //value={userName}
+                                disabled
                             />
-                            <button
-                                onClick={getToken}
-                                style={{ backgroundColor: '#FFA500', color: 'white' }}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            >
-                                Get Token
-                            </button>
-                            <div className="mt-3 text-gray-700">{entityToken}</div>
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="token" className="block text-gray-700 font-medium mb-2">
-                                Enter Token:
-                            </label>
-                            <input
-                                type="text"
-                                id="token"
-                                placeholder="Enter your token"
-                                value={token}
-                                onChange={(e) => setToken(e.target.value)}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                            />
-
-                            <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
-                                Enter Password:
+                            <label htmlFor="oldPassword" className="block text-gray-700 font-medium mb-2">
+                                Nhập Mật Khẩu Cũ:
                             </label>
                             <Input.Password
-                                id="password"
-                                placeholder="Enter password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                id="oldPassword"
+                                placeholder="Nhập mật khẩu cũ"
+                                value={oldPassword}
+                                onChange={(e) => setOldPassword(e.target.value)}
                                 className="w-full py-3"
                             />
-
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="newPassword" className="block text-gray-700 font-medium mb-2">
+                                Nhập Mật Khẩu Mới:
+                            </label>
+                            <Input.Password
+                                id="newPassword"
+                                placeholder="Nhập mật khẩu mới"
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                className="w-full py-3"
+                            />
+                        </div>
+                        <div className="mb-4">
                             <label htmlFor="confirmPassword" className="block text-gray-700 font-medium mb-2">
-                                Confirm Password:
+                                Xác Nhận Mật Khẩu Mới:
                             </label>
                             <Input.Password
                                 id="confirmPassword"
-                                placeholder="Confirm password"
+                                placeholder="Xác nhận mật khẩu mới"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 className="w-full py-3"
                             />
-
-                            <button
-                                onClick={resetPassword}
-                                style={{ backgroundColor: '#FFA500', color: 'white' }}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            >
-                                Reset Password
-                            </button>
                         </div>
-
-
+                        <button
+                            onClick={resetPassword}
+                            style={{ backgroundColor: '#FFA500', color: 'white' }}
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        >
+                            Đặt Lại Mật Khẩu
+                        </button>
                     </div>
                 </div>
             </div>
         </>
-
-
-
     );
 }

@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 
 export default function ManageAllCourse() {
     const [courses, setCourses] = useState([]);
+    const [coursesByManager, setCoursesByManager] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [centerName, setCenterName] = useState('');
     const [revenue, setRevenue] = useState(0); // Thêm state để lưu tổng doanh thu
@@ -23,6 +24,9 @@ export default function ManageAllCourse() {
     const user = localStorage.getItem("user");
     const [roleId, setRoleId] = useState("");
     const [checkRole, setCheckRole] = useState(false);
+    const [checkManager, setCheckManager] = useState(false);
+    const [email, setEmail] = useState("");
+
     useEffect(() => {
 
         if (!user) {
@@ -48,6 +52,12 @@ export default function ManageAllCourse() {
                     const foundUser = data.find(accountList => accountList.userName === user);
                     if (foundUser) {
                         setCenterName(foundUser.fullName);
+                        const roleIdFromLocalStorage = localStorage.getItem("roleId");
+                        setRoleId(roleIdFromLocalStorage);
+                        if (roleIdFromLocalStorage && roleIdFromLocalStorage === "3") {
+                            setEmail(foundUser.email);
+                        }
+
                     } else {
                         console.error("Lỗi load dữ liệu!");
                     }
@@ -59,13 +69,18 @@ export default function ManageAllCourse() {
                 console.error("Lỗi load dữ liệu!", error);
             });
     }, []);
+
     useEffect(() => {
         const roleIdFromLocalStorage = localStorage.getItem("roleId");
         setRoleId(roleIdFromLocalStorage);
         if (roleIdFromLocalStorage && roleIdFromLocalStorage === "2") {
             setCheckRole(true);
         }
+        if (roleIdFromLocalStorage && roleIdFromLocalStorage === "3") {
+            setCheckManager(true);
+        }
     }, []);
+
     useEffect(() => {
         const fetchCourses = async () => {
             try {
@@ -80,6 +95,33 @@ export default function ManageAllCourse() {
             fetchCourses();
         }
     }, [centerName]);
+
+    useEffect(() => {
+        if (!email) {
+            console.error("Lỗi load dữ liệu");
+            return;
+        }
+        const fetchCoursesByManager = async () => {
+            try {
+                const response1 = await axios.get(`http://20.2.73.15:8173/api/Course/managers/email/${email}`);
+                if (response1.data.length > 0) {
+                    const currentProgress = response1.data[0];
+                    setCoursesByManager(currentProgress.courseId);
+                    console.log(coursesByManager);
+                    const response2 = await axios.get(`http://20.2.73.15:8173/api/Course/`);
+                    const filteredCourses = response2.data.filter(data => data.courseId === coursesByManager);
+                    setCourses(filteredCourses);
+                }
+            } catch (error) {
+                console.error("Error fetching courses: ", error);
+            }
+        };
+        if (email) {
+            fetchCoursesByManager();
+        }
+    }, [email]);
+
+
 
     useEffect(() => {
         // Tính tổng doanh thu
@@ -134,31 +176,37 @@ export default function ManageAllCourse() {
             dataIndex: "name",
             render: (_, record) => (
                 <div className="flex">
-                    <button
-                        type="primary"
-                        onClick={() => {
-                            setSelectedCourseId(record.courseId);
-                            setIsModalDeleteOpen(true);
-                        }}
-                        className="bg-orange-400 w-[100px] py-1 rounded-xl "
-                    >
-                        Xóa
-                    </button>
-                    <ModalDeleteCourse
-                        courseId={selectedCourseId}
-                        onDelete={handleDelete}
-                        isModalOpen={isModalDeleteOpen}
-                        setIsModalOpen={setIsModalDeleteOpen}
-                    />
-                    <div className="bg-orange-400 w-[100px] py-1 rounded-xl ml-10">
-                        <Link
-
-                            to={`/manageCourse/update/${record.courseId}`}
-                        >
-                            &nbsp;&nbsp;&nbsp;Chỉnh sửa&nbsp;&nbsp;&nbsp;
-                        </Link>
-                    </div>
-
+                    {checkManager ? (
+                        // Nội dung cho quản lý
+                        <div></div>
+                    ) : (
+                        // Nội dung cho vai trò khác
+                        <div className="flex">
+                            <button
+                                type="primary"
+                                onClick={() => {
+                                    setSelectedCourseId(record.courseId);
+                                    setIsModalDeleteOpen(true);
+                                }}
+                                className="bg-orange-400 w-[100px] py-1 rounded-xl "
+                            >
+                                Xóa
+                            </button>
+                            <ModalDeleteCourse
+                                courseId={selectedCourseId}
+                                onDelete={handleDelete}
+                                isModalOpen={isModalDeleteOpen}
+                                setIsModalOpen={setIsModalDeleteOpen}
+                            />
+                            <div className="bg-orange-400 w-[100px] py-1 rounded-xl ml-10">
+                                <Link
+                                    to={`/manageCourse/update/${record.courseId}`}
+                                >
+                                    &nbsp;&nbsp;&nbsp;Chỉnh sửa&nbsp;&nbsp;&nbsp;
+                                </Link>
+                            </div>
+                        </div>
+                    )}
                 </div>
             ),
             width: "30%",
@@ -218,11 +266,16 @@ export default function ManageAllCourse() {
                     >
                         <ModalCreatCourse />
                     </Modal>
-                    <div className="absolute top-20 right-0">
-                        <p className="box w-[250px] mr-[90px] rounded-md bg-orange-400 text-black font-bold py-3 px-4 rounded opacity-100 transition-opacity mt-3">
-                            Tổng doanh thu của bạn: {formattedRevenue}
-                        </p>
-                    </div>
+
+                    {checkManager ?
+                        <div></div>
+                        :
+                        <div className="absolute top-20 right-0">
+                            <p className="box w-[250px] mr-[90px] rounded-md bg-orange-400 text-black font-bold py-3 px-4 rounded opacity-100 transition-opacity mt-3">
+                                Tổng doanh thu của bạn: {formattedRevenue}
+                            </p>
+                        </div>
+                    }
                     <div className="mt-10">
                         <Table
                             columns={columns}

@@ -116,12 +116,12 @@ const AdminHeader = () => {
     function WidgetMenu(props) {
         return (
             <Menu>
-                <Menu.Item>
+                {/* <Menu.Item>
                     <a href="/admin/profile">Trang Cá Nhân</a>
                 </Menu.Item>
                 <Menu.Item>
                     <a href="/admin/resetPassword"> Đổi Mật Khẩu</a>
-                </Menu.Item>
+                </Menu.Item> */}
                 <Menu.Item onClick={handleLogout}>
                     Đăng xuất
                 </Menu.Item>

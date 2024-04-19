@@ -30,17 +30,9 @@ export default function ListPost() {
       <div className="">
         <img className="relative" src={PostBackground} alt="" />
         <div className="flex flex-col absolute top-[300px] left-[198px]">
-          <h2 className="text-xl text-orange-400 font-bold">TIN TỨC</h2>
-          <h1 className="justify-center">
-            <a className="text-white" href="/home">
-              HelpExpert trang chủ
-            </a>
-            <CaretRightOutlined />{" "}
-            <span className="text-orange-400">Tin Tức</span>{" "}
-          </h1>
         </div>
       </div>
-
+      <h2 className="text-xl text-orange-400 font-bold m-10 text-center">CHIA SẺ KIẾN THỨC</h2>
       <div className="mt-10 flex flex-wrap gap-0 relative ">
         {/* left contend */}
         <div className="w-[50%] h-[500px] mx-auto  flex flex-wrap   gap-10">
@@ -50,12 +42,14 @@ export default function ListPost() {
               <img className="w-full" src={Post1} alt="" />
               <div className="mt-4 ml-4">
                 {/* đây là title */}
-                <h2 className="py-2 text-lg font-bold max-w-[300px]">
-                  {" "}
+                <h2 className="py-2 text-lg font-bold max-w-[300px] truncate overflow-ellipsis">
+
                   {posts.title}
                 </h2>
                 {/* đây là contend */}
-                <p className="text-sm py-3 max-w-[350px]">{posts.content}</p>
+                <p className="text-sm py-3 max-w-[350px] ">
+                  {posts.content.length > 255 ? `${posts.content.slice(0, 255)}...` : posts.content}
+                </p>
                 <div className="mt-7 mb-3">
                   <a className="text-orange-400 " href={`/postDetail/${posts.postId}`}>
                     Đọc thêm
@@ -63,9 +57,9 @@ export default function ListPost() {
                 </div>
               </div>
               <hr className="border-black	w-full mt-8" />
-              <div className="mt-2">
+              {/* <div className="mt-2">
                 <span className="text-xs ml-3 ">{posts.createdAt}</span>
-              </div>
+              </div> */}
             </div>
           ))}
 
@@ -76,59 +70,32 @@ export default function ListPost() {
             <div>
               <div className="bg-orange-400 w-[80%]  h-[30px]">
                 <h2 className="items-center text-white font-sans font-bold ml-3 my-auto">
-                  HỆ THỐNG TRUNG TÂM
+                  KHÓA HỌC TẠI HELP EXPERT
                 </h2>
               </div>
-              <a href="/categories">
+              <a href="/dance">
                 <li className="list-none  text-[15px] font-sans py-1 ml-2 text-black hover:text-orange-400	">
-                  Trung tâm HD Fitness
+                  Dance
                 </li>
               </a>
-              <a href="/categories">
-                <li className="list-none  text-[15px] font-sans py-1 ml-2 text-black hover:text-orange-400	">
-                  PT Trần Nguyên Khang
-                </li>
-              </a>
-              <a href="/categories">
-                <li className="list-none  text-[15px] font-sans py-1 ml-2 text-black hover:text-orange-400	">
-                  Trung tâm gym California
-                </li>
-              </a>
-              <a href="/categories">
-                <li className="list-none  text-[15px] font-sans py-1 ml-2 text-black hover:text-orange-400	">
-                  Trung tâm PT quận Hải Châu
-                </li>
-              </a>
-            </div>
-            <div>
-              <div className="bg-orange-400 w-[80%]  h-[30px]">
-                <h2 className="items-center text-white font-sans font-bold ml-3 my-auto">
-                  DỊCH VỤ TẠI HELP EXPERT
-                </h2>
-              </div>
-              <a href="/categories">
-                <li className="list-none  text-[15px] font-sans py-1 ml-2 text-black hover:text-orange-400	">
-                  DANCE
-                </li>
-              </a>
-              <a href="/categories">
+              <a href="/boxing">
                 <li className="list-none  text-[15px] font-sans py-1 ml-2 text-black hover:text-orange-400	">
                   Boxing
                 </li>
               </a>
-              <a href="/categories">
+              <a href="/yoga">
                 <li className="list-none  text-[15px] font-sans py-1 ml-2 text-black hover:text-orange-400	">
                   Yoga
                 </li>
               </a>
-              <a href="/categories">
+              <a href="/gym">
                 <li className="list-none  text-[15px] font-sans py-1 ml-2 text-black hover:text-orange-400	">
                   Gym
                 </li>
               </a>
             </div>
             <div>
-              <div className="bg-orange-400 w-[80%]  h-[30px]">
+              <div className="bg-orange-400 w-[80%]  h-[30px] mb-5">
                 <h2 className="items-center text-white font-sans font-bold ml-3 my-auto">
                   BÀI VIẾT GẦN ĐÂY{" "}
                 </h2>

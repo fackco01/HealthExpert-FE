@@ -13,6 +13,7 @@ import {
 import { UploadOutlined } from "@ant-design/icons";
 import center1 from "../../img/center1.jpg";
 import Header from "../../components/Header";
+import background from "../../img/CreatePostBackGround.png";
 
 export default function CreatePost() {
   const { TextArea } = Input;
@@ -75,7 +76,7 @@ export default function CreatePost() {
       console.log(res.data);
       message.success('Đăng bài thành công');
       //setCheckPost(true);
-      //window.location.reload();
+      window.location.reload();
     } catch (err) {
       // Xử lý lỗi từ server
       if (err.response && err.response.data && err.response.data.errors) {
@@ -102,58 +103,61 @@ export default function CreatePost() {
       <div className="home-page">
         <Header />
       </div>
-      <h1 className="text-2xl text-center">Tạo bài chia sẻ</h1>
-      <div className="bg-white border-4 border-orange-500 w-[50%] h-[700px] mt-5 rounded-xl shadow-2xl mx-auto overflow-y-auto">
-        <Form
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          onSubmit={handleSubmit}
-          layout="vertical"
-        >
-
-          <div className="ml-10 mr-10 mt-[58px]">
-            <Form.Item
-              label="Tiêu đề chính"
-              name="mainTitle"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng nhập tiêu đề bài post",
-                },
-              ]}
-            >
-              <Input value={post.title} onChange={(e) => setPost({ ...post, title: e.target.value })} className="w-[350px]" placeholder="Tiêu đề chính" />
-            </Form.Item>
-
-            <Form.Item
-              label="Nội dung tiêu đề chính"
-              name="mainContent"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng nhập nội dung bài post",
-                },
-              ]}
-            >
-              <TextArea
-                className="w-[100%]"
-                placeholder="Nội dung tiêu đề chính"
-                rows={8}
-                value={post.content}
-                onChange={(e) => setPost({ ...post, content: e.target.value })}
-              />
-            </Form.Item>
-          </div>
-          <button
-            type="primary"
-            htmlType="submit"
-            className="w-[250px] mr-[90px] mb-[200px] mr-[260px] rounded-md absolute -bottom-3 right-[450px]	 bg-orange-400 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3 "
-            onClick={handleSubmit}
+      <div style={{ backgroundImage: `url(${background})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <h1 className="text-3xl text-center font-bold text-orange-400 mt-10">Tạo bài chia sẻ</h1>
+        <div className="bg-white border-4 border-orange-500 w-[50%] h-[700px] mt-5 rounded-xl shadow-2xl mx-auto overflow-y-auto">
+          <Form
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            onSubmit={handleSubmit}
+            layout="vertical"
           >
-            Tạo bài post
-          </button>
-        </Form>
+
+            <div className="ml-10 mr-10 mt-[58px]">
+              <Form.Item
+                label="Tiêu đề chính"
+                name="mainTitle"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng nhập tiêu đề bài post",
+                  },
+                ]}
+              >
+                <Input value={post.title} onChange={(e) => setPost({ ...post, title: e.target.value })} className="w-[350px]" placeholder="Tiêu đề chính" />
+              </Form.Item>
+
+              <Form.Item
+                label="Nội dung tiêu đề chính"
+                name="mainContent"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng nhập nội dung bài post",
+                  },
+                ]}
+              >
+                <TextArea
+                  className="w-[100%]"
+                  placeholder="Nội dung tiêu đề chính"
+                  rows={8}
+                  value={post.content}
+                  onChange={(e) => setPost({ ...post, content: e.target.value })}
+                />
+              </Form.Item>
+            </div>
+            <button
+              type="primary"
+              htmlType="submit"
+              className="w-[250px] mr-[90px] mb-[200px] mr-[260px] rounded-md absolute -bottom-3 right-[450px]	 bg-orange-400 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3 "
+              onClick={handleSubmit}
+            >
+              Tạo bài post
+            </button>
+          </Form>
+        </div>
       </div>
+
     </>
   );
 }

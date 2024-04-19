@@ -49,38 +49,31 @@ export default function DetailPost() {
       <div className="">
         <img className="relative" src={PostBackground} alt="" />
         <div className="flex flex-col absolute top-[300px] left-[198px]">
-          <h2 className="text-xl text-orange-400 font-bold">TIN TỨC</h2>
-          <h1 className="justify-center">
-            <a className="text-white" href="/home">
-              HelpExpert trang chủ
-            </a>{" "}
-            <CaretRightOutlined />{" "}
-            <span className="text-orange-400">Tin Tức</span>{" "}
-          </h1>
         </div>
       </div>
+      <h2 className="text-[40px] text-orange-400 font-bold m-10 text-center">CHIA SẺ KIẾN THỨC</h2>
       <div className="mt-10 flex flex-wrap gap-0 relative ">
         {/* left content */}
-        <div className="w-[70%]  ml-32 ">
+        <div className="w-[70%] m-20 ">
           {/* Background image */}
-          <h1>{post.title}</h1>
-          <div className="w-[80%] ">
+          <h1 className="font-bold mb-10 text-3xl text-center">{post.title}</h1>
+          <div className="w-[100%] flex flex-col items-center">
             <img className="h-[500px]" src={PostDetailBackground} alt="" />
           </div>
           {/* Content with random images */}
           {paragraphs.map((paragraph, index) => (
             <div key={index}>
+              <p className="mt-10 whitespace-pre-line mb-10">{paragraph}</p>
+              <div className="flex flex-col items-center">
+                <img className="h-[500px]" src={postImages[Math.floor(Math.random() * postImages.length)]} alt="" />
+              </div>
 
-
-
-              <p className="mt-10 whitespace-pre-line">{paragraph}</p>
-              <img className="h-[500px]" src={postImages[Math.floor(Math.random() * postImages.length)]} alt="" />
             </div>
           ))}
 
         </div>
         {/* rightcontend */}
-        <div className="w-[20%] absolute right-32">
+        <div className="w-[20%] absolute right-20">
           <div>
             <div>
               <div className="bg-orange-400 w-[80%]  h-[30px]">

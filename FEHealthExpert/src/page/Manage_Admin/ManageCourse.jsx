@@ -26,6 +26,16 @@ export default function ManageCourse() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [bills, setBills] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [checkManager, setCheckManager] = useState(false);
+  const [roleId, setRoleId] = useState("");
+
+  useEffect(() => {
+    const roleIdFromLocalStorage = localStorage.getItem("roleId");
+    setRoleId(roleIdFromLocalStorage);
+    if (roleIdFromLocalStorage && roleIdFromLocalStorage === "3") {
+      setCheckManager(true);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchBills = async () => {
@@ -429,28 +439,32 @@ export default function ManageCourse() {
               Tổng doanh thu của {renderMonthOptions()} Năm {renderYearOptions()} <br /> {course.courseName}: <br /> {renderRevenueByMonth()}
               <Button type="primary" style={{ backgroundColor: 'white', color: 'black' }} onClick={exportToExcel}>Xuất Excel</Button>
             </div>
-
-            <div className="mx-10 w-[350px] bg-white p-6 rounded-lg z-1000 border border-orange-400 opacity-100 transition-opacity mt-3 mr-10">
-              <h2 className="font-bold text-2xl mb-5">Thêm quản lí</h2>
-              <div className="">
-                <div className="max-h-[150px] overflow-y-auto absolute z-10 bg-white border border-gray-300 rounded-lg shadow-md">
-                  <Autosuggest
-                    suggestions={suggestions}
-                    onSuggestionsFetchRequested={handleSuggestionsFetchRequested}
-                    onSuggestionsClearRequested={handleSuggestionsClearRequested}
-                    getSuggestionValue={getSuggestionValue}
-                    renderSuggestion={renderSuggestion}
-                    inputProps={{
-                      placeholder: 'Enter email to search',
-                      value: searchValue,
-                      onChange: handleSearchValueChange,
-                      className: "w-full px-4 py-2 focus:outline-none"
-                    }}
-                    onSuggestionSelected={onSuggestionSelected}
-                  />
+            {checkManager ?
+              <div></div>
+              :
+              <div className="mx-10 w-[350px] bg-white p-6 rounded-lg z-1000 border border-orange-400 opacity-100 transition-opacity mt-3 mr-10">
+                <h2 className="font-bold text-2xl mb-5">Thêm quản lí</h2>
+                <div className="">
+                  <div className="max-h-[150px] overflow-y-auto absolute z-10 bg-white border border-gray-300 rounded-lg shadow-md">
+                    <Autosuggest
+                      suggestions={suggestions}
+                      onSuggestionsFetchRequested={handleSuggestionsFetchRequested}
+                      onSuggestionsClearRequested={handleSuggestionsClearRequested}
+                      getSuggestionValue={getSuggestionValue}
+                      renderSuggestion={renderSuggestion}
+                      inputProps={{
+                        placeholder: 'Enter email to search',
+                        value: searchValue,
+                        onChange: handleSearchValueChange,
+                        className: "w-full px-4 py-2 focus:outline-none"
+                      }}
+                      onSuggestionSelected={onSuggestionSelected}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            }
+
           </div>
           <div className=" w-full top-30 mt-10">
             <Table

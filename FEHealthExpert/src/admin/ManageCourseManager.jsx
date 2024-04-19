@@ -72,6 +72,7 @@ export default function ManageCourseManager() {
             console.error("Error updating status: ", error);
         }
     };
+
     useEffect(() => {
         const fetchCourseManager = async () => {
             try {

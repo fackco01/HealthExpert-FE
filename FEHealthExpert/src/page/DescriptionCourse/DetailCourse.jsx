@@ -176,15 +176,21 @@ export default function DetailCourse() {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const orderRes = await axios.get(`http://20.2.73.15:8173/api/order/getorders`);
-        const matchingOrder = orderRes.data.find(order =>
-          order.accountId === accountId && order.courseId === id
+        const orderRes = await axios.get(
+          `http://20.2.73.15:8173/api/order/getorders`
+        );
+        const matchingOrder = orderRes.data.find(
+          (order) => order.accountId === accountId && order.courseId === id
         );
 
         if (matchingOrder) {
-          const billRes = await axios.get(`http://20.2.73.15:8173/api/Bill/getbills`);
-          const matchingBill = billRes.data.find(item =>
-            item.accountId === matchingOrder.accountId && item.orderId === matchingOrder.orderId
+          const billRes = await axios.get(
+            `http://20.2.73.15:8173/api/Bill/getbills`
+          );
+          const matchingBill = billRes.data.find(
+            (item) =>
+              item.accountId === matchingOrder.accountId &&
+              item.orderId === matchingOrder.orderId
           );
 
           if (matchingBill) {
@@ -313,43 +319,46 @@ export default function DetailCourse() {
                 </div>
               </Carousel>
               <div className="mt-5">
-                <div class="max-w-[700px] mx-auto mt-16 flex w-full flex-col border rounded-lg bg-white p-8">
-                  <h2 class="title-font mb-1 text-lg font-medium text-gray-900">
-                    Xin chào {feedback.accountId}
-                  </h2>
-                  <p class="mb-5 leading-relaxed text-gray-600">
-                    Hãy chia sẽ feedback của bạn cho chúng tôi để chúng tôi có
-                    thể cải thiện hơn!
-                  </p>
+                {paid && (
+                  <div class="max-w-[700px] mx-auto mt-16 flex w-full flex-col border rounded-lg bg-white p-8">
+                    <h2 class="title-font mb-1 text-lg font-medium text-gray-900">
+                      Xin chào {feedback.accountId}
+                    </h2>
+                    <p class="mb-5 leading-relaxed text-gray-600">
+                      Hãy chia sẽ feedback của bạn cho chúng tôi để chúng tôi có
+                      thể cải thiện hơn!
+                    </p>
 
-                  <Form
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    layout="vertical"
-                    class="mb-4"
-                  >
-                    <Form.Item
-                      label="Feedback"
-                      name="TextArea"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Vui lòng nhập đánh giá của bạn",
-                        },
-                      ]}
+                    <Form
+                      onFinish={onFinish}
+                      onFinishFailed={onFinishFailed}
+                      layout="vertical"
+                      class="mb-4"
                     >
-                      <Input.TextArea rows={5} />
-                    </Form.Item>
+                      <Form.Item
+                        label="Feedback"
+                        name="TextArea"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Vui lòng nhập đánh giá của bạn",
+                          },
+                        ]}
+                      >
+                        <Input.TextArea rows={5} />
+                      </Form.Item>
 
-                    <button
-                      type="primary"
-                      htmlType="submit"
-                      className="rounded w-[615px] border-0 bg-indigo-500 py-2 mt-3 text-lg text-white hover:bg-indigo-600 focus:outline-none"
-                    >
-                      Send
-                    </button>
-                  </Form>
-                </div>
+                      <button
+                        type="primary"
+                        htmlType="submit"
+                        className="rounded w-[615px] border-0 bg-indigo-500 py-2 mt-3 text-lg text-white hover:bg-indigo-600 focus:outline-none"
+                      >
+                        Send
+                      </button>
+                    </Form>
+                  </div>
+                )}
+
                 <div className="max-w-[700px]  mx-auto mt-16 flex w-full flex-col border rounded-lg bg-white p-8 mb-10">
                   <h2 className=" mb-1 text-lg font-medium text-black">
                     ĐÁNH GIÁ SẢN PHẨM
@@ -453,7 +462,6 @@ export default function DetailCourse() {
                   // If not paid, show price and PayCourse button
                   <>
                     <div className="mb-3">Price: {course.price}</div>
-
                     <PayCourse courseId={id} />
                   </>
                 )}

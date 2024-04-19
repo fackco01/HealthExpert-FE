@@ -161,7 +161,7 @@ const Header = () => {
           <a href="/resetpassword">Đổi Mật Khẩu</a>
         </Menu.Item>
         <Menu.Item>
-          Đăng bài
+          <a href="/createPost">Đăng bài</a>
         </Menu.Item>
         <Menu.Item onClick={handleLogout}>
           Đăng xuất
@@ -254,10 +254,10 @@ const Header = () => {
           </li> */}
           <li className="max-lg:border-b max-lg:py-2 px-3">
             <a
-              href="#"
+              href="/listPost"
               className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
             >
-              Về chúng tôi
+              Chia sẻ
             </a>
           </li>
           {checkRole ?

@@ -131,20 +131,20 @@ export default function ManageCourseManager() {
                 </Button>
             ),
         },
-        {
-            title: "Thao tác",
-            dataIndex: "name",
-            render: (_, record) => (
-                <div>
-                    <Link
-                        className="bg-orange-400 w-[100px] py-1 rounded-xl"
-                    >
-                        &nbsp;&nbsp;&nbsp;Chỉnh sửa&nbsp;&nbsp;&nbsp;
-                    </Link>
-                </div>
-            ),
-            width: "30%",
-        },
+        // {
+        //     title: "Thao tác",
+        //     dataIndex: "name",
+        //     render: (_, record) => (
+        //         <div>
+        //             <Link
+        //                 className="bg-orange-400 w-[100px] py-1 rounded-xl"
+        //             >
+        //                 &nbsp;&nbsp;&nbsp;Chỉnh sửa&nbsp;&nbsp;&nbsp;
+        //             </Link>
+        //         </div>
+        //     ),
+        //     width: "30%",
+        // },
     ];
 
     const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);

@@ -105,7 +105,7 @@ const AdminMenu = () => {
                             </a>
                         </div>
                         <div>
-                            {/* <a
+                            <a
                                 href="/admin/post"
                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                             >
@@ -113,21 +113,16 @@ const AdminMenu = () => {
                                     className="flex-shrink-0 w-5 h-5 text-black transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                     aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 18 16"
+                                    fill="currentColor"
+                                    viewBox="0 0 24 24"
                                 >
-                                    <path
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"
-                                    />
+                                    <path d="M20.25 4H18v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4H3.75A1.75 1.75 0 0 0 2 5.75v14.5C2 21.216 2.784 22 3.75 22h16.5C21.216 22 22 21.216 22 20.25V5.75C22 4.784 21.216 4 20.25 4zM12 6v10H8V6h4zm4 0v10h-2V6h2zm-7.5-1.5a.75.75 0 0 1 .75-.75H18v1H8v-1h2.25a.75.75 0 0 1 .75.75z" />
                                 </svg>
+
                                 <span className="flex-1 ms-3 whitespace-nowrap font-bold">
                                     Bài đăng
                                 </span>
-                            </a> */}
+                            </a>
                         </div>
                         <div>
                             <a
@@ -136,19 +131,14 @@ const AdminMenu = () => {
                             >
                                 <svg
                                     className="flex-shrink-0 w-5 h-5 text-black transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                                    aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 18 16"
+                                    fill="currentColor"
+                                    viewBox="0 0 24 24"
                                 >
-                                    <path
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"
-                                    />
+                                    <path fill="none" d="M0 0h24v24H0z" />
+                                    <path d="M16 9V4H6v16h12V9h-2zm-4-5.5a1 1 0 0 1 1 1V5h2a1 1 0 0 1 1 1v2h2a1 1 0 0 1 1 1v1h-8V4.5zM12 17c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z" />
                                 </svg>
+
                                 <span className="flex-1 ms-3 whitespace-nowrap font-bold">
                                     Lịch sử giao dịch
                                 </span>

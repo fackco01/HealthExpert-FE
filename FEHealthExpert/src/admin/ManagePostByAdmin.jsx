@@ -128,28 +128,28 @@ export default function ManagePostByAdmin() {
             ),
             width: "15%",
         },
-        {
-            title: "Thao tác",
-            dataIndex: "name",
-            render: (_, record) => (
-                <Space size="middle">
-                    <button
-                        type="primary"
-                        onClick={showModalDelete}
-                        className="bg-orange-400  w-[50px] py-1 rounded-xl "
-                    >
-                        Delete
-                    </button>
-                    <button className="bg-orange-400  w-[50px] py-1 rounded-xl">
-                        Edit
-                    </button>
-                </Space>
-            ),
-            filterMode: "tree",
-            filterSearch: true,
-            onFilter: (value, record) => record.name.includes(value),
-            width: "30%",
-        },
+        // {
+        //     title: "Thao tác",
+        //     dataIndex: "name",
+        //     render: (_, record) => (
+        //         <Space size="middle">
+        //             <button
+        //                 type="primary"
+        //                 onClick={showModalDelete}
+        //                 className="bg-orange-400  w-[50px] py-1 rounded-xl "
+        //             >
+        //                 Delete
+        //             </button>
+        //             <button className="bg-orange-400  w-[50px] py-1 rounded-xl">
+        //                 Edit
+        //             </button>
+        //         </Space>
+        //     ),
+        //     filterMode: "tree",
+        //     filterSearch: true,
+        //     onFilter: (value, record) => record.name.includes(value),
+        //     width: "30%",
+        // },
     ];
 
     const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);

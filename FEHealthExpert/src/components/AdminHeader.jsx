@@ -132,8 +132,8 @@ const AdminHeader = () => {
 
     return (
         <header className="border-b py-1.2 px-1.2 sm:px-10 bg-white font-[sans-serif] min-h-[70px]">
-            <div className="flex flex-wrap items-center gap-x-2 max-lg:gap-y-6">
-                <a  >
+            <div className="flex flex-wrap items-center gap-x-2 max-lg:gap-y-6 mt-2">
+                <a href='/admin'>
                     <img src={Logo} alt="logo" className="w-16 h-16 rounded-full" />
                 </a>
                 <div className="ml-auto flex mr-3">

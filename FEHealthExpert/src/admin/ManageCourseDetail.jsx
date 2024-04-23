@@ -330,6 +330,7 @@ export default function ManageCourseDetail() {
                             dataSource={[course]}
                             rowKey={(record) => record.courseId}
                         />
+                        <h2 className="font-bold text-2xl">Danh sách người học</h2>
                         <Table
                             columns={learnerColumns}
                             dataSource={learners}

@@ -12,6 +12,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import AdminHeader from "../components/AdminHeader";
 
+
 function AdminProfile() {
     const [courses, setCourses] = useState([]);
     const accountId = localStorage.getItem("accountId");

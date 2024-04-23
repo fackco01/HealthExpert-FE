@@ -68,7 +68,7 @@ export default function LearningCourse() {
   // Hàm để lấy dữ liệu cho currentSession và currentLesson từ API GET
   const getCurrentProgress = async () => {
     try {
-      const response = await axios.get(`https://localhost:7158/api/Course/current-progress/${localAccount}?courseId=${id}`);
+      const response = await axios.get(`http://20.2.73.15:8173/api/Course/current-progress/${localAccount}?courseId=${id}`);
       //console.log(response.data);
       if (response.data.length > 0) {
         const currentProgress = response.data[0];

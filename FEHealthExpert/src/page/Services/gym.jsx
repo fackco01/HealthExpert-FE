@@ -57,22 +57,14 @@ export default function Gym() {
       <section>
         {/* contend yoga */}
         <div className="">
-          <h2 className=" mt-10 text-center   text-[30px] text-orange-400">
-            KHÓA HỌC DANCE TẠI HELPEXPERT <br /> THƯ GIÃN TÂM TRÍ, TINH THẦN VÀ
-            CẢI THIỆN SỨC KHỎE
+          <h2 className="mt-10 text-center text-[30px] text-orange-400">
+            KHÓA HỌC GYM TẠI HEALTH EXPERT <br /> TĂNG CƯỜNG SỨC MẠNH, ĐỘ BỀN VÀ TẬP TRUNG
           </h2>
           <p className="text-center mt-3">
-            Tập dance là một hình thức tập luyện giúp giảm cân thư giãn hiệu
-            quả. Với những bài tập giúp <br /> học viên nâng cao nhân thức và
-            tạo ra sự cân bằng giữa tinh thần và thể chất. Tập Dance <br /> mỗi
-            ngày giúp bạn trở nên nhẹ nhàng, chữa lành và tích cực hơn. Đến với
-            <a href="/home">
-              {" "}
-              <span className="text-orange-400"> Helpexpert</span>,
-            </a>
-            <br /> tập luyện và cải thiện thẻ chất và tinh thần của bạn.
+            Tập gym là một phương pháp tập luyện hiệu quả để cải thiện sức khỏe và sức mạnh cơ bắp. Với các bài tập như nâng tạ, đẩy tạ, và các bài tập cơ bản khác, bạn có thể phát triển cơ bắp, tăng cường sức mạnh và độ bền cho cơ thể của mình. <br /> Bên cạnh việc rèn luyện cơ bắp, tập gym còn giúp cải thiện sự linh hoạt, tăng cường sức khỏe tim mạch và hệ miễn dịch. <br /> Đến với <a href="/home"><span className="text-orange-400">Health Expert</span>,</a> khám phá thế giới của gym và bắt đầu hành trình rèn luyện sức khỏe của bạn ngay hôm nay.
           </p>
         </div>
+
       </section>
       <section>
         <div className="course-grid">

@@ -46,6 +46,8 @@ import CourseAdminManageCourse from "./page/Manage_Admin/CourseAdminManageCourse
 import CreatePost from "./page/Post/CreatPost";
 import ListPost from "./page/Post/post";
 import DetailPost from "./page/Post/DetailPost";
+import ManageAllCourseByAdmin from "./admin/ManagerCourseByCourseAdmin";
+import UpdateCourseByCourseAdmin from "./page/Manage_Admin/CourseAdminUpdateCourse";
 
 
 
@@ -77,7 +79,7 @@ export default function App() {
       <Route path="/learningCourse/:id/:sessionId?/:lessonId?" element={<LearningCourse />} />
       <Route path="/manageCourse/:courseId" element={<ManageCourse />} />
       <Route path="/manageCourse" element={<ManageAllCourse />} />
-      <Route path="/manageCourse/update/:courseId" element={<CourseAdminUpdateCourse />} />
+      <Route path="/manageCourse/update/:courseId" element={<UpdateCourseByCourseAdmin />} />
       <Route path="/manageSession" element={<ManageSession />} />
       <Route path="/manageSession/:id" element={<ManageSession />} />
       <Route path="/updateSession/:id" element={<UpdateSession />} />
@@ -91,7 +93,9 @@ export default function App() {
           <Route path="contact" element={<Contact />} />
         <Route path="*" element={<NoPage />} /> */}
       {/* </Route> */}
+      <Route path="/admin" element={<ManageCourseAdmin />} />
       <Route path="/admin/courseAdmin" element={<ManageCourseAdmin />} />
+      <Route path="/admin/courseAdmin/:id" element={<ManageAllCourseByAdmin />} />
       <Route path="/admin/courseManager" element={<ManageCourseManager />} />
       <Route path="/admin/courseLearner" element={<ManageLearner />} />
       <Route path="/admin/profile" element={<AdminProfile />} />

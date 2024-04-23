@@ -117,7 +117,7 @@ export default function DetailCourse() {
   useEffect(() => {
     fetch("http://20.2.73.15:8173/api/feedback")
       .then((response) => response.json())
-      .then((data) => setFeedback(data));
+      .then((data) => setFeedback(data.filter((item) => item.courseId === id)));
   }, []);
 
   const api = "http://20.2.73.15:8173/api/Course/:id";
@@ -364,76 +364,85 @@ export default function DetailCourse() {
                     ĐÁNH GIÁ SẢN PHẨM
                   </h2>
                   {/* ---bài đánh GIÁ */}
-                  <div className="mt-5">
-                    {/* nguoi dung 1 */}
 
-                    <p className=" leading-relaxed text-black">
-                      {feedback.courseId}
-                    </p>
-                    <div className="mt-2">
-                      <p className=" leading-relaxed text-black">{user}</p>
-                      {/* contend */}
-                      <div className="mt-2 rounded-lg bg-gray-100">
-                        <p className="leading-relaxed text-sm max-w-xl px-2  py-2 text-gray-600">
-                          {
-                            feedback?.find(
-                              (item) => item.accountId === accountId
-                            )?.detail
-                          }
+                  {feedback?.findIndex(
+                    (item) => item.accountId === accountId
+                  ) !== -1 && (
+                      <div className="mt-5">
+                        {/* nguoi dung 1 */}
+
+                        <p className=" leading-relaxed text-black">
+                          {feedback.courseId}
                         </p>
-                      </div>
-                    </div>
-                    <div className="flex space-x-4 justify-end ">
-                      <Popconfirm
-                        title="Xóa bài đánh giá"
-                        description="Bạn muốn xóa bài đánh giá này ?"
-                        onConfirm={confirm}
-                        onCancel={cancel}
-                        okText="Yes"
-                        cancelText="No"
-                        okButtonProps={{
-                          style: { backgroundColor: "red" },
-                        }}
-                      >
-                        <button className="text-red-500 bg-white rounded-sm border-2 border-red-600 text-[12px] font-bold py-[2px] w-[50px]">
-                          Xóa
-                        </button>{" "}
-                      </Popconfirm>
-
-                      <button
-                        type="primary"
-                        onClick={() => {
-                          showModal();
-                          setFeedbackConfig(
-                            feedback?.find(
-                              (item) => item.accountId === accountId
-                            )
-                          );
-                        }}
-                        className="text-blue-600 border-2 border-blue-600 ml-3 font-bold   text-[12px] py-[2px] w-[50px] "
-                      >
-                        Sửa
-                      </button>
-                    </div>
-                    {/* nguoi dung 2 */}
-                  </div>
-                  {feedback
-                    ?.filter((item) => item.accountId !== accountId)
-                    .map((item) => {
-                      return (
-                        <div className="mt-5">
-                          <p className=" leading-relaxed text-black">
-                            {item.accountId}
-                          </p>
+                        <div className="mt-2">
+                          <p className=" leading-relaxed text-black">{user}</p>
                           {/* contend */}
                           <div className="mt-2 rounded-lg bg-gray-100">
-                            <p className="leading-relaxed text-sm max-w-xl px-2 py-2 text-gray-600 w-full">
-                              {item.detail}
+                            <p className="leading-relaxed text-sm max-w-xl px-2  py-2 text-gray-600">
+                              {
+                                feedback?.find(
+                                  (item) => item.accountId === accountId
+                                )?.detail
+                              }
                             </p>
                           </div>
                         </div>
-                      );
-                    })}
+
+                        <div className="flex space-x-4 justify-end ">
+                          <Popconfirm
+                            title="Xóa bài đánh giá"
+                            description="Bạn muốn xóa bài đánh giá này ?"
+                            onConfirm={confirm}
+                            onCancel={cancel}
+                            okText="Yes"
+                            cancelText="No"
+                            okButtonProps={{
+                              style: { backgroundColor: "red" },
+                            }}
+                          >
+                            <button className="text-red-500 bg-white rounded-sm border-2 border-red-600 text-[12px] font-bold py-[2px] w-[50px]">
+                              Xóa
+                            </button>{" "}
+                          </Popconfirm>
+
+                          <button
+                            type="primary"
+                            onClick={() => {
+                              showModal();
+                              setFeedbackConfig(
+                                feedback?.find(
+                                  (item) => item.accountId === accountId
+                                )
+                              );
+                            }}
+                            className="text-blue-600 border-2 border-blue-600 ml-3 font-bold   text-[12px] py-[2px] w-[50px] "
+                          >
+                            Sửa
+                          </button>
+                        </div>
+                        {/* nguoi dung 2 */}
+                      </div>
+                    )}
+
+                  {feedback?.length > 0
+                    ? feedback
+                      ?.filter((item) => item.accountId !== accountId)
+                      .map((item) => {
+                        return (
+                          <div className="mt-5">
+                            <p className=" leading-relaxed text-black">
+                              {item.accountId}
+                            </p>
+                            {/* contend */}
+                            <div className="mt-2 rounded-lg bg-gray-100">
+                              <p className="leading-relaxed text-sm max-w-xl px-2 py-2 text-gray-600 w-full">
+                                {item.detail}
+                              </p>
+                            </div>
+                          </div>
+                        );
+                      })
+                    : "Hiện chưa có bài đánh giá nào cho khóa học này"}
                 </div>
               </div>
             </div>

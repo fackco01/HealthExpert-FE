@@ -87,7 +87,9 @@ export default function ManageCourseAdmin() {
         {
             title: "Tên tài khoản",
             dataIndex: "userName",
-            key: "userName",
+            render: (text, record) => (
+                <a onClick={() => navigate(`/admin/courseAdmin/${record.userName}`)}>{record.userName}</a>
+            ),
         },
         {
             title: "Tên trung tâm",
@@ -129,21 +131,21 @@ export default function ManageCourseAdmin() {
                 </Button>
             ),
         },
-        {
-            title: "Thao tác",
-            dataIndex: "name",
-            render: (_, record) => (
-                <div>
-                    <Link
-                        to={`/admin/account/update/${record.accountId}`}
-                        className="bg-orange-400 w-[100px] py-1 rounded-xl"
-                    >
-                        &nbsp;&nbsp;&nbsp;Chỉnh sửa&nbsp;&nbsp;&nbsp;
-                    </Link>
-                </div>
-            ),
-            width: "30%",
-        },
+        // {
+        //     title: "Thao tác",
+        //     dataIndex: "name",
+        //     render: (_, record) => (
+        //         <div>
+        //             <Link
+        //                 to={`/admin/account/update/${record.accountId}`}
+        //                 className="bg-orange-400 w-[100px] py-1 rounded-xl"
+        //             >
+        //                 &nbsp;&nbsp;&nbsp;Chỉnh sửa&nbsp;&nbsp;&nbsp;
+        //             </Link>
+        //         </div>
+        //     ),
+        //     width: "30%",
+        // },
     ];
 
     const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
@@ -171,7 +173,7 @@ export default function ManageCourseAdmin() {
                 {/* Body */}
                 <div className="w-[80%] mt-3">
                     <h2 className="font-bold text-2xl">WELCOME {admin}</h2>
-                    <div className="mt-10">
+                    <div className="mt-10 mr-5">
                         <Table
                             columns={columns}
                             dataSource={accounts}

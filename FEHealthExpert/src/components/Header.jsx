@@ -174,7 +174,7 @@ const Header = () => {
     return (
       <Menu {...props}>
         <Menu.Item >
-          <a href="/gym">GYM</a>
+          <a href="/gym">Gym</a>
         </Menu.Item>
         <Menu.Item>
           <a href="/dance">Dance</a>

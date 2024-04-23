@@ -33,7 +33,7 @@ function UpdateCourse() {
       );
       if (response.status === 200) {
         navigate(`/admin/course`);
-        //window.location.reload();
+        // window.location.reload();
       } else {
         console.error("Error updating course data: ", response.statusText);
       }
@@ -41,6 +41,7 @@ function UpdateCourse() {
       console.error("Error updating course data: ", error);
     }
   };
+
 
 
   return (

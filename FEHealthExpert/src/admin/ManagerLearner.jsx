@@ -110,21 +110,21 @@ export default function ManageLearner() {
                 </Button>
             ),
         },
-        {
-            title: "Thao tác",
-            dataIndex: "name",
-            render: (_, record) => (
-                <div>
-                    <Link
-                        to={`/admin/account/update/${record.accountId}`}
-                        className="bg-orange-400 w-[100px] py-1 rounded-xl"
-                    >
-                        &nbsp;&nbsp;&nbsp;Chỉnh sửa&nbsp;&nbsp;&nbsp;
-                    </Link>
-                </div>
-            ),
-            width: "30%",
-        },
+        // {
+        //     title: "Thao tác",
+        //     dataIndex: "name",
+        //     render: (_, record) => (
+        //         <div>
+        //             <Link
+        //                 to={`/admin/account/update/${record.accountId}`}
+        //                 className="bg-orange-400 w-[100px] py-1 rounded-xl"
+        //             >
+        //                 &nbsp;&nbsp;&nbsp;Chỉnh sửa&nbsp;&nbsp;&nbsp;
+        //             </Link>
+        //         </div>
+        //     ),
+        //     width: "30%",
+        // },
     ];
 
     const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);

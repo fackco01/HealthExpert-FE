@@ -42,6 +42,7 @@ import { Link } from 'react-router-dom';
 
 // import { useDispatch } from "react-redux";
 import axios from 'axios';
+import Footer from '../../components/Footer';
 
 export default function Home() {
   // const dispatch = useDispatch();
@@ -355,6 +356,9 @@ export default function Home() {
             </button>
           </div>
         </section>
+      </div>
+      <div>
+        <Footer></Footer>
       </div>
     </>
   );

@@ -241,7 +241,7 @@ const Header = () => {
               href="/tranformation"
               className="lg:hover:text-[#FFA500] text-gray-500 block font-semibold text-[15px]"
             >
-              Tranfor
+              Thay đổi
             </a>
           </li>
           {/* <li className="max-lg:border-b max-lg:py-2 px-3">

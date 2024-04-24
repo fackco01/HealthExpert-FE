@@ -317,7 +317,7 @@ export default function DetailCourse() {
           className="w-full h-[300px] bg-cover bg-center bg-top-[30px]"
           style={{
             backgroundImage: `url(${images.background})`,
-            backgroundPosition: "center top -250px"
+            backgroundPosition: "center"
           }}
         ></div>
         <div className="flex">

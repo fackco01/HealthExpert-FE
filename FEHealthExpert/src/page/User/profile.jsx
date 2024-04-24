@@ -12,11 +12,16 @@ import {
 import { DatePicker } from 'antd';
 import axios from "axios";
 import { Link } from "react-router-dom";
+import avatarwoman from "../../img/avatarwoman.jpg"
+import avatarman from "../../img/avatarman.jpg"
+import yogaicon from "../../img/Yoga_icon.png";
+import gymicon from "../../img/Gym_icon.png";
+import boxingicon from "../../img/Boxing_icon.png";
+import danceicon from "../../img/Dance_icon.png";
 
 function YourProfile() {
   const [courses, setCourses] = useState([]);
   const accountId = localStorage.getItem("accountId");
-
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [fullName, setFullName] = useState("");
@@ -25,7 +30,8 @@ function YourProfile() {
   const [gender, setGender] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [formattedDate, setFormattedDate] = useState("");
-
+  const [avatarName, setAvatarName] = useState("");
+  const avatar = {};
   dayjs.extend(customParseFormat);
 
   const { RangePicker } = DatePicker;
@@ -37,15 +43,6 @@ function YourProfile() {
   /** Manually entering any of the following formats will perform date parsing */
   const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY', 'DD-MM-YYYY', 'DD-MM-YY'];
 
-  const customFormat: DatePickerProps['format'] = (value) =>
-    `custom format: ${value.format(dateFormat)}`;
-
-  const customWeekStartEndFormat: DatePickerProps['format'] = (value) =>
-    `${dayjs(value).startOf('week').format(weekFormat)} ~ ${dayjs(value)
-      .endOf('week')
-      .format(weekFormat)}`;
-
-
   useEffect(() => {
     // Check if user is logged in using your preferred method (e.g., checking local storage)
     const username = localStorage.getItem("user");
@@ -54,9 +51,6 @@ function YourProfile() {
     }
   }, []);
 
-  const navigateToRegistered = () => {
-    navigate('/registeredCourse');
-  };
 
   function getProfile(username) {
     fetch(`http://20.2.73.15:8173/api/Account/GetListAccount`, {
@@ -80,8 +74,8 @@ function YourProfile() {
           if (foundUser) {
             localStorage.setItem("accountId", foundUser.accountId);
             setFullName(foundUser.fullName);
+            setAvatarName(foundUser.fullName);
             setEmail(foundUser.email);
-            setGender(foundUser.gender);
             setPhone(foundUser.phone);
             setBirthDate(new Date(foundUser.birthDate));
             setFormattedDate(formatDate(foundUser.birthDate));
@@ -99,9 +93,12 @@ function YourProfile() {
       })
       .catch(error => {
         console.error("Lỗi load dữ liệu!", error);
-
       });
   }
+
+  if (gender === "Nam") {
+    avatar.img = avatarman;
+  } else (avatar.img = avatarwoman)
 
   function updateAccount() {
     const accountId = localStorage.getItem("accountId"); // Get the account ID from localStorage or any source you store it
@@ -136,7 +133,7 @@ function YourProfile() {
   }
 
   useEffect(() => {
-    // Sau khi birthDate được cập nhật, định dạng lại ngày tháng và lưu vào state formattedDate
+
     setFormattedDate(formatDate(birthDate));
   }, [birthDate]);
 
@@ -181,6 +178,19 @@ function YourProfile() {
     }
   }, [accountId]);
 
+  const getImageForType = (typeId) => {
+    switch (typeId) {
+      case 1:
+        return yogaicon;
+      case 2:
+        return boxingicon;
+      case 3:
+        return danceicon;
+      case 4:
+        return gymicon;
+    }
+  };
+
   return (
     <>
       <base href="./" />
@@ -196,12 +206,12 @@ function YourProfile() {
         <div className="">
           <img src={center} alt="" className="relative object-cover w-full h-96 z-0" />
           <div className="flex">
-            <div className="flex ml-5 -mt-28 z-10 px-2">
-              <img src={pfp} alt="" className="z-10 object-scale-down w-48" />
+            <div className="flex ml-5 -mt-28 z-10 px-2 border border-orange-400 border-[3px] w-48 relative">
+              <img src={avatar.img} alt="" className="z-10 w-full h-full absolute inset-0" />
               {/* <p className='text-xl font-bold ml-8 mt-32'></p> */}
 
             </div>
-            <p className="text-white-600 text-3xl	flex justify-center items-center ml-20">{fullName}</p>
+            <p className="text-white-600 text-3xl	flex justify-center items-center ml-20">{avatarName}</p>
           </div>
         </div>
         {/* two columns */}
@@ -209,7 +219,7 @@ function YourProfile() {
           <div className="flex flex-auto border rounded shadow-2xl mb-4 mx-auto w-full"> {/* Sử dụng flex-auto để cả 2 cột co giãn */}
             {/* left column: about */}
             <div className="flex-auto border rounded shadow-2xl w-3/12"> {/* Sử dụng w-3/12 để chia thành 3 phần */}
-              <p className="ml-3 mt-3 font-bold">Giới thiệu</p>
+              <p className="ml-3 mt-3 font-bold">Thông tin cá nhân</p>
               <br />
               <hr />
               <div className="ml-3">
@@ -220,13 +230,20 @@ function YourProfile() {
                 <label className="block">Số điện thoại:</label>
                 <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} className="border rounded px-2 py-1 mb-2" />
                 <label className="block">Giới tính:</label>
-                <select value={gender} onChange={(e) => setGender(e.target.value)} className="border rounded px-2 py-1 mb-2">
-                  <option value="Nam">Nam</option>
-                  <option value="Nữ">Nữ</option>
-                </select>
-                <label className="block">Ngày sinh:</label>
+                <input
+                  type="text"
+                  value={gender}
+                  onChange={(e) => {
+                    const inputValue = e.target.value.toLowerCase(); // Chuyển đổi giá trị nhập vào thành chữ thường để so sánh dễ dàng hơn
+                    if (inputValue === 'nu') {
+                      setGender(false);
+                    } else if (inputValue === 'nam') {
+                      setGender(true);
+                    }
+                  }}
+                  className="border rounded px-2 py-1 mb-2"
+                />                <label className="block">Ngày sinh:</label>
                 <input type="text" value={formattedDate} onChange={(e) => setBirthDate(e.target.value)} className="border rounded px-2 py-1 mb-2" />
-                {/* <DatePicker defaultValue={dayjs(formattedDate, dateFormat)} selected={birthDate} onChange={date => setBirthDate(date)} className="border rounded px-2 py-1 mb-2" /> */}
               </div>
               <br />
               <hr />
@@ -240,10 +257,10 @@ function YourProfile() {
                 {courses.map(course => (
                   <li key={course.courseId}>
                     <div className="flex px-2 ml-6 mb-7">
-                      <img src={cover} alt="" className="rounded object-scale-down w-48" />
+                      <img src={getImageForType(course.typeId)} alt="" className="rounded object-scale-down w-32" />
                       <div className="">
                         <Link className="mt-3 ml-5"
-                          to={`/learningCourse/${course.courseId}`}>
+                          to={`/detailCourse/${course.courseId}`}>
                           <h3 className=" text-xl font-bold ml-8">{course.courseName}</h3>
                         </Link>
 
@@ -254,25 +271,6 @@ function YourProfile() {
                 ))}
               </ul>
               <br />
-              {/* section for one course begins */}
-
-              <br />
-              {/* section for one course ends */}
-              {/* dummy data */}
-              {/* <div className="flex px-2 ml-6 mb-7">
-                <img src={cover} alt="" className="rounded object-scale-down w-48" />
-                <div className="">
-                  <p className='text-xl font-bold ml-8'>my COURSE???</p>
-                  <p className="text-ellipsis overflow-hidden line-clamp-4 ml-8 mr-5">
-                    Pizza Hut was launched on May 31, 1958, by two brothers, Dan and Frank Carney, both Wichita State
-                    students, as a single location in Wichita, Kansas. Six months later they opened a second outlet, and
-                    within a year they were operating six locations.</p>
-                </div>
-              </div> */}
-              <hr />
-              {/* <br />
-              <a onClick={navigateToRegistered} style={{ cursor: 'pointer' }} className="flex px-2 ml-6 hover:underline hover:text-blue-500">Danh sách các khóa học bạn đã đăng ký</a>
-              <br /> */}
             </div>
           </div>
         </div>

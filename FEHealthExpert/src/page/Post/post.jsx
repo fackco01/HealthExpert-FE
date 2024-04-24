@@ -11,6 +11,7 @@ import Post5 from "../../img/post5.jpg";
 import Post6 from "../../img/post6.jpg";
 import Post7 from "../../img/post7.jpg";
 import { format } from "date-fns";
+import Footer from "../../components/Footer";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default function ListPost() {

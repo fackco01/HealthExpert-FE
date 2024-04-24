@@ -1,22 +1,10 @@
 
 import React from "react";
 import { useState, useEffect } from 'react';
-
-import yogabackground from "../../img/yogabackground.jpg";
+import boxingbackground from "../../img/boxingbackground.jpg";
 import Header from "../../components/Header";
-import yoga1 from "../../img/yoga1.jpg";
-import yoga2 from "../../img/yoga2.jpg";
-import yoga3 from "../../img/yoga3.jpg";
-import yoga4 from "../../img/yoga4.jpg";
-import yoga5 from "../../img/yoga5.jpg";
-import yoga6 from "../../img/yoga6.jpg";
-import yoga7 from "../../img/yoga7.jpg";
-import yoga8 from "../../img/yoga8.jpg";
-import yoga9 from "../../img/yoga9.jpg";
-
-
+import boxingcourse from "../../img/boxingcourse.jpg";
 import danceackground from "../../img/dancebackground.jpg";
-
 import { Pagination } from "antd";
 import './dance.css';
 import DetailCourse from "../DescriptionCourse/DetailCourse";
@@ -56,9 +44,13 @@ export default function Boxing() {
         <Header />
       </div>
       {/* background yoga */}
-      <div>
-        <img className="w-full" src={yogabackground} alt="" />
-      </div>
+      <div
+        className="w-full h-[300px] bg-cover bg-center bg-top-[30px]"
+        style={{
+          backgroundImage: `url(${boxingbackground})`,
+          backgroundPosition: "center top -250px"
+        }}
+      ></div>
       <section>
         {/* contend yoga */}
         <div className="">
@@ -77,12 +69,12 @@ export default function Boxing() {
               <div className="w-full mt-10">
                 <div className="flex justify-center mx-auto w-[70%] ">
                   <div className="flex flex-col h-[450px] hover:shadow-md">
-                    <img className="w-[350px] h-[250px] " src={yoga2} alt="" />
+                    <img className="w-[80%] h-[250px] " src={boxingcourse} alt="" />
                     <Link className="mt-3 ml-5"
                       to={`/detailCourse/${course.courseId}`}>
                       <h3 className="text-orange-400 text-[20px] mt-2 ">{course.courseName}</h3>
                     </Link>
-                    <p className="w-[50%] text-[14px] mt-3 ml-5">
+                    <p className="w-[70%] text-[14px] mt-3 ml-5 line-clamp-3">
                       {course.description}
                     </p>
                   </div>

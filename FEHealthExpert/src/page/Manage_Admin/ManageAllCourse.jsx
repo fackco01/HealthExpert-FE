@@ -28,26 +28,38 @@ export default function ManageAllCourse() {
     const [email, setEmail] = useState("");
 
     useEffect(() => {
-
-        if (!user) {
-            console.error("Không có người dùng trong localStorage!");
-            return;
+        const roleIdFromLocalStorage = localStorage.getItem("roleId");
+        setRoleId(roleIdFromLocalStorage);
+        if (roleIdFromLocalStorage && roleIdFromLocalStorage === "2") {
+            setCheckRole(true);
         }
-        fetch(`http://20.2.73.15:8173/api/Account/GetListAccount`, {
-            method: "GET",
-            headers: {
-                "Authorization": "Bearer YOUR_ACCESS_TOKEN",
-            }
-        })
-            .then(response => {
+        if (roleIdFromLocalStorage && roleIdFromLocalStorage === "3") {
+            setCheckManager(true);
+        }
+        if (roleIdFromLocalStorage && roleIdFromLocalStorage === "4") {
+            navigate('/home');
+        }
+    }, []);
+
+    useEffect(() => {
+        const fetchAccountData = async () => {
+            try {
+                if (!user) {
+                    console.error("Không có người dùng trong localStorage!");
+                    return;
+                }
+                const response = await fetch(`http://20.2.73.15:8173/api/Account/GetListAccount`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": "Bearer YOUR_ACCESS_TOKEN",
+                    }
+                });
                 if (!response.ok) {
                     console.error(`Lỗi load dữ liệu!`);
                     alert("Lỗi load dữ liệu!");
                     throw new Error("Lỗi load dữ liệu!");
                 }
-                return response.json();
-            })
-            .then(data => {
+                const data = await response.json();
                 if (Array.isArray(data)) {
                     const foundUser = data.find(accountList => accountList.userName === user);
                     if (foundUser) {
@@ -57,73 +69,125 @@ export default function ManageAllCourse() {
                         if (roleIdFromLocalStorage && roleIdFromLocalStorage === "3") {
                             setEmail(foundUser.email);
                         }
-
                     } else {
                         console.error("Lỗi load dữ liệu!");
                     }
                 } else {
                     console.error("Lỗi load dữ liệu!");
                 }
-            })
-            .catch(error => {
-                console.error("Lỗi load dữ liệu!", error);
-            });
-    }, []);
-
-    useEffect(() => {
-        const roleIdFromLocalStorage = localStorage.getItem("roleId");
-        setRoleId(roleIdFromLocalStorage);
-        if (roleIdFromLocalStorage && roleIdFromLocalStorage === "2") {
-            setCheckRole(true);
-        }
-        if (roleIdFromLocalStorage && roleIdFromLocalStorage === "3") {
-            setCheckManager(true);
-        }
-    }, []);
-
-    useEffect(() => {
-        const fetchCourses = async () => {
-            try {
-                const response = await axios.get(`http://20.2.73.15:8173/api/Course/`);
-                const filteredCourses = response.data.filter(data => data.createBy === user);
-                setCourses(filteredCourses);
             } catch (error) {
-                console.error("Error fetching courses: ", error);
+                console.error("Lỗi load dữ liệu!", error);
             }
         };
-        if (centerName) {
-            fetchCourses();
-        }
-    }, [centerName]);
+
+        fetchAccountData();
+    }, [user]);
 
     useEffect(() => {
-        if (!email) {
-            console.error("Lỗi load dữ liệu");
-            return;
-        }
-        const fetchCoursesByManager = async () => {
+        const fetchCourseData = async () => {
             try {
-                const response1 = await axios.get(`http://20.2.73.15:8173/api/Course/managers/email/${email}`);
-                if (response1.data.length > 0) {
-                    const currentProgress = response1.data[0];
-                    setCoursesByManager(currentProgress.courseId);
-                    console.log(coursesByManager);
-                    const response2 = await axios.get(`http://20.2.73.15:8173/api/Course/`);
-                    const filteredCourses = response2.data.filter(data => data.courseId === coursesByManager);
+                // Sau khi đã gọi fetch dữ liệu tài khoản và setEmail đã được gọi, tiếp tục gọi fetch dữ liệu khóa học
+                if (checkRole) {
+                    const response = await axios.get(`http://20.2.73.15:8173/api/Course/`);
+                    const filteredCourses = response.data.filter(data => data.createBy === user);
                     setCourses(filteredCourses);
+                }
+                if (checkManager && email) {
+                    const response1 = await axios.get(`http://20.2.73.15:8173/api/Course/managers/email/${email}`);
+                    console.log(response1);
+                    if (response1.data.length > 0) {
+                        const currentProgress = response1.data[0];
+                        setCoursesByManager(currentProgress.courseId);
+
+                        const response2 = await axios.get(`http://20.2.73.15:8173/api/Course/${currentProgress.courseId}`);
+                        //const filteredCourses = response2.data.filter(data => data.courseId === coursesByManager);
+                        setCourses([response2.data]);
+                    }
                 }
             } catch (error) {
                 console.error("Error fetching courses: ", error);
             }
         };
-        if (email) {
-            fetchCoursesByManager();
-        }
-    }, [email]);
 
+        fetchCourseData();
+    }, [user, email, checkRole, checkManager]);
+
+
+    // useEffect(() => {
+    //     if (!user) {
+    //         console.error("Không có người dùng trong localStorage!");
+    //         return;
+    //     }
+    //     fetch(`http://20.2.73.15:8173/api/Account/GetListAccount`, {
+    //         method: "GET",
+    //         headers: {
+    //             "Authorization": "Bearer YOUR_ACCESS_TOKEN",
+    //         }
+    //     })
+    //         .then(response => {
+    //             if (!response.ok) {
+    //                 console.error(`Lỗi load dữ liệu!`);
+    //                 alert("Lỗi load dữ liệu!");
+    //                 throw new Error("Lỗi load dữ liệu!");
+    //             }
+    //             return response.json();
+    //         })
+    //         .then(data => {
+    //             if (Array.isArray(data)) {
+    //                 const foundUser = data.find(accountList => accountList.userName === user);
+    //                 if (foundUser) {
+    //                     setCenterName(foundUser.fullName);
+    //                     const roleIdFromLocalStorage = localStorage.getItem("roleId");
+    //                     setRoleId(roleIdFromLocalStorage);
+    //                     if (roleIdFromLocalStorage && roleIdFromLocalStorage === "3") {
+    //                         setEmail(foundUser.email);
+    //                     }
+
+    //                 } else {
+    //                     console.error("Lỗi load dữ liệu!");
+    //                 }
+    //             } else {
+    //                 console.error("Lỗi load dữ liệu!");
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.error("Lỗi load dữ liệu!", error);
+    //         });
+    // }, []);
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             if (setCheckRole) {
+    //                 const response = await axios.get(`http://20.2.73.15:8173/api/Course/`);
+    //                 const filteredCourses = response.data.filter(data => data.createBy === user);
+    //                 setCourses(filteredCourses);
+    //             }
+    //             if (setCheckManager) {
+    //                 const response1 = await axios.get(`http://20.2.73.15:8173/api/Course/managers/email/${email}`);
+    //                 console.log(response1);
+    //                 if (response1.data.length > 0) {
+    //                     const currentProgress = response1.data[0];
+    //                     setCoursesByManager(currentProgress.courseId);
+
+    //                     const response2 = await axios.get(`http://20.2.73.15:8173/api/Course/`);
+    //                     const filteredCourses = response2.data.filter(data => data.courseId === coursesByManager);
+    //                     setCourses(filteredCourses);
+    //                 }
+    //             }
+    //         } catch (error) {
+    //             console.error("Error fetching courses: ", error);
+    //         }
+    //     };
+
+    //     if (setCheckRole || setCheckManager) {
+    //         fetchData();
+    //     }
+    // }, [setCheckRole, setCheckManager, user, email]);
 
 
     useEffect(() => {
+        console.log(courses);
         // Tính tổng doanh thu
         const totalRevenue = courses.reduce((acc, course) => {
             return acc + (course.studentNumber * course.price);
@@ -178,7 +242,9 @@ export default function ManageAllCourse() {
                 <div className="flex">
                     {checkManager ? (
                         // Nội dung cho quản lý
-                        <div></div>
+                        <div className="bg-orange-400 w-[100px] py-1 rounded-xl ml-10 text-center">
+                            <a onClick={() => navigate(`/manageCourse/${record.courseId}`)}>Chi tiết</a>
+                        </div>
                     ) : (
                         // Nội dung cho vai trò khác
                         <div className="flex">
@@ -231,6 +297,7 @@ export default function ManageAllCourse() {
             navigate('/admin/course', { replace: true }); // Điều hướng sau khi xóa
         }
     };
+
     return (
         <>
             <div className="w-full" >
@@ -244,7 +311,11 @@ export default function ManageAllCourse() {
                     </div>
                 </div>
                 <div className="w-[80%] mt-3">
-                    <h2 className="font-bold text-2xl">Trung tâm {centerName}</h2>
+                    {checkRole ?
+                        <h2 className="font-bold text-2xl">Trung tâm {centerName}</h2>
+                        :
+                        <h2 className="font-bold text-2xl">Quản lí {centerName}</h2>
+                    }
                     {checkRole ?
                         <Button
                             type="primary"
@@ -279,7 +350,7 @@ export default function ManageAllCourse() {
                     <div className="mt-10">
                         <Table
                             columns={columns}
-                            dataSource={courses}
+                            dataSource={courses ?? []}
                             rowKey={(record) => record.courseId}
 
                         />

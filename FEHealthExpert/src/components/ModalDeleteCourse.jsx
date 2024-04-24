@@ -23,7 +23,7 @@ const ModalDeleteCourse = ({ courseId, onDelete, isModalOpen, setIsModalOpen }) 
         onOk={handleOk}
         onCancel={() => setIsModalOpen(false)}
       >
-        <p>Are you sure you want to delete this course?</p>
+        <p>Bạn có chắc sẽ xóa khóa học này không?</p>
       </Modal>
     </>
   );

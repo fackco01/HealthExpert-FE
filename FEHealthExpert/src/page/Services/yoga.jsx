@@ -56,9 +56,10 @@ export default function Yoga() {
         <Header />
       </div>
       {/* background yoga */}
-      <div>
-        <img className="w-full" src={yogabackground} alt="" />
-      </div>
+      <div
+        className="w-full h-[300px] bg-cover bg-center"
+        style={{ backgroundImage: `url(${yogabackground})` }}
+      ></div>
       <section>
         {/* contend yoga */}
         <div className="">
@@ -78,12 +79,12 @@ export default function Yoga() {
               <div className="w-full mt-10">
                 <div className="flex justify-center mx-auto w-[70%] ">
                   <div className="flex flex-col h-[450px] hover:shadow-md">
-                    <img className="w-[350px] h-[250px] " src={yoga1} alt="" />
+                    <img className="w-[80%] h-[250px] " src={yoga3} alt="" />
                     <Link className="mt-3 ml-5"
                       to={`/detailCourse/${course.courseId}`}>
                       <h3 className="text-orange-400 text-[20px] mt-2 ">{course.courseName}</h3>
                     </Link>
-                    <p className="w-[50%] text-[14px] mt-3 ml-5">
+                    <p className="w-[70%] text-[14px] mt-3 ml-5 line-clamp-3">
                       {course.description}
                     </p>
                   </div>

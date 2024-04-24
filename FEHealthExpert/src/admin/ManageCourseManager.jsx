@@ -73,27 +73,6 @@ export default function ManageCourseManager() {
         }
     };
 
-    useEffect(() => {
-        const fetchCourseManager = async () => {
-            try {
-                const userRes = await axios.get(`https://localhost:7158/api/Account/GetListAccount`);
-                const matchingUser = userRes.data.filter(user => user.roleId === 3);
-                const accumulatedAccounts = [];
-                for (const user of matchingUser) {
-                    const cmRes = await axios.get(`https://localhost:7158/api/Course/managers/email/${user.email}`);
-                    const coursesWithId = cmRes.data.map(course => ({ ...course, email: user.email })); // Add email to each course
-                    accumulatedAccounts.push(...coursesWithId);
-                }
-                setAccounts(accumulatedAccounts);
-            } catch (error) {
-                console.error("Error fetching courses: ", error);
-            }
-        };
-        if (admin) {
-            fetchCourseManager();
-        }
-    }, [admin]);
-
     //Collumn
     const columns = [
         {
@@ -137,6 +116,7 @@ export default function ManageCourseManager() {
         //     render: (_, record) => (
         //         <div>
         //             <Link
+        //                 to={`/admin/account/update/${record.accountId}`}
         //                 className="bg-orange-400 w-[100px] py-1 rounded-xl"
         //             >
         //                 &nbsp;&nbsp;&nbsp;Chỉnh sửa&nbsp;&nbsp;&nbsp;
@@ -158,10 +138,11 @@ export default function ManageCourseManager() {
     //HTML
     return (
         <>
-            <div className="w-full">
+            <div className="w-full" >
                 <AdminHeader />
             </div>
             <div className="w-full flex">
+                {/* Side bar */}
                 <div className="w-[20%] h-full">
                     <div className="home-page">
                         <AdminMenu />
@@ -175,10 +156,8 @@ export default function ManageCourseManager() {
                     <div className="mt-10">
                         <Table
                             columns={columns}
-                            dataSource={accounts.filter(account => account.courseId !== null).map(account => ({ ...account, key: account.accountId }))}
+                            dataSource={accounts}
                         />
-
-
                     </div>
                 </div>
                 {/* End Body */}

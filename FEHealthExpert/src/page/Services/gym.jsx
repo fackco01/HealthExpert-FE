@@ -1,17 +1,10 @@
 import React from "react";
 import { useState, useEffect } from 'react';
 
-import danceackground from "../../img/dancebackground.jpg";
+import gymbackground from "../../img/gymbackground.jpg";
 import Header from "../../components/Header";
-import dance1 from "../../img/dance1.jpg";
-import dance2 from "../../img/dance2.jpg";
-import dance3 from "../../img/dance3.jpg";
-import dance4 from "../../img/dance4.jpg";
-import dance5 from "../../img/dance5.jpg";
-import dance6 from "../../img/dance6.jpg";
-import dance7 from "../../img/dance7.jpg";
-import dance8 from "../../img/dance8.jpg";
-import dance9 from "../../img/dance9.jpg";
+import gymcourse from "../../img/gymcourse.jpg";
+
 import { Pagination } from "antd";
 import './dance.css';
 import DetailCourse from "../DescriptionCourse/DetailCourse";
@@ -51,9 +44,10 @@ export default function Gym() {
         <Header />
       </div>
       {/* background yoga */}
-      <div>
-        <img className="w-full" src={danceackground} alt="" />
-      </div>
+      <div
+        className="w-full h-[300px] bg-cover bg-center"
+        style={{ backgroundImage: `url(${gymbackground})` }}
+      ></div>
       <section>
         {/* contend yoga */}
         <div className="">
@@ -73,12 +67,12 @@ export default function Gym() {
               <div className="w-full mt-10">
                 <div className="flex justify-center mx-auto w-[70%] ">
                   <div className="flex flex-col h-[450px] hover:shadow-md">
-                    <img className="w-[350px] h-[250px] " src={dance2} alt="" />
+                    <img className="w-[80%] h-[250px] " src={gymcourse} alt="" />
                     <Link className="mt-3 ml-5"
                       to={`/detailCourse/${course.courseId}`}>
                       <h3 className="text-orange-400 text-[20px] mt-2 ">{course.courseName}</h3>
                     </Link>
-                    <p className="w-[50%] text-[14px] mt-3 ml-5">
+                    <p className="w-[70%] text-[14px] mt-3 ml-5 line-clamp-3">
                       {course.description}
                     </p>
                   </div>
@@ -96,125 +90,6 @@ export default function Gym() {
           </div>
         )}
       </section >
-      {/* <div className="mt-3">
-        <Pagination className="text-center" defaultCurrent={1} total={50} />
-      </div> */}
-      {/* <div className="w-full mt-10">
-        <div className="flex justify-center mx-auto w-[70%] ">
-          <div className="flex flex-col h-[450px] hover:shadow-md">
-            <img className="w-[350px] h-[250px] " src={dance1} alt="" />
-            <a href="#" className="mt-3 ml-5">
-              <h3 className="text-orange-400 text-[20px] mt-2 ">CARDIO</h3>
-            </a>
-            <p className="w-[50%] text-[14px] mt-3 ml-5">
-              Cardio là từ viết tắt của Cardiovascular là phương pháp tập luyện
-              có tác dụng đốt cháy calo nhanh chóng, góp phần tăng nhịp tim, cải
-              thiện quá trình trao đổi chất
-            </p>
-          </div>
-          <div className="flex flex-col h-[450px] hover:shadow-md">
-            <img className="w-[350px] h-[250px] " src={dance2} alt="" />
-            <a href="#" className="mt-3 ml-5">
-              <h3 className="text-orange-400 text-[20px] mt-2 ">ZUMBA DANCE</h3>
-            </a>
-            <p className="w-[50%] text-[14px] mt-3 ml-5">
-              Zumba là bộ môn trở thành một trong những lớp Dance Fitness được
-              yêu thích nhất, được tạo nên trên nền nhạc Latin, kết hợp từ bốn
-              thể loại âm nhạc Latin
-            </p>
-          </div>
-          <div className="flex flex-col h-[450px] hover:shadow-md">
-            <img className="w-[350px] h-[250px] " src={dance3} alt="" />
-            <a href="#" className="mt-3 ml-5">
-              <h3 className="text-orange-400 text-[20px] mt-2 ">AEROBICS</h3>
-            </a>
-            <p className="w-[50%] text-[14px] mt-3 ml-5">
-              Tập Aerobics hay còn gọi là thể dục nhịp điệu, là lớp nhảy trên
-              nền nhạc pop, Aerobics là lớp có động tác đơn giản nhất nên người
-              tập rất dễ nhớ được nhịp độ của bài tập.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="w-full mt-5">
-        <div className="flex justify-center mx-auto w-[70%] ">
-          <div className="flex flex-col h-[450px] hover:shadow-md">
-            <img className="w-[350px] h-[250px] " src={dance4} alt="" />
-            <a href="#" className="mt-3 ml-5">
-              <h3 className="text-orange-400 text-[20px] mt-2 ">BELLY DANCE</h3>
-            </a>
-            <p className="w-[50%] text-[14px] mt-3 ml-5">
-              Tập Belly Dance, hay còn được gọi là múa bụng, là một lớp tập với
-              các động tác múa được thực hiện trên nền nhạc pop. Đặc điểm nổi
-              bật của Belly Dance là các động tác đơn giản nhất
-            </p>
-          </div>
-          <div className="flex flex-col h-[450px] hover:shadow-md">
-            <img className="w-[350px] h-[250px] " src={dance5} alt="" />
-            <a href="#" className="mt-3 ml-5">
-              <h3 className="text-orange-400 text-[20px] mt-2 ">
-                MODERN DANCE
-              </h3>
-            </a>
-            <p className="w-[50%] text-[14px] mt-3 ml-5">
-              Tập nhảy hiện đại là một lớp tập với các động tác nhảy phức tạp
-              thường được biểu diễn trên nền nhạc điện tử. Điều đặc biệt của tập
-              nhảy này chính là sự đa dạng và sáng tạo trong các động tác.
-            </p>
-          </div>
-          <div className="flex flex-col h-[450px] hover:shadow-md">
-            <img className="w-[350px] h-[250px] " src={dance6} alt="" />
-            <a href="#" className="mt-3 ml-5">
-              <h3 className="text-orange-400 text-[20px] mt-2 ">
-                HIPHOP DANCE
-              </h3>
-            </a>
-            <p className="w-[50%] text-[14px] mt-3 ml-5">
-              Tập Hip-hop là một lớp tập với các động tác nhảy phức tạp trên nền
-              nhạc hip-hop. Điều đặc biệt là sự đa dạng và sáng tạo trong các
-              động tác, mang lại sự thú vị và thách thức cho người tập.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="w-full mt-10">
-        <div className="flex justify-center mx-auto w-[70%] ">
-          <div className="flex flex-col h-[450px] hover:shadow-md">
-            <img className="w-[350px] h-[250px] " src={dance7} alt="" />
-            <a href="#" className="mt-3 ml-5">
-              <h3 className="text-orange-400 text-[20px] mt-2 ">BASIC YOGA</h3>
-            </a>
-            <p className="w-[50%] text-[14px] mt-3 ml-5">
-              Tập Aerobics hay còn gọi là thể dục nhịp điệu, là lớp nhảy trên
-              nền nhạc pop, Aerobics là lớp có động tác đơn giản nhất nên người
-              tập rất dễ nhớ được nhịp độ của bài tập.
-            </p>
-          </div>
-          <div className="flex flex-col h-[450px] hover:shadow-md">
-            <img className="w-[350px] h-[250px] " src={dance8} alt="" />
-            <a href="#" className="mt-3 ml-5">
-              <h3 className="text-orange-400 text-[20px] mt-2 ">BASIC YOGA</h3>
-            </a>
-            <p className="w-[50%] text-[14px] mt-3 ml-5">
-              Tập Aerobics hay còn gọi là thể dục nhịp điệu, là lớp nhảy trên
-              nền nhạc pop, Aerobics là lớp có động tác đơn giản nhất nên người
-              tập rất dễ nhớ được nhịp độ của bài tập.
-            </p>
-          </div>
-          <div className="flex flex-col h-[450px] hover:shadow-md">
-            <img className="w-[350px] h-[250px] " src={dance9} alt="" />
-            <a href="#" className="mt-3 ml-5">
-              <h3 className="text-orange-400 text-[20px] mt-2 ">BASIC YOGA</h3>
-            </a>
-            <p className="w-[50%] text-[14px] mt-3 ml-5">
-              Tập Aerobics hay còn gọi là thể dục nhịp điệu, là lớp nhảy trên
-              nền nhạc pop, Aerobics là lớp có động tác đơn giản nhất nên người
-              tập rất dễ nhớ được nhịp độ của bài tập.
-            </p>
-          </div>
-        </div>
-      </div> */}
-
     </>
   );
 }

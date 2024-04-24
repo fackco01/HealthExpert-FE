@@ -11,21 +11,28 @@ import {
 import { Menu } from "antd";
 import { Modal } from "antd";
 import ModalNutriRecommend from "./NutriRecommend";
+import BMIModal from "../../components/ModelUpdateBMI";
+
 
 export default function LearningCourse() {
   const { id } = useParams();
   const [sessions, setSessions] = useState([]);
   const [lessons, setLessons] = useState({});
-
   const [currentVideo, setCurrentVideo] = useState('');
   const [currentLesson, setCurrentLesson] = useState('');
   const [currentLessonCover, setCurrentLessonCover] = useState('');
   const [currentSession, setCurrentSession] = useState('');
-
   const [isRecommendModalOpen, setIsRecommendModalOpen] = useState(false);
   const { SubMenu } = Menu;
   const [isPlaying, setIsPlaying] = useState(false);
   const localAccount = localStorage.getItem("accountId");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [weight, setWeight] = useState(0);
+  const [height, setHeight] = useState(0);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
 
   const handlePlay = () => {
     setIsPlaying(true);
@@ -86,8 +93,6 @@ export default function LearningCourse() {
         }
 
       }
-
-
       // Log dữ liệu sau khi cập nhật state
     } catch (error) {
       console.error("Error fetching current progress:", error);
@@ -98,11 +103,6 @@ export default function LearningCourse() {
   useEffect(() => {
     getCurrentProgress();
   }, []);
-
-  // useEffect(() => {
-  //   console.log(currentLesson);
-  //   console.log(currentSession);
-  // }, [currentLesson, currentSession]);
 
   const updateProgress = async (accountId, courseId, sessionId, lessonId) => {
     try {
@@ -126,9 +126,34 @@ export default function LearningCourse() {
     updateProgress(localAccount, id, sessions[sessionIndex].sessionId, lessons[sessions[sessionIndex].sessionId][lessonIndex].lessonId);
   };
 
-  // useEffect(() => {
-  //   console.log(currentSession);
-  // }, [currentSession]);
+  const getLastLessonId = () => {
+    if (sessions.length === 0) return null;
+    const lastSessionId = sessions[sessions.length - 1].sessionId;
+    const lastSessionLessons = lessons[lastSessionId];
+    if (!lastSessionLessons || lastSessionLessons.length === 0) return null;
+    return lastSessionLessons[lastSessionLessons.length - 1].lessonId;
+  };
+
+  const handleOk = async () => {
+    const accountId = localStorage.getItem("accountId");
+    const createDate = new Date().toISOString();
+    try {
+      const response = await axios.post("http://20.2.73.15:8173/api/BMI", {
+        weight,
+        height,
+        createDate,
+        accountId,
+      });
+      console.log("BMI created successfully");
+      setIsModalVisible(false);
+    } catch (error) {
+      console.error("Error creating BMI: ", error);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   return (
     <>
@@ -136,7 +161,7 @@ export default function LearningCourse() {
         <Header />
       </div>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end ml-5">
         <div className="w-[80%] flex flex-col">
           <div className="bg-black w-full h-[620px]  flex justify-center items-center">
             <div>
@@ -150,14 +175,25 @@ export default function LearningCourse() {
             <br />
             <h2 className="text-[20px]">{currentLessonCover}</h2>
           </div>
-          <button
-            onClick={() => {
-              setIsRecommendModalOpen(true);
-            }}
-            className="w-[250px] mr-[90px] rounded-md bg-orange-400 hover:bg-black text-white font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3"
-          >
-            Đề xuất dinh dưỡng</button>
+          <div className="flex flex-row justify-between">
+            <button
+              onClick={() => {
+                setIsRecommendModalOpen(true);
+              }}
+              className="w-[250px] mr-[90px] rounded-md bg-orange-400 hover:bg-black text-white font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3"
+            >
+              Đề xuất dinh dưỡng</button>
+            {currentLesson === getLastLessonId() && (
+              <button
+                onClick={showModal}
+                className="w-[250px] mr-[90px] rounded-md bg-orange-400 hover:bg-black text-white font-bold py-3 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3"
+              >
+                Hoàn thành khóa học
+              </button>
+            )}
+          </div>
         </div>
+
         <Modal
           open={isRecommendModalOpen}
           onCancel={() => setIsRecommendModalOpen(false)}
@@ -170,6 +206,15 @@ export default function LearningCourse() {
         >
           <ModalNutriRecommend sessionId={currentSession} />
         </Modal>
+        <BMIModal
+          isVisible={isModalVisible}
+          handleOk={handleOk}
+          handleCancel={handleCancel}
+          weight={weight}
+          setWeight={setWeight}
+          height={height}
+          setHeight={setHeight}
+        />
         <div className="w-[20%] ">
           <Menu mode="inline" onClick={handleMenuClick}>
             {sessions.map((session, index) => (

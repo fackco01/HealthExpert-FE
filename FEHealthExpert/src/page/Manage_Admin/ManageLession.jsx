@@ -21,6 +21,13 @@ export default function ManageLesson() {
   const [courseName, setCourseName] = useState('');
 
   useEffect(() => {
+    const roleIdFromLocalStorage = localStorage.getItem("roleId");
+    if (roleIdFromLocalStorage && roleIdFromLocalStorage === "4") {
+      navigate('/home');
+    }
+  }, []);
+
+  useEffect(() => {
     const fetchCourse = async () => {
       try {
         const response = await axios.get(`http://20.2.73.15:8173/api/Course/${currentCourse}`);

@@ -1,13 +1,36 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "../../components/Header";
-import ZumbaBackground from "../../img/ZumbaBackground.jpg";
-import ZumbaDes1 from "../../img/zumbaDes.jpg";
+import yogabackground from "../../img/yogabackground.jpg";
+import dancebackground from "../../img/dancebackground.jpg";
+import gymbackground from "../../img/gymbackground.jpg";
+import boxingbackground from "../../img/boxingbackground.jpg";
+
+import yogadetail from "../../img/yoga3.jpg";
+import gymdetail from "../../img/gymcourse.jpg";
+import boxingdetail from "../../img/boxingcourse.jpg";
+import dancedetail from "../../img/dance1.jpg";
 import { Carousel } from "antd";
-import Yoga1 from "../../img/yoga1.jpg";
-import Yoga2 from "../../img/yoga2.jpg";
-import Yoga3 from "../../img/yoga3.jpg";
-import Yoga4 from "../../img/yoga4.jpg";
+import yoga1 from "../../img/yoga1.jpg";
+import yoga2 from "../../img/yoga2.jpg";
+import yoga3 from "../../img/yoga4.jpg";
+import yoga4 from "../../img/yoga5.jpg";
+
+import dance1 from "../../img/dance2.jpg";
+import dance2 from "../../img/dance3.jpg";
+import dance3 from "../../img/dance4.jpg";
+import dance4 from "../../img/dance5.jpg";
+
+import gym1 from "../../img/gym1.jpg";
+import gym2 from "../../img/gym2.jpg";
+import gym3 from "../../img/gym3.jpg";
+import gym4 from "../../img/gym4.jpg";
+
+import boxing1 from "../../img/boxing1.jpg";
+import boxing2 from "../../img/boxing2.jpg";
+import boxing3 from "../../img/boxing3.jpg";
+import boxing4 from "../../img/boxing4.jpg";
+
 import { useParams } from "react-router-dom";
 import PayCourse from "../User/PayCourse";
 import { Form, Input } from "antd";
@@ -20,13 +43,44 @@ export default function DetailCourse() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [accountId, setAccountId] = useState(null);
   const [feedbackConfig, setFeedbackConfig] = useState({});
-  //feedback
   const [feedback, setFeedback] = useState([]);
-
   const user = localStorage.getItem("user");
   const { id = "" } = useParams();
   const { TextArea } = Input;
   const [updateForm] = Form.useForm();
+
+  const images = {};
+
+  if (course.typeId === 1) {
+    images.background = yogabackground;
+    images.detail = yogadetail;
+    images.img1 = yoga1;
+    images.img2 = yoga2;
+    images.img3 = yoga3;
+    images.img4 = yoga4;
+  } else if (course.typeId === 2) {
+    images.background = boxingbackground;
+    images.detail = boxingdetail;
+    images.img1 = boxing1;
+    images.img2 = boxing2;
+    images.img3 = boxing3;
+    images.img4 = boxing4;
+  } else if (course.typeId === 3) {
+    images.background = dancebackground;
+    images.detail = dancedetail;
+    images.img1 = dance1;
+    images.img2 = dance2;
+    images.img3 = dance3;
+    images.img4 = dance4;
+  } else if (course.typeId === 4) {
+    images.background = gymbackground;
+    images.detail = gymdetail;
+    images.img1 = gym1;
+    images.img2 = gym2;
+    images.img3 = gym3;
+    images.img4 = gym4;
+  }
+
 
   const confirm = () => {
     axios
@@ -110,10 +164,6 @@ export default function DetailCourse() {
     updateForm.setFieldValue("TextArea", feedbackConfig.detail);
   }, [feedbackConfig]);
 
-  console.log("accountId", accountId);
-  //const formattedDate = formatDate(course.dateUpdate);
-
-  console.log(feedback);
   useEffect(() => {
     fetch("http://20.2.73.15:8173/api/feedback")
       .then((response) => response.json())
@@ -209,8 +259,6 @@ export default function DetailCourse() {
     fetchOrder();
   }, [accountId, id]);
 
-  console.log(feedback);
-
   return (
     <>
       <div className="home-page">
@@ -265,9 +313,13 @@ export default function DetailCourse() {
         </Modal>
       </div>
       <div className="relative">
-        <div>
-          <img className="w-full h-[350px]" src={ZumbaBackground} alt="" />
-        </div>
+        <div
+          className="w-full h-[300px] bg-cover bg-center bg-top-[30px]"
+          style={{
+            backgroundImage: `url(${images.background})`,
+            backgroundPosition: "center top -250px"
+          }}
+        ></div>
         <div className="flex">
           {/* left content */}
           <div className="w-[70%] mt-10 flex flex-col">
@@ -286,7 +338,7 @@ export default function DetailCourse() {
                 <p className="w-[90%] text-sm mt-3">{course.description}</p>
                 <hr />
                 <p className="py-5 text-sm">
-                  Chi tiết khóa học
+                  <div className="text-black text-xl font-bold"> Chi tiết khóa học </div>
                   <div className="ml-5 text-sm mt-2">
                     <li>Người tạo: {course.createBy}</li>
                     <li>
@@ -298,24 +350,24 @@ export default function DetailCourse() {
                 </p>
               </div>
               {/* Đem tới gì cho bạn */}
-              <div className="mt-5">
+              {/* <div className="mt-5">
                 <h2 className="text-black text-xl font-bold">
                   KHÓA HỌC CÓ NHỮNG CHỨNG CHỈ NÀO
                 </h2>
                 <p className="py-5 text-sm">{course.certificate}</p>
-              </div>
+              </div> */}
               <Carousel autoplay>
                 <div>
-                  <img className="w-full h-[450px]" src={Yoga1} alt="" />
+                  <img className="w-full h-[450px]" src={images.img1} alt="" />
                 </div>
                 <div>
-                  <img className="w-full h-[450px]" src={Yoga2} alt="" />
+                  <img className="w-full h-[450px]" src={images.img2} alt="" />
                 </div>
                 <div>
-                  <img className="w-full h-[450px]" src={Yoga3} alt="" />
+                  <img className="w-full h-[450px]" src={images.img3} alt="" />
                 </div>
                 <div>
-                  <img className="w-full h-[450px]" src={Yoga4} alt="" />
+                  <img className="w-full h-[450px]" src={images.img4} alt="" />
                 </div>
               </Carousel>
               <div className="mt-5">
@@ -448,9 +500,9 @@ export default function DetailCourse() {
             </div>
           </div>
           {/* right content */}
-          <div className="w-[20%] flex flex-col h-[620px] ml-[70px] shadow-black absolute fixed right-[100px] top-[300px] shadow-2xl">
+          <div className="w-[20%] flex flex-col mt-10 h-[620px] ml-[70px] shadow-black absolute fixed right-[100px] top-[300px] shadow-2xl">
             <div className="w-full">
-              <img className="w-full" src={ZumbaDes1} alt="" />
+              <img className="w-full" src={images.detail} alt="" />
               <div className="py-4 px-2 text-sm flex flex-col w-[70%] mx-auto">
                 <p className="text-sm">{course.description}</p>
                 <p className="py-4 text-sm">RATING: {course.rating}</p>

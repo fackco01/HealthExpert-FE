@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Space, Tag } from "antd";
 import AdminMenu from "../components/AdminMenu";
 import AdminHeader from "../components/AdminHeader";
+import ModalDeletePost from "../components/ModalDeletePost";
 
 export default function ManagePostByAdmin() {
     const [posts, setPosts] = useState([]);
@@ -12,6 +13,8 @@ export default function ManagePostByAdmin() {
     const navigate = useNavigate(); // Sử dụng useHistory
     //Thêm một trạng thái tạm thời editingState
     const [editingState, setEditingState] = useState({});
+    const [selectedPostId, setSelectedPostId] = useState(null);
+
 
     useEffect(() => {
         const user = localStorage.getItem("user");
@@ -112,44 +115,33 @@ export default function ManagePostByAdmin() {
             key: "publishAt",
         },
         {
-            title: "Trạng Thái",
-            dataIndex: "isActive",
-            key: "isActive",
+            title: "Thao tác",
+            dataIndex: "name",
             render: (_, record) => (
-                <Space size="middle">
-                    <Button
+                <div className="flex">
+                    <button
                         type="primary"
-                        onClick={() => togglePostStatus(record)}
-                        className="bg-orange-400  w-[100px] py-1 rounded-xl"
+                        onClick={() => {
+                            setSelectedPostId(record.postId); // Changed from record.postId to post.postId
+                            setIsModalDeleteOpen(true);
+                        }}
+                        className="bg-orange-400 w-[100px] py-1 rounded-xl "
                     >
-                        {record.isActive ? "Disable" : "Enable"}
-                    </Button>
-                </Space>
+                        Xóa
+                    </button>
+
+                    <ModalDeletePost
+                        postId={selectedPostId}
+                        onDelete={handleDelete}
+                        isModalOpen={isModalDeleteOpen}
+                        setIsModalOpen={setIsModalDeleteOpen}
+                    />
+
+                </div>
             ),
-            width: "15%",
+
         },
-        // {
-        //     title: "Thao tác",
-        //     dataIndex: "name",
-        //     render: (_, record) => (
-        //         <Space size="middle">
-        //             <button
-        //                 type="primary"
-        //                 onClick={showModalDelete}
-        //                 className="bg-orange-400  w-[50px] py-1 rounded-xl "
-        //             >
-        //                 Delete
-        //             </button>
-        //             <button className="bg-orange-400  w-[50px] py-1 rounded-xl">
-        //                 Edit
-        //             </button>
-        //         </Space>
-        //     ),
-        //     filterMode: "tree",
-        //     filterSearch: true,
-        //     onFilter: (value, record) => record.name.includes(value),
-        //     width: "30%",
-        // },
+
     ];
 
     const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
@@ -180,6 +172,17 @@ export default function ManagePostByAdmin() {
         );
     };
 
+    const handleDelete = async (deletedPostId) => {
+        try {
+            await axios.delete(`http://20.2.73.15:8173/api/Post/${deletedPostId}`);
+            setPosts(prevPosts => prevPosts.filter(post => post.postId !== deletedPostId));
+        } catch (error) {
+            console.error("Error deleting course: ", error);
+        } finally {
+            setIsModalDeleteOpen(false);
+            navigate('/admin/post', { replace: true }); // Điều hướng sau khi xóa
+        }
+    };
 
     //HTML
     return (
@@ -196,7 +199,7 @@ export default function ManagePostByAdmin() {
                 {/* Body */}
                 <div className="w-[80%] mt-3">
                     <h2 className="font-bold text-2xl">WELCOME {admin}</h2>
-                    <div className="mt-10">
+                    <div className="mt-10 mr-5">
                         <Table
                             columns={columns}
                             dataSource={posts}

@@ -5,20 +5,30 @@ import Header from "../../components/Header";
 import { Table, Modal, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Space, Tag } from "antd";
+import ModalDeleteCourseManager from "../../components/ModelDeleteCourseManager";
 
 export default function ManageCourseManager() {
     const [accounts, setAccounts] = useState([]);
     const [admin, setAdmin] = useState('');
     const [revenue, setRevenue] = useState(0); // Thêm state để lưu tổng doanh thu
     const navigate = useNavigate(); // Sử dụng useHistory
+    const [selectedAccountId, setSelectedAccountId] = useState(null);
 
     useEffect(() => {
         const user = localStorage.getItem("user");
+
         if (!user) {
             console.error("Không có người dùng trong localStorage!");
             return;
         }
         setAdmin(user);
+    }, []);
+
+    useEffect(() => {
+        const roleIdFromLocalStorage = localStorage.getItem("roleId");
+        if (roleIdFromLocalStorage && roleIdFromLocalStorage === "4") {
+            navigate('/home');
+        }
     }, []);
 
     // Fetch
@@ -30,9 +40,14 @@ export default function ManageCourseManager() {
                 const accumulatedAccounts = [];
                 for (const user of matchingUser) {
                     const cmRes = await axios.get(`http://20.2.73.15:8173/api/Course/managers/email/${user.email}`);
-                    const coursesWithId = cmRes.data.map(course => ({ ...course, email: user.email })); // Add email to each course
+                    const coursesWithId = cmRes.data.map(course => ({
+                        ...course,
+                        email: user.email,
+                        accountId: user.accountId
+                    }));
                     accumulatedAccounts.push(...coursesWithId);
                 }
+
                 setAccounts(accumulatedAccounts);
             } catch (error) {
                 console.error("Error fetching courses: ", error);
@@ -46,7 +61,7 @@ export default function ManageCourseManager() {
     //Collumn
     const columns = [
         {
-            title: "Course ID",
+            title: "Mã khóa học",
             dataIndex: "courseId",
             key: "courseId",
         },
@@ -59,24 +74,30 @@ export default function ManageCourseManager() {
             title: "Thao tác",
             dataIndex: "name",
             render: (_, record) => (
-                <Space size="middle">
+                <div className="flex">
                     <button
                         type="primary"
-                        onClick={showModalDelete}
-                        className="bg-orange-400  w-[50px] py-1 rounded-xl "
+                        onClick={() => {
+                            setSelectedAccountId(record.accountId);
+                            setIsModalDeleteOpen(true);
+                        }}
+                        className="bg-orange-400 w-[100px] py-1 rounded-xl "
                     >
-                        Delete
+                        Xóa
                     </button>
-                    <button className="bg-orange-400  w-[50px] py-1 rounded-xl">
-                        Edit
-                    </button>
-                </Space>
+
+                    <ModalDeleteCourseManager
+                        accountId={selectedAccountId}
+                        onDelete={handleDelete}
+                        isModalOpen={isModalDeleteOpen}
+                        setIsModalOpen={setIsModalDeleteOpen}
+                    />
+
+                </div>
             ),
-            filterMode: "tree",
-            filterSearch: true,
-            onFilter: (value, record) => record.name.includes(value),
-            width: "30%",
+
         },
+
     ];
 
     const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
@@ -84,6 +105,22 @@ export default function ManageCourseManager() {
 
     const showModalDelete = () => {
         setIsModalDeleteOpen(true);
+    };
+
+    const handleDelete = async (accountId) => {
+        try {
+            const response = await axios.get(`http://20.2.73.15:8173/api/Account/GetAccountById/${accountId}`);
+            const accountData = response.data;
+            const accountEmail = accountData.email;
+
+            await axios.delete(`http://20.2.73.15:8173/api/Course/managers/email/${accountEmail}`);
+            setAccounts(prevAccounts => prevAccounts.filter(account => account.email !== accountEmail));
+        } catch (error) {
+            console.error("Error deleting course: ", error);
+        } finally {
+            setIsModalDeleteOpen(false);
+            navigate('/manageManager', { replace: true }); // Redirect after deletion
+        }
     };
 
 

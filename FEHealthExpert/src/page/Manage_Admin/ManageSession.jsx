@@ -21,8 +21,14 @@ export default function ManageSession() {
   const [selectedSessionId, setSelectedSessionId] = useState(null);
   localStorage.setItem("currentCourse", id);
   const navigate = useNavigate();
-
   const [courseName, setCourseName] = useState('');
+
+  useEffect(() => {
+    const roleIdFromLocalStorage = localStorage.getItem("roleId");
+    if (roleIdFromLocalStorage && roleIdFromLocalStorage === "4") {
+      navigate('/home');
+    }
+  }, []);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -90,7 +96,7 @@ export default function ManageSession() {
       dataIndex: "sessionName",
     },
     {
-      title: "Trạng thái",
+      title: "Mô tả",
       dataIndex: "description",
     },
     {

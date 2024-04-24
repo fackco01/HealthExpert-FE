@@ -69,11 +69,11 @@ export default function Home() {
       case 1:
         return yogaicon;
       case 2:
-        return gymicon;
-      case 3:
         return boxingicon;
-      case 4:
+      case 3:
         return danceicon;
+      case 4:
+        return gymicon;
     }
   };
 
@@ -214,6 +214,100 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      <div className="w-full">
+        <div className="m-5">
+          <h1 className=" text-[30px] font-bold mt-3 text-orange-400 ml-20">KHÓA HỌC ĐỀ XUẤT</h1>
+          <div className="flex flex-row w-full">
+            {course.slice(0, 4).map(course => (
+              <>
+                <div className="flex w-full flex-row m-5 bg-gradient-to-br from-[#FDC830] to-[#F37335] p-5 border rounded-lg">
+                  <Link to={`/detailCourse/${course.courseId}`}
+                    className="h-[150px] w-full"
+                  >
+                    <img src={getImageForType(course.typeId)} alt={course.courseName} className="h-[150px] w-[150px] bg-black object-cover group-hover:opacity-80 filter group-hover:filter-brightness-75 transition-opacity transition-filter border border-[3px] border-solid rounded-full shadow-lg" />
+                  </Link>
+                  <div className="flex flex-col w-full m-5 justify-center item-center">
+                    <p className="font-bold text-[20px] truncate overflow-ellipsis max-w-[200px] mb-5">{course.courseName}</p>
+                    <p>{(course.price).toLocaleString('vi-VN')} VND</p>
+                    <p>Số lượng học viên: {course.studentNumber}</p>
+                    <p className="truncate overflow-ellipsis max-w-[200px]">{course.description}</p>
+                  </div>
+                </div >
+              </>
+            ))}
+          </div>
+        </div>
+      </div >
+
+      {/* <section className="m-5">
+        <h2 className="text-orange-400 mt-5 ml-20 text-[30px] font-bold mb-5">CHIA SẼ KIẾN THỨC</h2>
+        
+
+        <div
+          className="flex justify-center items-center h-screen px-10"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 20%, rgba(0, 0, 0, 0.8) 80%)",
+          }}
+        >
+
+          <div className="mx-auto mr-4 h-[600px] bg-gradient-to-b from-white to-orange-500 p-8 rounded-lg  transition-all duration-300 ease-in-out hover:opacity-80 hover:from-white hover:to-orange-500">
+            <a href="">
+              <img className="w-[350px] h-[300px]" src={blog1} alt="" />
+              <h3 className="text-[18px] w-[70%] mt-4 mx-3 mb-3">
+                Ăn bánh Chưng bánh tét sao cho không tăng cân ngày tết
+              </h3>
+            </a>
+            <p className="text-[14px] w-[70%] mx-3 mb-3">
+              Tết cổ truyền đến rồi, bạn có nghe mùi bánh Chưng bánh Tét khắp
+              mọi nơi. Vào dịp này, không
+            </p>
+            <a className="text-orange-600 text-[18px] mx-3" href="">
+              Xem thêm
+            </a>
+          </div>
+
+         
+          <div className="mx-auto mr-4 h-[600px] bg-gradient-to-b from-white to-orange-500 p-8 rounded-lg transition-all duration-300 ease-in-out hover:opacity-80 hover:from-white hover:to-orange-500">
+            <a href="">
+              <img className="w-[350px] h-[300px]" src={blog1} alt="" />
+              <h3 className="text-[18px] w-[70%] mt-4 mx-3 mb-3">
+                Ăn bánh Chưng bánh tét sao cho không tăng cân ngày tết
+              </h3>
+            </a>
+            <p className="text-[14px] w-[70%] mx-3 mb-3">
+              Tết cổ truyền đến rồi, bạn có nghe mùi bánh Chưng bánh Tét khắp
+              mọi nơi. Vào dịp này, không
+            </p>
+            <a className="text-orange-600 text-[18px] mx-3" href="">
+              Xem thêm bài viết
+            </a>
+          </div>
+
+         
+          <div className="mx-auto h-[600px] bg-gradient-to-b from-white to-orange-500 p-8 rounded-lg transition-all duration-300 ease-in-out hover:opacity-80 hover:from-white hover:to-orange-500">
+            <a href="">
+              <img className="w-[350px] h-[300px]" src={blog1} alt="" />
+              <h3 className="text-[18px] w-[70%] mt-4 mx-3 mb-3">
+                Ăn bánh Chưng bánh tét sao cho không tăng cân ngày tết
+              </h3>
+            </a>
+            <p className="text-[14px] w-[70%] mx-3 mb-3">
+              Tết cổ truyền đến rồi, bạn có nghe mùi bánh Chưng bánh Tét khắp
+              mọi nơi. Vào dịp này, không
+            </p>
+            <a className="text-orange-600 text-[18px] mx-3" href="">
+              Xem thêm
+            </a>
+          </div>
+        </div>
+        <a className="flex  justify-center" href="/listPost">
+          <button className="bg-blue-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3">
+            XEM THÊM
+          </button>
+        </a>
+      </section> */}
       {/* tranformation */}
       <div className="m-10">
         <section>
@@ -262,99 +356,6 @@ export default function Home() {
           </div>
         </section>
       </div>
-      <div className="w-full">
-        <div className="m-5">
-          <h1 className=" text-[30px] font-bold mt-3 text-orange-400 ml-20">KHÓA HỌC ĐỀ XUẤT</h1>
-          <div className="flex flex-row w-full">
-            {course.slice(0, 4).map(course => (
-              <>
-                <div className="flex w-full flex-row m-5 bg-gradient-to-br from-[#FDC830] to-[#F37335] p-5 border rounded-lg">
-                  <Link to={`/detailCourse/${course.courseId}`}
-                    className="h-[150px] w-full"
-                  >
-                    <img src={getImageForType(course.typeId)} alt={course.courseName} className="h-[150px] w-[150px] bg-black object-cover group-hover:opacity-80 filter group-hover:filter-brightness-75 transition-opacity transition-filter border border-[3px] border-solid rounded-full shadow-lg" />
-                  </Link>
-                  <div className="flex flex-col w-full m-5 justify-center item-center">
-                    <p className="font-bold text-[20px] truncate overflow-ellipsis max-w-[200px] mb-5">{course.courseName}</p>
-                    <p>{(course.price).toLocaleString('vi-VN')} VND</p>
-                    <p>Số lượng học viên: {course.studentNumber}</p>
-                    <p class="truncate overflow-ellipsis max-w-[200px]">{course.description}</p>
-                  </div>
-                </div >
-              </>
-            ))}
-          </div>
-        </div>
-      </div >
-      {/* BLOG  */}
-      <section className="m-5">
-        <h2 className="text-orange-400 mt-5 ml-20 text-[30px] font-bold mb-5">CHIA SẼ KIẾN THỨC</h2>
-        {/* các blog */}
-
-        <div
-          className="flex justify-center items-center h-screen px-10"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 20%, rgba(0, 0, 0, 0.8) 80%)",
-          }}
-        >
-          {/* item 1 */}
-          <div className="mx-auto mr-4 h-[600px] bg-gradient-to-b from-white to-orange-500 p-8 rounded-lg  transition-all duration-300 ease-in-out hover:opacity-80 hover:from-white hover:to-orange-500">
-            <a href="">
-              <img className="w-[350px] h-[300px]" src={blog1} alt="" />
-              <h3 className="text-[18px] w-[70%] mt-4 mx-3 mb-3">
-                Ăn bánh Chưng bánh tét sao cho không tăng cân ngày tết
-              </h3>
-            </a>
-            <p className="text-[14px] w-[70%] mx-3 mb-3">
-              Tết cổ truyền đến rồi, bạn có nghe mùi bánh Chưng bánh Tét khắp
-              mọi nơi. Vào dịp này, không
-            </p>
-            <a className="text-orange-600 text-[18px] mx-3" href="">
-              Xem thêm
-            </a>
-          </div>
-
-          {/* item 2 */}
-          <div className="mx-auto mr-4 h-[600px] bg-gradient-to-b from-white to-orange-500 p-8 rounded-lg transition-all duration-300 ease-in-out hover:opacity-80 hover:from-white hover:to-orange-500">
-            <a href="">
-              <img className="w-[350px] h-[300px]" src={blog1} alt="" />
-              <h3 className="text-[18px] w-[70%] mt-4 mx-3 mb-3">
-                Ăn bánh Chưng bánh tét sao cho không tăng cân ngày tết
-              </h3>
-            </a>
-            <p className="text-[14px] w-[70%] mx-3 mb-3">
-              Tết cổ truyền đến rồi, bạn có nghe mùi bánh Chưng bánh Tét khắp
-              mọi nơi. Vào dịp này, không
-            </p>
-            <a className="text-orange-600 text-[18px] mx-3" href="">
-              Xem thêm bài viết
-            </a>
-          </div>
-
-          {/* item 3 */}
-          <div className="mx-auto h-[600px] bg-gradient-to-b from-white to-orange-500 p-8 rounded-lg transition-all duration-300 ease-in-out hover:opacity-80 hover:from-white hover:to-orange-500">
-            <a href="">
-              <img className="w-[350px] h-[300px]" src={blog1} alt="" />
-              <h3 className="text-[18px] w-[70%] mt-4 mx-3 mb-3">
-                Ăn bánh Chưng bánh tét sao cho không tăng cân ngày tết
-              </h3>
-            </a>
-            <p className="text-[14px] w-[70%] mx-3 mb-3">
-              Tết cổ truyền đến rồi, bạn có nghe mùi bánh Chưng bánh Tét khắp
-              mọi nơi. Vào dịp này, không
-            </p>
-            <a className="text-orange-600 text-[18px] mx-3" href="">
-              Xem thêm
-            </a>
-          </div>
-        </div>
-        <a className="flex  justify-center" href="/listPost">
-          <button className="bg-blue-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded opacity-100 hover:opacity-80 transition-opacity mt-3">
-            XEM THÊM
-          </button>
-        </a>
-      </section>
     </>
   );
 }

@@ -10,7 +10,7 @@ import * as XLSX from 'xlsx';
 
 export default function ManageCourse() {
   const { courseId } = useParams();
-  const [course, setCourse] = useState(null);
+  const [course, setCourse] = useState([]);
   const [revenue, setRevenue] = useState(null);
   const [learners, setLearners] = useState([]);
   const navigate = useNavigate();
@@ -35,7 +35,11 @@ export default function ManageCourse() {
     if (roleIdFromLocalStorage && roleIdFromLocalStorage === "3") {
       setCheckManager(true);
     }
+    if (roleIdFromLocalStorage && roleIdFromLocalStorage === "4") {
+      navigate('/home');
+    }
   }, []);
+
 
   useEffect(() => {
     const fetchBills = async () => {
@@ -137,6 +141,11 @@ export default function ManageCourse() {
     try {
       const response = await axios.post(`http://20.2.73.15:8173/api/Course/add-manager`, [courseManagerDTO]);
       console.log(response.data);
+      if (response.status === 200) {
+        window.alert(response.data);
+      } else {
+        window.alert(response.data);
+      }
     } catch (error) {
       console.error("Error adding course manager: ", error);
     }
@@ -437,8 +446,9 @@ export default function ManageCourse() {
 
             <div className="box w-[450px] rounded-md bg-orange-400 text-black font-bold py-3 px-4 rounded opacity-100 transition-opacity mt-3">
               Tổng doanh thu của {renderMonthOptions()} Năm {renderYearOptions()} <br /> {course.courseName}: <br /> {renderRevenueByMonth()}
-              <Button type="primary" style={{ backgroundColor: 'white', color: 'black' }} onClick={exportToExcel}>Xuất Excel</Button>
+              {/* <Button type="primary" style={{ backgroundColor: 'white', color: 'black' }} onClick={exportToExcel}>Xuất Excel</Button> */}
             </div>
+
             {checkManager ?
               <div></div>
               :

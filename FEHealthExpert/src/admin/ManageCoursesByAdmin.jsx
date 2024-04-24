@@ -110,14 +110,14 @@ export default function ManageCourseByAdmin() {
                         isModalOpen={isModalDeleteOpen}
                         setIsModalOpen={setIsModalDeleteOpen}
                     />
-                    <div className="bg-orange-400 w-[100px] py-1 rounded-xl ml-10 flex justify-center items-center">
+                    {/* <div className="bg-orange-400 w-[100px] py-1 rounded-xl ml-10 flex justify-center items-center">
                         <Link
 
                             to={`/admin/course/update/${record.courseId}`}
                         >
                             Chỉnh sửa
                         </Link>
-                    </div>
+                    </div> */}
 
                 </div>
             ),
